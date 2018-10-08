@@ -1,0 +1,16 @@
+%% Specify fully the left and right sides of footer, 3 lines
+%% If blanks are needed, must insert value " ~ "
+%% If comma needed inside value, wrap in {}.
+\urlstyle{tt}
+\footersetup{
+  leftside={
+    lone={Address line 1}, 
+    ltwo={Address line 2}, 
+    lthree={City State Zipcode}},
+  rightside={
+    rone=Web: \url{https://crmda.ku.edu},
+    rtwo=Email: \href{mailto:you@where.edu}{\url{you@where.edu}},
+    rthree=Phone: 123-345-5678}
+}
+\guideftr
+

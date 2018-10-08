@@ -1,0 +1,186 @@
+%% LyX 2.2.3 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[11pt,letterpaper,english]{extarticle}
+\usepackage{lmodern}
+\renewcommand{\sfdefault}{lmss}
+\renewcommand{\ttdefault}{lmtt}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{babel}
+\usepackage[authoryear]{natbib}
+\usepackage[unicode=true,pdfusetitle,
+ bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
+ breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=false]
+ {hyperref}
+\usepackage{breakurl}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+\special{papersize=\the\paperwidth,\the\paperheight}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+<<echo=F>>=
+  if(exists(".orig.enc")) options(encoding = .orig.enc)
+@
+
+\@ifundefined{date}{}{\date{}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+% Following comment is required. Do not delete it.
+%\usepackage{Sweave}
+
+\usepackage[includehead,includefoot]{geometry}
+\geometry{
+lmargin=1in,
+rmargin=1in,
+tmargin=0.75in,
+bmargin=1.0in,
+headheight=0pt,
+headsep=0pt,
+marginparwidth=0pt,
+footskip=1.5\baselineskip,
+}
+
+\usepackage{booktabs}
+\usepackage{dcolumn}
+
+\input{theme/guidePreambleHeader.tex}
+\input{theme/preambleFooter.tex}
+\input{theme/guidePreambleSweavel.tex}
+
+\makeatother
+
+\begin{document}
+%% Fill in values of the arguments here, 
+%% If blanks are needed, must insert value " ~ "
+%% If comma needed inside value, wrap in {}.
+%% Delete secondauthor and thirdauthor if not needed
+\guidesetup{%
+  author={
+    lastname=Author, 
+    firstname=First, 
+    affiliation=CRMDA,
+    email=first@ku.edu},
+  author={
+    lastname=Author, 
+    firstname=Second, 
+    affiliation=CRMDA, 
+    email=second@ku.edu}, 
+  author={
+    lastname=Author,
+    firstname=Third, 
+    affiliation=Some other Institute,
+    email=third@ku.edu},
+  url={https://crmda.ku.edu/guides},
+  keywords={single-authoring, just one},
+  title={A Title for Skeleton Template: rnw2pdf-guide-sweave},
+  leftlogo={theme/logoleft.pdf},
+  rightlogo={theme/logo-vert.pdf},
+  number=0,
+}
+\guidehdr
+
+% tmpout directory must exist first
+<<tmpout, echo=FALSE, include=FALSE, results=hide>>=
+if(!dir.exists("tmpout")) dir.create("tmpout", showWarnings=FALSE)
+@
+
+% In document Latex options:
+\fvset{listparameters={\setlength{\topsep}{0em}}}
+\SweaveOpts{prefix.string=tmpout/t, split=TRUE, ae=FALSE, height=3, width=5}
+
+<<Roptions, echo=FALSE, include=FALSE, results=hide>>=
+opts.orig <- options()
+options(width=100, prompt=" ", continue="  ")
+options(useFancyQuotes = FALSE) 
+set.seed(12345)
+options(SweaveHooks=list(fig=function() par(ps=10)))
+pdf.options(onefile=FALSE,family="Times",pointsize=10)
+@
+
+<<texcopy, include=FALSE, echo=FALSE, results=hide>>=
+library(stationery)
+## If theme directory does not have required images or TeX files
+## we need to retrieve them and put them in "theme" directory. 
+logos <- c(logoleft = "logoleft.pdf", 
+           logoright = "logo-vert.pdf",
+           address = "addressFooter.tex")
+getFiles(logos, pkg = "stationery")
+@
+
+%The listings class used here allows within-document style
+%changes. R input boxes are governed by 
+% "Rsize", "Rbackground" and "Rcolor", while R output boxes depend on
+% "Routsize", "Routbackground", and "Routcolor". Colors
+% can be specified in many ways, as shown here
+%\def\Rsize{\huge\ttfamily}
+%\def\Routsize{\huge}
+%\def\Rbackground{\color[gray]{0.90}}
+%\def\Routbackground{\color[gray]{0.40}}
+%\def\Rcolor{\color[gray]{0.60}
+%\def\Routcolor{\color[rgb]{0.9, 0.1, 0.1}]}
+%\def\Rcommentcolor{\color{green}}
+\begin{abstract}
+\noindent This is an abstract. Please include a terse, yet descriptive
+statement here of less than 200 words. It should avoid colloquialisms
+and polysyllabic profundities.
+\end{abstract}
+\tableofcontents{}
+
+\section{Nuts and Bolts}
+
+Please see the guide document in the same folder as this document.
+
+Do put your title \& name in the top block.
+
+Don't change the 5 code chunks above or the last chunk below.
+
+Don't change margins or geometry or hyperref with Lyx pull down menus. 
+
+Please don't delete the last section \ref{sec:Session-Info} of this
+template. It is important. It is safe to delete anything between this
+section and that one, however. Be aware, however, that at least one
+item in the bibliography must be cited, or there will be a LaTeX compiler
+error, ``I found no \textbackslash{}citation commands-{}-{}-while
+reading file skeleton.aux''. To avoid that, we are citing the R software
+itself \citet{RCore}.
+
+\section{Write Sections \& Subsections here}
+
+We hope guide authors will choose carefully thought out titles for
+sections and that material will be grouped meaningfully into sections. 
+
+\section{R Code Chunks}
+
+Guides will generally include code chunks. Here we test the display
+of just a small chunk.
+
+<<>>=
+x <- rnorm(100)
+mean(x)
+@
+
+\bibliographystyle{apalike2}
+\phantomsection\addcontentsline{toc}{section}{\refname}\bibliography{theme/R}
+
+\section*{Replication Information\label{sec:Session-Info}}
+
+Please leave this next code chunk if you are producing a guide document. 
+
+<<session, echo=F>>=
+sessionInfo()
+if(!is.null(warnings())){
+    print("Warnings:")
+    warnings()}
+@
+
+<<opts20, include=F>>=
+## Don't delete this. It puts the interactive session options
+## back the way they were. If this is compiled within a session
+## it is vital to do this.
+options(opts.orig)
+@
+\end{document}

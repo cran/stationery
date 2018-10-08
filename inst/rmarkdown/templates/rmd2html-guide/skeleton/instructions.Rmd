@@ -1,0 +1,302 @@
+---
+title: "Instructions for Rmd authors of Guide Documents"
+subtitle: "Using HTML Output for Guides"
+author:
+ - name: Paul Johnson
+   affiliation: CRMDA
+   email: pauljohn@ku.edu
+advertise: >
+   Please  visit [http://crmda.ku.edu/guides](http://crmda.ku.edu/guides) 
+keywords: guide, Rmarkdown
+abstract: >
+    This document is just a little reminder of some key things.  
+    The vignettes have all of the details.
+checked_by: "First Last"
+Note to Authors: please_dont_change_the_next 4 lines!
+date: "`r format(Sys.time(), '%b. %e %Y')`"
+output:
+  stationery::crmda_html_document:
+     toc: true
+     toc_depth: 2
+     highlight: haddock
+     theme: default
+     css: theme/kutils.css
+     template: theme/guide-template.html
+  prettydoc::html_pretty: 
+    theme: cayman 
+logoleft: theme/logoleft.png
+logoright: theme/logo-vert.png
+guide_number: 00
+bibliography: theme/R.bib
+header-includes: 
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup, include=FALSE}
+##This Invisible Chunk is required in all CRMDA documents
+outdir <- paste0("tmpout")
+if (!file.exists(outdir)) dir.create(outdir, recursive = TRUE)
+knitr::opts_chunk$set(echo=TRUE, comment=NA, fig.path=paste0(outdir, "/p-"))
+options(width = 70)
+```
+
+
+
+# The big picture
+
+This instruction sheet hits only the hig points about using R [@RCore]
+with Rmarkdown. There are more details in the vignettes "Rmarkdown",
+"code_chunks", and "HTML_special_features".
+
+See the `stationery` vignette in the `stationery` package.  That
+explains the big picture. 
+
+## To create a new document. 
+
+In R, run
+
+```
+initWriteup("rmd2html-guide")
+```
+
+That will create a directory "rmd2html-guide" in which the skeleton
+file will be found. The `initWriteup` function allows one to designate
+a folder within which the new document should be stored.
+
+This is not meaningfully different from the function in `rmarkdown`
+called `draft`. 
+
+## To compile
+
+There are several options. 
+
+1. Use the R function `rmd2html`
+
+```
+stationery::rmd2html("skeleton.Rmd")
+```
+
+2. Use the shell script that is provided with the `skeleton.Rmd` file:
+
+```
+$ ./rmd2html.sh skeleton.Rmd
+```
+
+Both of these allow additional arguments, of course. Arguments
+specified here will override the settings in the yaml header of the documetn:
+
+
+```
+stationery::rmd2html("skeleton.Rmd", toc = TRUE, toc_depth = 1, keep_md = TRUE)
+```
+
+The command line script allows the same arguments, however THERE MUST
+NOT BE SPACES betwen the option name, the equal sign, and the value of 
+the option:
+
+```
+$ ./rmd2html.sh --toc=TRUE --toc_depth=1 --keep_md=TRUE skeleton.Rmd
+```
+
+A full list of arguments is provided in `?rmd2html`.
+
+3. Open the Rmd file in RStudio. The "knit" menu should offer the
+   correct choice "crmda_html_document".
+
+
+# About our template and style files
+
+For our documents, we use a customized template and style sheet, those
+are specified in the document header. 
+
+```
+output:
+  stationery::crmda_html_document:
+    css: theme/kutils.css
+    template: theme/guide-template.html
+	theme: default
+```
+
+Notice that the theme folder is supposed to have the style sheet,
+images, etc. If those are not provided, a code chunk like this
+can be run to get them:
+
+```{r themecopy, eval = FALSE}
+library(stationery)
+## If theme directory does not have required images or TeX files
+## we need to retrieve them and put them in "theme" directory. 
+logos <- c("logoleft.png", "logo-vert.png", "R.bib")
+getFiles(logos, pkg = "stationery")
+## These theme files should be available already, but if not
+themefiles <- c("kutils.css", "guide-template.html")
+getFiles(themefiles, pkg = "stationery")
+```
+
+`getFiles` is a simple little function that does almost nothing.  It
+just saves one little step required to use `system.file` from R
+base. That will not erase files if they exist already. Note you can
+change the package where your logo files are stored. That's how we
+customize reports in our workflow, the logos with our institutional
+identifies are saved in a package called `crmda`.
+
+## About the HTML file size problem.
+
+The vignette "HTML special features" has a complete explanation.
+
+The key advice is this. If you leave "theme: default" (or use any of
+the bootstrap themes), then your document will incorporate the
+bootstrap libraries and the saved file size will be (unacceptably)
+large. If you change to "theme: null" then bootstrap features will be
+lost, but some of the handy HTML features can be obtained without
+bootstrap.
+
+The HTML special feature that is especially likely to be helpful, and
+is not costly, is the color highlighted section. These are callouts,
+we have an implementation of them in our cascading style sheet. They
+will work even if the bootstrap theming is turned off..
+
+The other HTML special features that depend on the bootstrap library,
+are the tabbed subsections and the bootstrap-resizeable sections.  The
+resizable sections are especially designed to help readers on cell
+phones. Maybe these features are no so important in some HTML
+documents.
+
+If you specify `theme: null` the document output HTML file will be
+much smaller, but some features will no longer work correctly. The
+tabbed subsections will be sacrificed and the proportional spacing
+of the header may be somewhat "squished". 
+
+# HTML special features
+
+## Colored callout sections
+
+These should work even if you disable bootstrap. We implemented them
+in kutils.css
+
+#### Colored callout is a level 4 heading with markup {.bs-callout .bs-callout-gray}
+This is a gray callout. Could be "red", "orange" "blue", "green"
+instead of gray. For more on this, there is the vignette "HTML_special_features".
+
+#### Policies about writing in these documents. {.bs-callout .bs-callout-red}
+This demonstrates a red callout
+
+## Tabbed sub-sections {.tabset .tabset-fade}
+
+These require bootstrap. If you change to `theme: null` then they will
+print as ordinary sub sections.
+
+Declare a level 2 heading with `{.tabset .tabset-fade}` and then the
+level 3 headers after that are treated as tabs.
+
+### <span style="color:red">First Tab Here</span>
+
+Info within first tab. You must click "Second Tab Here" to see the
+second tab.
+
+### <span style="color:orange">Second Tab Here</span>
+
+Now you see contents of second tab. I could, literally, write a book
+in here. Could be code chunks, pictures, my favorite Bible verses.
+
+### Third Tab Here
+
+This is the content inside the third tab 
+
+Note to terminate the tabbed sections we need to declare a new
+section of a higher level.
+
+## Equations
+
+The usage of equations is discussed in the vignette "R markdown". 
+In HTML output, the display of equations requires an available MathJax
+server.  Our function "stationery::crmda_html_document" should be
+used as the output device because it protects the workability of
+MathJax. Otherwise, it does nothing (just saying...).
+
+Markdown accepts much LaTeX code. Especially well supported are
+equations, either "inline", such as $y_i = \beta_0 + \beta_1 x1_i +
+\varepsilon_i$, or "display" mode.
+
+Because HTML output lacks some features we are accustomed to in \LaTeX
+documents, the "usual rules" are not entirely correct. Nevertheless,
+we ask authors to limit themselves to two styles of display equations.
+Either use the demarcators `\[` and `\]` to declare a display equation:
+
+\[
+y_i = \beta_0 + \beta_1 x1_i + \varepsilon_i \label{eq:lin10}
+\]
+
+Or replace those demarcators with `\begin{equation}` and
+`\end{equation}`. Even if the Rmd to HTML translation will tolerate
+`$$` and `$$` to frame a displayed equation, don't use them.
+
+Equation numbering does not work as usual in HTML output, that's
+a problem discussed in "HTML_special_features". Immediately after
+this text, we will write a display equation that would create
+a numbered equation in an rmd2pdf document. The output will be an 
+equation with no number and the cross reference that follows will
+have an empty space in parentheses.
+
+\begin{equation}
+\hat{y}_i=\beta_0 + \beta_{1}X_i\label{eq:reg}
+\end{equation}
+
+Note a cross reference to that, such as "as we indicate in equation
+(\ref{eq:reg})" is a fail.
+
+This is an example of the reason why many of us suggest avoiding use
+of HTML output if there is anything important to be presented in a
+document. The proof-reading required to figure out which LaTeX
+features might work, and which do not, is exhausting.
+
+
+## Chunks
+
+R code chunks are demarcated by three back-ticks and appear in-text
+with a shaded box (because we are using the listings-style output).
+
+```{r myFirstPlot, dev=c('png'), out.width="500px", fig.width=3}
+x <- rnorm(500)
+hist(x)
+```
+
+There are many more examples of code chunks in the vignette "code_chunks". 
+
+#### R code inside a colored callout {.bs-callout .bs-callout-red}
+```{r xsummary}
+mean(x)
+```
+
+# Citations
+
+The YAML header specifies the name of the bibliography file.  The
+HTML backend wants the full name of the bib file, "theme/R.bib" 
+whereas the documents that use PDF backend want simply "theme/R".
+We'll figure that out someday.
+
+The markdown citation method would use brackets, as in [@RCore] and
+[-@RCore]. 
+
+Please remember that LaTeX natbib notation is not supported in
+the `rmd2html` transition, as you should see here: \citep[RCore]. 
+LaTeX style cites will work in rmd2pdf type documents. 
+
+
+[//]: (All guides must have this as the final stanza)
+
+## Replication Information
+```{r sessionInfo, echo = FALSE}
+sessionInfo()
+```
+
+```{r warnings, echo = FALSE}
+if(!is.null(warnings())){
+    print("Warnings:")
+    warnings()
+}
+```
+
+Available under
+[Created Commons license 3.0 <img src="http://crmda.dept.ku.edu/images/cc-3.0.png" alt="CC BY"
+style="width: 75px;height: 20px;"/>](http://creativecommons.org/licenses/by/3.0/)
+

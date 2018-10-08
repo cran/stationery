@@ -1,0 +1,4 @@
+name: rnw2pdf report knitr
+description: >
+  For rnw2pdf-report-knit documents in the CRMDA style
+create_dir: true

@@ -1,0 +1,183 @@
+%% LyX 2.2.3 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[11pt,letterpaper,english]{extarticle}
+\usepackage{lmodern}
+\renewcommand{\sfdefault}{lmss}
+\renewcommand{\ttdefault}{lmtt}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{babel}
+\usepackage[authoryear]{natbib}
+\usepackage[unicode=true,pdfusetitle,
+ bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
+ breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=false]
+ {hyperref}
+\usepackage{breakurl}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+\special{papersize=\the\paperwidth,\the\paperheight}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+<<echo=F>>=
+  if(exists(".orig.enc")) options(encoding = .orig.enc)
+@
+\providecommand*{\code}[1]{\texttt{#1}}
+
+\@ifundefined{date}{}{\date{}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+% Don't remove next commented line, its needed to fool Sweave
+%\usepackage{Sweave}
+
+\usepackage[includehead,includefoot,
+lmargin=1in,
+rmargin=1in,
+tmargin=0.75in,
+bmargin=1.0in,
+headheight=0pt,
+headsep=0pt,
+marginparwidth=0pt,
+footskip=1.5\baselineskip,
+]{geometry}
+
+\usepackage{dcolumn}
+\usepackage{booktabs}
+
+
+\input{theme/reportPreambleHeader.tex}
+\input{theme/preambleFooter.tex}
+\input{theme/reportPreambleSweavel.tex}
+
+\makeatother
+
+\begin{document}
+%% Fill in values of the arguments here, 
+%% If blanks are needed, must insert value " ~ "
+%% If comma needed inside value, wrap in {}.
+%% Delete secondauthor and thirdauthor if not needed
+\reportsetup{%
+  author={
+    lastname=Author,
+    firstname=First, 
+    affiliation=CRMDA,
+    email=first@ku.edu},
+ author={
+    lastname=Author, 
+    firstname=Second, 
+    affiliation=CRMDA, 
+    email=second@ku.edu},
+  author={
+    lastname=Author, 
+    firstname=Third, 
+    affiliation=Some other Institute, 
+    email=third@ku.edu}, 
+  title={A Title for Skeleton Template: rnw2pdf-report-sweave},
+  rightlogo={theme/logo.pdf},
+}
+\reporthdr
+
+% tmpout directory must exist first
+<<tmpout, echo=FALSE, include=FALSE, results=hide>>=
+tdir <- "tmpout"
+if(!dir.exists(tdir)) dir.create(tdir, showWarnings=FALSE)
+@
+% Please leave this code: In document Latex options:
+\fvset{listparameters={\setlength{\topsep}{0em}}}
+\SweaveOpts{prefix.string=tmpout/t, split=TRUE, ae=FALSE, height=5, width=6}
+
+% Please leave this chunk
+<<Roptions, echo=F, include=F, results=hide>>=
+opts.orig <- options()
+options(device = pdf)
+options(width=160, prompt=" ", continue="  ")
+options(useFancyQuotes = FALSE) 
+set.seed(12345)
+par.orig <- par(no.readonly=TRUE) 
+pjmar <- c(5.1, 5.1, 1.5, 2.1) 
+options(SweaveHooks=list(fig=function() par(mar=pjmar, ps=10)))
+pdf.options(onefile=FALSE, family="Times", pointsize=10)
+@
+
+<<texcopy, include=FALSE,echo=FALSE>>=
+library(stationery)
+## If theme directory does not have required logos, retrieve them. 
+logos <- c(logoright = "logo.pdf", address = "addressFooter.tex")
+getFiles(logos, pkg = "stationery")
+@
+\begin{abstract}
+\noindent This is an abstract. Please include a terse, yet descriptive
+statement here of less than 200 words. It should avoid colloquialisms
+and polysyllabic profundities.
+\end{abstract}
+
+\section{Introduction}
+
+How to write reports with R \citep{RCore} using the \code{Sweave}
+code chunk engine.
+
+Please see the guide documents which are distributed with the stationery
+package. The guide ``code chunks'' provides an overview of Sweave
+and knitr.
+
+\section*{Section with no number}
+
+Whether a section or subsection is numbered in LaTeX output is determined
+by environment used. The markup \code{\textbackslash{}section\{\}}
+asks for a numbered section, while the insertion of an asterix \code{\textbackslash{}section{*}\{\}}
+prevents numbering. 
+
+\subsection*{Make minimal changes to the top part}
+
+Make small changes, test whether the document compiles.
+
+Start by putting your title \& name in the top block.
+
+\subsection*{LyX warning}
+
+Reminder: Don't change document margins with LyX menus. You need to
+edit the preamble for that.
+
+\section{\protect\code{R} Code Chunks}
+
+Code chunks begin with ``<\textcompwordmark{}<>\textcompwordmark{}>=''
+and end with a last line ``@''. 
+
+When inserting code chunks in LyX, I type them in LaTeX code boxes,
+because that keeps them visually separate. The LyX team has created
+a code chunk environment (see the pull down menu) but I have not benefitted
+from it.
+
+Our report documents ALMOST NEVER show ``raw'' R code to readers.
+Write chunks that generate results, figures or legal LaTeX output,
+but do not display them. Then results are included with LaTeX macros
+like \code{\textbackslash{}include} or \code{\textbackslash{}includegraphics}.
+
+This document uses the Sweave parameter split=TRUE to separate the
+code chunks in files saved in tmpout. There is discussion of splitting
+in the ``code chunks'' vignette distributed with this package.
+
+\bibliographystyle{apalike2}
+\bibliography{theme/R}
+
+\subsection*{}
+
+<<sessioninfo, include=F>>=
+zz <- "skeleton.Rout"
+capture.output(sessionInfo(), file = zz, append = FALSE)
+if (!is.null(warnings())){
+    capture.output(warnings(), file = zz, append =  TRUE)
+}
+@
+
+<<RoptionsRestore, echo=F, include=F>>=
+## Don't delete this. It puts the interactive session options
+## back the way they were. If this is compiled within a session
+## it is vital to do this.
+options(opts.orig)
+par(par.orig)
+@
+\end{document}

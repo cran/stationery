@@ -1,0 +1,1449 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass extarticle
+\begin_preamble
+%\VignetteIndexEntry{Instructions for guides using knitted code chunks}
+%\VignetteEngine{knitr}
+%\VignetteBuilder{stationery::rnw2pdf}
+%\VignetteEncoding{UTF-8}
+
+
+\usepackage[includehead, includefoot,
+lmargin=1in,
+rmargin=1in,
+tmargin=0.75in,
+bmargin=1.0in,
+headheight=0pt,
+headsep=0pt,
+marginparwidth=0pt,
+footskip=1.5\baselineskip,
+]{geometry}
+
+\input{theme/guidePreambleHeader.tex}
+\input{theme/preambleFooter.tex}
+\input{theme/guidePreambleKnitr.tex}
+
+% Delete this if you do not want References to
+% be a numbered section within document
+\usepackage[numbib,notlof,notlot,nottoc]{tocbibind}
+\end_preamble
+\use_default_options false
+\begin_modules
+logicalmkup
+knitr
+natbibapa
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding utf8
+\fontencoding global
+\font_roman "lmodern" "default"
+\font_sans "lmss" "default"
+\font_typewriter "lmtt" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 11
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks true
+\pdf_pdfborder true
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize letterpaper
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 0
+\use_package esint 1
+\use_package mathdots 0
+\use_package mathtools 0
+\use_package mhchem 0
+\use_package stackrel 0
+\use_package stmaryrd 0
+\use_package undertilde 0
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date true
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1in
+\topmargin 1in
+\rightmargin 1in
+\bottommargin 1in
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%% Fill in values of the arguments here, 
+\end_layout
+
+\begin_layout Plain Layout
+
+%% If blanks are needed, must insert value " ~ "
+\end_layout
+
+\begin_layout Plain Layout
+
+%% If comma needed inside value, wrap in {}.
+\end_layout
+
+\begin_layout Plain Layout
+
+%% Delete secondauthor and thirdauthor if not needed
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+guidesetup{%
+\end_layout
+
+\begin_layout Plain Layout
+
+  author={
+\end_layout
+
+\begin_layout Plain Layout
+
+    lastname=Johnson, 
+\end_layout
+
+\begin_layout Plain Layout
+
+    firstname=Paul~E., 
+\end_layout
+
+\begin_layout Plain Layout
+
+    affiliation=Directior{,}~CRMDA,
+\end_layout
+
+\begin_layout Plain Layout
+
+    email=pauljohn@ku.edu},
+\end_layout
+
+\begin_layout Plain Layout
+
+  url={https://crmda.ku.edu/guides},
+\end_layout
+
+\begin_layout Plain Layout
+
+  keywords={stationery, guide, knitr},
+\end_layout
+
+\begin_layout Plain Layout
+
+  title={Instructions for guides using knitted code chunks},
+\end_layout
+
+\begin_layout Plain Layout
+
+  leftlogo={theme/logoleft.pdf},
+\end_layout
+
+\begin_layout Plain Layout
+
+  rightlogo={theme/logo-vert.pdf},
+\end_layout
+
+\begin_layout Plain Layout
+
+  number=00,
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+guidehdr
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<Roptions, echo=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+opts.orig <- options()
+\end_layout
+
+\begin_layout Plain Layout
+
+options(width=75, prompt=" ", continue="  ")
+\end_layout
+
+\begin_layout Plain Layout
+
+options(useFancyQuotes = FALSE) 
+\end_layout
+
+\begin_layout Plain Layout
+
+set.seed(12345)
+\end_layout
+
+\begin_layout Plain Layout
+
+pdf.options(onefile=FALSE,family="Times",pointsize=10)
+\end_layout
+
+\begin_layout Plain Layout
+
+if(!dir.exists("tmpout")) dir.create("tmpout", showWarnings=FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<knitropts, echo=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+## Chunk output 
+\end_layout
+
+\begin_layout Plain Layout
+
+library(knitr)
+\end_layout
+
+\begin_layout Plain Layout
+
+opts_chunk$set(fig.path="tmpout/t-", split=FALSE, 
+\end_layout
+
+\begin_layout Plain Layout
+
+               ae=FALSE, fig.height=3, fig.width=5, comment=NA)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<texcopy, include=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+library(stationery)
+\end_layout
+
+\begin_layout Plain Layout
+
+## If theme directory does not have required images or TeX files
+\end_layout
+
+\begin_layout Plain Layout
+
+## we need to retrieve them and put them in "theme" directory.
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+logos <- c(logoleft = "logoleft.pdf", 
+\end_layout
+
+\begin_layout Plain Layout
+
+           logoright = "logo-vert.pdf",
+\end_layout
+
+\begin_layout Plain Layout
+
+           "addressFooter.tex")
+\end_layout
+
+\begin_layout Plain Layout
+
+getFiles(logos, pkg = "stationery")
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Abstract
+\noindent
+This shows how we use R 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "RCore"
+
+\end_inset
+
+ to make guide documents using the CRMDA style.
+ 
+\end_layout
+
+\begin_layout Abstract
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+Create a skeleton document by opening R and running
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<eval=F>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+library(stationery)
+\end_layout
+
+\begin_layout Plain Layout
+
+initWriteup("rnw2pdf-guide-knit")
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+That will create a folder 
+\begin_inset Quotes eld
+\end_inset
+
+rnw2pdf-guide-knit
+\begin_inset Quotes erd
+\end_inset
+
+ (unless you request otherwise by setting the dir argument).
+ 
+\end_layout
+
+\begin_layout Standard
+We suggest you
+\end_layout
+
+\begin_layout Enumerate
+Compile the skeleton document 
+\emph on
+as is 
+\emph default
+to test your setup
+\end_layout
+
+\begin_layout Enumerate
+Make revisions incrementally, and re-compile often to make sure nothing
+ has been broken.
+\end_layout
+
+\begin_layout Standard
+Don't make changes that you don't understand in the code chunks above or
+ the last chunks below.
+\end_layout
+
+\begin_layout Section
+LyX: Cautions
+\end_layout
+
+\begin_layout Standard
+The document preamble has manual settings for margins (geometry) as well
+ as hyperlinks (PDF hyperref).
+ Don't use the LyX pull down menu to revise them.
+ Edit preamble or config files for that.
+ Repeat 
+\series bold
+CAUTION
+\series default
+: Don't change the page margins or settings for hyperlinks with pull down
+ menus.
+\end_layout
+
+\begin_layout Section
+What to edit
+\end_layout
+
+\begin_layout Subsection*
+Title and author information
+\end_layout
+
+\begin_layout Standard
+The first block in the document has the title and author information.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Footer information
+\end_layout
+
+\begin_layout Standard
+The footer in this document uses data that is provided in a file named 
+\begin_inset Quotes eld
+\end_inset
+
+addressFooter.tex
+\begin_inset Quotes erd
+\end_inset
+
+.
+ After the document is compiled for the first time, that document should
+ be available in the theme folder.
+\end_layout
+
+\begin_layout Subsection*
+About the theme folder
+\end_layout
+
+\begin_layout Standard
+The theme folder should will have copies of the theme files, but the logo
+ files are not copied until the document is compiled for the first times.
+ It is done that way to preserve the author's customizations.
+\end_layout
+
+\begin_layout Standard
+There is an R code chunk above called 
+\begin_inset Quotes eld
+\end_inset
+
+texcopy
+\begin_inset Quotes erd
+\end_inset
+
+.
+ In previous versions, it copied the configuration It will copy configuration
+ files from the package into the theme folder.
+ After running this for the first time, those files will not be automatically
+ replaced by the scripts.
+ 
+\end_layout
+
+\begin_layout Standard
+Authors are free to edit the theme files, to replace logo images and, of
+ course, to insert their addresses.
+ 
+\end_layout
+
+\begin_layout Standard
+If the author makes an error in editing a theme file, it is safe to delete
+ the erroneous file and run the compile script again.
+ That will copy a fresh version of the theme file into the directory.
+\end_layout
+
+\begin_layout Section
+Check our documentation
+\end_layout
+
+\begin_layout Standard
+There are several vignettes distributed with this package.
+ Please review them.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Quotes eld
+\end_inset
+
+stationery
+\begin_inset Quotes erd
+\end_inset
+
+: the package framework overview
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Quotes eld
+\end_inset
+
+code_chunks
+\begin_inset Quotes erd
+\end_inset
+
+: discusses display of code in LaTeX documents
+\end_layout
+
+\begin_layout Section
+Compile the PDF document
+\end_layout
+
+\begin_layout Standard
+The skeleton file is provided in 2 formats, LyX and Rnw.
+ The stationery vignette has an overview of reasons why one might author
+ with LyX, or with another program (with the Rnw file).
+ It also explains the compilation process.
+ 
+\end_layout
+
+\begin_layout Standard
+Whether one writes the LyX file or the Rnw file, it is necessary to understand
+ that compiling is a two step process.
+\end_layout
+
+\begin_layout Enumerate
+knitting: Run R to do the calculations in the R code chunks and write out
+ a LaTeX file
+\end_layout
+
+\begin_layout Enumerate
+compiling: Run a LaTeX program, such as pdflatex or xelatex or such.
+ It is also necessary for a bibliography builder program to make a pass
+ through the data.
+ The aggregator program texi2pdf will this (if you have it).
+\end_layout
+
+\begin_layout Subsection*
+Edit the LyX file.
+\end_layout
+
+\begin_layout Standard
+There are 4 methods, we hope one will suit your workflow.
+\end_layout
+
+\begin_layout Enumerate
+Use the LyX editor.
+ A LyX module called 
+\begin_inset Quotes eld
+\end_inset
+
+sweave
+\begin_inset Quotes erd
+\end_inset
+
+ can be activated, so that compiling to PDF with the pdflatex program runs
+ the chunks and builds a PDF.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+This has the same effect as using LyX from the command line:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ lyx -e pdf2 skeleton.lyx
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Open an R session, run
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+> library(stationery)
+\end_layout
+
+\begin_layout Plain Layout
+
+> rnw2pdf("skeleton.lyx") # or .Rnw
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The shell script 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+rnw2pdf.sh
+\end_layout
+
+\end_inset
+
+ is provided with the skeleton.
+ Run:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ ./rnw2pdf.sh skeleton.lyx
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+In case you want to track the steps of compiling one by one, open the file
+ in LyX.
+ Use the pull down menu 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+File
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+Export
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+Rnw (knitr)
+\end_layout
+
+\end_inset
+
+, which creates 
+\begin_inset Quotes eld
+\end_inset
+
+skeleton.Rnw
+\begin_inset Quotes erd
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+This is the equivalent of the command line statement
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ lyx -e knitr skeleton.lyx
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+After that Rnw file is created, proceed as described in the next subsection.
+\end_layout
+
+\end_deeper
+\begin_layout Subsection*
+Edit the Rnw file
+\end_layout
+
+\begin_layout Standard
+The Rnw file we provide is produced by LyX, it is an intermediate step in
+ the document production sequence.
+ 
+\end_layout
+
+\begin_layout Standard
+The work flow here will vary, depending on your experience and the editor
+ you choose to use.
+ Here are some possibilities:
+\end_layout
+
+\begin_layout Enumerate
+You may have a 
+\begin_inset Quotes eld
+\end_inset
+
+noweb
+\begin_inset Quotes erd
+\end_inset
+
+ aware editor.
+ Emacs, Rstudio, and others have menus that can initiate the work of knitting
+ and rendering the document.
+\end_layout
+
+\begin_layout Enumerate
+Open an R session and make sure the working directory is the same as the
+ project writeup.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+> library(stationery)
+\end_layout
+
+\begin_layout Plain Layout
+
+> rnw2pdf("skeleton.Rnw")
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Additional arguments can be used.
+ Read help for 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+rnw2pdf
+\end_layout
+
+\end_inset
+
+.
+ Our function, by default, will create and R file summary of the command
+ chunks.
+ This file is referred to as a 
+\begin_inset Quotes eld
+\end_inset
+
+purled
+\begin_inset Quotes erd
+\end_inset
+
+ or 
+\begin_inset Quotes eld
+\end_inset
+
+tangled
+\begin_inset Quotes erd
+\end_inset
+
+ file.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The shell script 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+rnw2pdf.sh
+\end_layout
+
+\end_inset
+
+ is provided with the skeleton.
+ Run
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ ./rnw2pdf.sh --engine='"knitr"' skeleton.Rnw
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The command line script answers to all of the arguments allowed by the R
+ function 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+rnw2pdf
+\end_layout
+
+\end_inset
+
+.
+ The usage is nearly identical.
+ Where the R function call would be 
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+rnw2pdf("skeleton.lyx", engine = "knitr", purl = FALSE, clean = FALSE, verbose
+ = TRUE, keep_tex = TRUE)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+the shell command would be
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "style=Rinput"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ ./rnw2pdf --engine='"knitr"' --purl=FALSE --clean=FALSE --keep_tex=TRUE
+ --verbose=TRUE skeleton.lyx
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The only difference in usage arises when a quoted string must be passed
+ through, such as 
+\begin_inset Quotes eld
+\end_inset
+
+knitr
+\begin_inset Quotes erd
+\end_inset
+
+, which must be protected in the command line by single quotes.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+This is the old fashioned (therefore most virtuous and least likely to be
+ used) way.
+ Step 1:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ R CMD knit skeleton.Rnw
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+That will create 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+skeleton.tex
+\end_layout
+
+\end_inset
+
+.
+ Step 2:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ texi2pdf skeleton.tex
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The major difference between running this and the script we provide is that
+ our script will handle LyX files and it will, by default, create a purled
+ copy of the R code.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Section
+Code Chunk Check
+\end_layout
+
+\begin_layout Subsection
+knitr issues/features
+\end_layout
+
+\begin_layout Standard
+The original R 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "RCore"
+
+\end_inset
+
+ used the word 
+\begin_inset Quotes eld
+\end_inset
+
+Sweave
+\begin_inset Quotes erd
+\end_inset
+
+ to refer to the integration of R input & output within a document.
+ The term 
+\begin_inset Quotes eld
+\end_inset
+
+knit
+\begin_inset Quotes erd
+\end_inset
+
+ has the same meaning in the knitr package.
+\end_layout
+
+\begin_layout Standard
+Styling of knitr code chunks is different than Sweave.
+ It appears we lose line-wrap entirely.
+ This is what we get:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<eval=F>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+library(stationery)
+\end_layout
+
+\begin_layout Plain Layout
+
+initWriteup("rnw2pdf-guide-knit")
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This is what we would rather have, what we can get with Sweave:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=R,style=Rinput"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+library(stationery)
+\end_layout
+
+\begin_layout Plain Layout
+
+initWriteup("rnw2pdf-guide-knit")
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the Sweave documents, I (eventually) came to understand how to customize
+ the LaTeX listings environment for input and output from R.
+ The knitr package is more difficult to adjust.
+ I have not yet learned how to control the coloring of knitr code chunks,
+ so I prefer Sweave.
+\end_layout
+
+\begin_layout Subsection
+Code Chunks
+\end_layout
+
+\begin_layout Standard
+If you choose to use knitr rather than Sweave as the chunk-processor–and
+ by using this template that is what you did decide–you should study the
+ knitr chunk options.
+ These are discussed in some detail in the vignette on code chunks.
+\end_layout
+
+\begin_layout Standard
+Here is an example of a data frame being created and a glm is estimated:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+set.seed(234234)
+\end_layout
+
+\begin_layout Plain Layout
+
+dat <- data.frame(x = rnorm(100), y = rpois(100, lambda = 7))
+\end_layout
+
+\begin_layout Plain Layout
+
+m1 <- glm(y ~ x, data = dat, family = "poisson")
+\end_layout
+
+\begin_layout Plain Layout
+
+summary(m1)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Some code that might be used to create a regression table using outreg from
+ the rockchalk package is the following.
+ As you see, the output 
+\begin_inset Quotes eld
+\end_inset
+
+splats
+\begin_inset Quotes erd
+\end_inset
+
+ into the document, it is not in a floating figure or table.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<pois10, eval=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+library(rockchalk)
+\end_layout
+
+\begin_layout Plain Layout
+
+or <- outreg(list("My Poisson"= m1), varLabels = c("x" = "A Normal Predictor"),
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+  tight = FALSE, print.results = FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+cat(or, file="tmpout/t-pois15.tex")
+\end_layout
+
+\begin_layout Plain Layout
+
+cat(or)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<pois15, results='asis', echo=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+<<pois10>>
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It is possible, however, to input the same chunk into a LaTeX floating table,
+ as we have done in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:A-Poisson-Regression"
+
+\end_inset
+
+.
+ That is the typically-preferred format for presentation of tables, except
+ when there is some reason to have them forced into a document at a particular
+ point.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+A Poisson Regression
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:A-Poisson-Regression"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{tmpout/t-pois15.tex}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "theme/R"
+options "apacitex"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Replication Information
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Session-Info"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Please leave this section for guide documents.
+ It is important for replication.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<session10, echo=F>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+sessionInfo()
+\end_layout
+
+\begin_layout Plain Layout
+
+if(!is.null(warnings())){
+\end_layout
+
+\begin_layout Plain Layout
+
+    print("Warnings:")
+\end_layout
+
+\begin_layout Plain Layout
+
+    warnings()}
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<session20, include=F>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+## Don't delete this.
+ It puts the interactive session options
+\end_layout
+
+\begin_layout Plain Layout
+
+## back the way they were.
+ If this is compiled within a session
+\end_layout
+
+\begin_layout Plain Layout
+
+## it is vital to do this.
+\end_layout
+
+\begin_layout Plain Layout
+
+options(opts.orig)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

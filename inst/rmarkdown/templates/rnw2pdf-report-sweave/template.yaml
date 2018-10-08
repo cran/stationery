@@ -1,0 +1,4 @@
+name: rnw2pdf report
+description: >
+  For report documents in the CRMDA style, using Sweave
+create_dir: true

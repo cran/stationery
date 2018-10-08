@@ -1,0 +1,182 @@
+%% LyX 2.2.3 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[11pt,letterpaper,english]{extarticle}
+\usepackage{lmodern}
+\renewcommand{\sfdefault}{lmss}
+\renewcommand{\ttdefault}{lmtt}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{color}
+\usepackage{babel}
+\usepackage[unicode=true,pdfusetitle,
+ bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
+ breaklinks=true,pdfborder={0 0 0},pdfborderstyle={},backref=false,colorlinks=true]
+ {hyperref}
+\usepackage{breakurl}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+\special{papersize=\the\paperwidth,\the\paperheight}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+\usepackage[natbibapa]{apacite}
+
+\@ifundefined{date}{}{\date{}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usepackage[includehead, includefoot,
+lmargin=1in,
+rmargin=1in,
+tmargin=0.75in,
+bmargin=1.0in,
+headheight=0pt,
+headsep=0pt,
+marginparwidth=0pt,
+footskip=1.5\baselineskip,
+]{geometry}
+
+%\usepackage{dcolumn}
+%\usepackage{booktabs}
+
+\input{theme/guidePreambleHeader.tex}
+\input{theme/preambleFooter.tex}
+\input{theme/guidePreambleKnitr.tex}
+
+\makeatother
+
+\usepackage{listings}
+\renewcommand{\lstlistingname}{\inputencoding{latin9}Listing}
+
+\begin{document}
+%% Fill in values of the arguments here, 
+%% If blanks are needed, must insert value " ~ "
+%% If comma needed inside value, wrap in {}.
+%% Delete secondauthor and thirdauthor if not needed
+\guidesetup{%
+  author={
+    lastname=Author, 
+    firstname=First, 
+    affiliation=Title{,}~Institute,
+    email=first@ku.edu},
+  author={
+    lastname=Author, 
+    firstname=Second, 
+    affiliation=Title{,}~Institute, 
+    email=second@ku.edu}, 
+  author={
+    lastname=Author,
+    firstname=Third, 
+    affiliation=Title{,}~Institute,
+    email=third@ku.edu}, 
+  url={https://your.website.here.edu/guides},
+  keywords={knitr, LaTeX, reproducible documents},
+  title={A Title for Skeleton Template: rnw2pdf-guide-knit},
+  leftlogo={theme/logoleft.pdf},
+  rightlogo={theme/logo-vert.pdf},
+  number={0}
+}
+\guidehdr
+
+<<knitropts, echo=FALSE>>=
+## Chunk output 
+library(knitr)
+if(!dir.exists("tmpout")) dir.create("tmpout", showWarnings=FALSE)
+opts_chunk$set(fig.path="tmpout/t-", split=TRUE, 
+               ae=FALSE, fig.height=3, fig.width=5, comment=NA)
+@
+
+<<texcopy, include=FALSE>>=
+library(stationery)
+## Retrieve theme files 
+logos <- c(logoleft = "logoleft.pdf", 
+           logoright = "logo-vert.pdf", 
+           "addressFooter.tex")
+getFiles(logos, pkg = "stationery")
+@
+
+<<Roptions, echo=FALSE>>=
+opts.orig <- options()
+par.orig <- par(no.readonly=TRUE)
+options(width=75, prompt=" ", continue="  ")
+options(useFancyQuotes = FALSE) 
+set.seed(12345)
+pdf.options(onefile=FALSE,family="Times",pointsize=10)
+@
+\begin{abstract}
+\noindent This is an abstract. Please include a terse, yet descriptive
+statement here of less than 200 words. It should avoid colloquialisms
+and polysyllabic profundities.
+\end{abstract}
+\tableofcontents{}
+
+\section{Introduction}
+
+Do put your title \& name in the top block. 
+
+The code chunks above this, and the one in the final section, are
+important. Don't change them unless you know what you are doing.
+
+Don't change margins, geometry, or hyperlink options with LyX pull
+down menus or the document won't compile. Edit preamble for that.
+
+\section{Check our instructions manuals}
+\begin{enumerate}
+\item Brief instruction sheet in same folder as this skeleton: ``instructions''
+\item The vignettes in the crmda package
+\begin{enumerate}
+\item stationery 
+\item code chunks
+\end{enumerate}
+\end{enumerate}
+
+\section{Write Sections \& Subsections}
+
+Please do use sections and focused subsections to help readers find
+what they want.
+
+\section{R Code Chunks Work}
+
+Listing objects differ in output from R\citep{RCore} code chunks.
+Here is listing output.
+
+\inputencoding{latin9}\begin{lstlisting}
+$ ./rnw2pdf --engine='"knitr"' skeleton.lyx
+\end{lstlisting}
+\inputencoding{utf8}
+When using knitr, we have not succeeded in customizing the display
+of input or output cells. What you see is what they insist on, at
+least until we figure how to change it.
+
+<<norm10>>=
+x <- rnorm(100)
+head(x)
+mean(x)
+@
+
+\section{Session Info\label{sec:Session-Info}}
+
+Please leave this section for guide documents. It is important for
+replication. 
+
+<<session, echo=F>>=
+sessionInfo()
+if(!is.null(warnings())){
+    print("Warnings:")
+    warnings()}
+@
+
+<<opts20, include=F>>=
+## Don't delete this. It puts the interactive session options
+## back the way they were. If this is compiled within a session
+## it is vital to do this.
+options(opts.orig)
+par(par.orig)
+@
+
+\bibliographystyle{apacitex}
+\bibliography{theme/R}
+
+\end{document}

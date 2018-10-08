@@ -1,0 +1,614 @@
+%% LyX 2.2.3 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[10pt,english,aspectratio=1609]{beamer}
+\usepackage{lmodern}
+\renewcommand{\sfdefault}{lmss}
+\renewcommand{\ttdefault}{lmtt}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\setlength{\parskip}{\smallskipamount}
+\setlength{\parindent}{0pt}
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+\usepackage[natbibapa]{apacite}
+\providecommand*{\code}[1]{\texttt{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+% \VignetteIndexEntry{rnw2pdf-slides-sweave}
+% \VignetteEngine{Sweave}
+% \VignetteBuilder{stationery::rnw2pdf}
+
+\usepackage{dcolumn}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{graphicx}
+\newcommand\makebeamertitle{\frame{\maketitle}}%
+
+% use 'handout' to produce handouts
+%\documentclass[handout]{beamer}
+\usepackage{wasysym}
+\usepackage{pgfpages}
+
+%PJ 20180213: where did following come from, why?
+\newcommand{\vn}[1]{\mbox{{\it #1}}}
+\newcommand{\vb}{\vspace{\baselineskip}}
+\newcommand{\vh}{\vspace{.5\baselineskip}}
+\newcommand{\vf}{\vspace{\fill}}
+\newcommand{\splus}{\textsf{S-PLUS}}
+\newcommand{\R}{\textsf{R}}
+%PJ 20180213
+
+
+
+%%paste in guidePreambleSweavel.tex
+%%% From beamer slide:
+\usepackage{Sweave}
+%% 
+%% This controls display of code chunks
+\usepackage{ae,fancyvrb,relsize,listings}
+
+\providecommand{\Sweavesize}{\normalsize}
+\providecommand{\Rsize}{}
+\renewcommand{\Rsize}{\normalsize}
+\providecommand{\Routsize}{\scriptsize}
+
+\providecommand{\Rcolor}{\color[rgb]{0.1, 0.1, 0.1}}
+\providecommand{\Routcolor}{\color[rgb]{0.2, 0.2, 0.2}}
+\providecommand{\Rcommentcolor}{\color[rgb]{0.101, 0.43, 0.432}}
+
+\providecommand{\Rbackground}{\color[gray]{0.91}}
+\providecommand{\Routbackground}{\color[gray]{0.935}}
+% Can specify \color[gray]{1} for white background or just \color{white}
+
+\lstdefinestyle{Rinput}{
+  language=R,
+  escapechar=`,
+  fancyvrb=false,%
+  tabsize=2,%
+  breaklines=true,
+  breakatwhitespace=true,%
+  captionpos=b,%
+  frame=single,%
+  framerule=0.2pt,%
+  framesep=1pt,%
+  showstringspaces=false,%
+  basicstyle=\Rsize\Rcolor\ttfamily,%
+  columns=fixed%,
+  \lst@ifdisplaystyle\scriptsize\fi,%,
+  commentstyle=\Rcommentcolor\ttfamily,%
+  identifierstyle=,%
+  keywords=\bfseries,%
+  keywordstyle=\color[rgb]{0, 0.5, 0.5},
+  escapeinside={(*}{*)},
+  literate={~}{{$\sim$}}1{==}{{=\,=}}2{--}{{-\,-}}2,
+  alsoother={$},
+  alsoletter={.<-},%
+  otherkeywords={!,!=,~,$$,*,\&,\%/\%,\%*\%,\%\%,<-,<<-,/},%
+  backgroundcolor=\Rbackground,%
+  numbers=left,%
+  %numberblanklines=false,%
+  stepnumber=5,
+  firstnumber=1,
+  numberstyle={\tiny}
+}%
+
+% Other options of interest:
+% frame=single,framerule=0.1pt,framesep=1pt,rulecolor=\color{blue},
+% numbers=left,numberstyle=\tiny,stepnumber=1,numbersep=7pt,
+% keywordstyle={\bf\Rcolor}
+
+\lstdefinestyle{Routput}{fancyvrb=false,
+  literate={~}{{$\sim$}}1{R^2}{{$R^{2}$}}2{^}{{$^{\scriptstyle\wedge}$}}1{R-squared}{{$R^{2}$}}2,%
+  basicstyle=\Routcolor\Routsize\ttfamily,%
+  backgroundcolor=\Routbackground,
+  language=R,
+  escapechar=`,
+  fancyvrb=false,%
+  tabsize=2,%
+  breaklines=true,
+  breakatwhitespace=true,%
+  captionpos=b,%
+  frame=single,%
+  framerule=0.2pt,%
+  framesep=1pt,%
+  showstringspaces=false,%
+  columns=fixed%,
+  \lst@ifdisplaystyle\scriptsize\fi,%
+  identifierstyle=,%
+  keywords=\bfseries,%
+  keywordstyle=\color[rgb]{0, 0.5, 0.5},
+  escapeinside={(*}{*)},
+  literate={~}{{$\sim$}}1 {==}{{=\,=}}2,
+  alsoother={$},
+  alsoletter={.<-},%
+  otherkeywords={!,!=,~,$,*,\&,\%/\%,\%*\%,\%\%,<-,<<-,/},
+  numbers=left,
+  %numberblanklines=false,%
+  stepnumber=5,
+  firstnumber=1,
+  numberstyle={\tiny}
+}
+
+\renewenvironment{Schunk}{}{}
+\renewenvironment{Sinput}{}{}
+\let\Sinput\relax
+\let\Scode\relax
+\let\Soutput\relax
+\lstnewenvironment{Sinput}{\lstset{style=Rinput}}{}
+\lstnewenvironment{Scode}{\lstset{style=Rinput}}{}
+\lstnewenvironment{Soutput}{\lstset{style=Routput}}{}
+
+\lstset{tabsize=2, breaklines=true, style=Rinput, breakatwhitespace=true}
+
+\fvset{listparameters={\setlength{\topsep}{0em}}}
+
+\usepackage{xcolor}
+\definecolor{light-gray}{gray}{0.90}
+\usepackage{realboxes}
+\providecommand*{\code}[1]{\texttt{#1}}
+\renewcommand{\code}[1]{%
+\Colorbox{light-gray}{#1}%
+}%
+%%end paste in guidePreambleSweavel.tex
+
+
+%Some eager users of APA6 style want this
+\usepackage[natbibapa]{apacite}
+\renewcommand{\doiprefix}{doi:\kern-1pt}
+\setlength{\bibsep}{10pt}
+
+
+\definecolor{darkblue}{HTML}{1e2277}
+
+%would be in beamerthemekucrmda%
+\mode<presentation>
+\definecolor{kublue}{RGB}{0,81,186}
+\usefonttheme{professionalfonts}
+\useoutertheme{infolines}
+\useinnertheme{rounded}
+%disable rounded for alert and example boxes%
+\setbeamertemplate{blocks}[default]
+\usecolortheme{whale}
+\usecolortheme{orchid}
+%\setbeamercolor*{structure}{bg=kublue,fg=kublue!90!black}
+\setbeamercolor{structure}{fg=kublue}
+\setbeamercolor{frametitle}{bg=kublue}
+\setbeamercolor{upper separation line head}{fg=kublue}
+%text color in table of contents
+\setbeamercolor{section in toc}{fg=kublue!40!black}
+
+
+\setbeamertemplate{frametitle continuation}[from second]
+\renewcommand\insertcontinuationtext{...}
+\beamertemplatenavigationsymbolsempty
+%end of beamerthemekucrmda%
+
+%If you want bigger margins, try this:
+\setbeamersize{text margin left=05mm,text margin right=10mm} 
+
+%Following seems to have no effect now
+%\usepackage{handoutWithNotes}
+%\pgfpagesuselayout{3 on 1 with notes}[letterpaper, border shrink=5mm]
+
+\titlegraphic{\includegraphics[width=6cm]{theme/logo}}
+
+\makeatother
+
+\usepackage{babel}
+\usepackage{listings}
+\renewcommand{\lstlistingname}{\inputencoding{latin9}Listing}
+
+\begin{document}
+% In document Latex options:
+\fvset{listparameters={\setlength{\topsep}{0em}}}
+\SweaveOpts{prefix.string=tmpout/t,split=FALSE,ae=F,height=4.5,width=7}
+
+<<Roptions, echo=FALSE, include=FALSE, results=hide>>=
+opts.orig <- options()
+options(width=70, prompt = " ", continue = "  ")
+options(useFancyQuotes = FALSE)
+set.seed(12345)
+par.orig <- par(no.readonly=TRUE) 
+pjmar <- c(4.1, 4.1, 1.5, 2.1)
+par(mar=pjmar, ps=11)
+options(SweaveHooks=list(fig=function() par(mar=pjmar, ps=12, xpd=F)))
+pdf.options(onefile=F,family="Times",pointsize=12)
+if(!file.exists("tmpout")) dir.create("tmpout", showWarnings=F)
+@
+
+<<texcopy, include=FALSE, echo=FALSE, results=hide>>=
+library(stationery)
+## If theme directory does not have required logos, retrieve them. 
+logos <- c(logo = "logo.pdf",
+            logomini = "logomini.png")
+getFiles(logos, pkg = "stationery")
+@
+
+\title[beamer]{Instructions for rmd2pdf-slides-sweave}
+
+\author{Paul Johnson\inst{1}}
+
+\institute[K.U.]{\inst{1}Center for Research Methods and Data Analysis }
+
+\date{2018}
+
+\makebeamertitle
+\logo{\includegraphics[width=5mm]{theme/logomini}}
+
+\AtBeginSection[]{
+  \frame<beamer>{ 
+    \frametitle{Outline}
+    \tableofcontents[currentsection] 
+  }
+}
+
+\begin{frame}[containsverbatim, allowframebreaks]
+\frametitle{Outline}
+
+\tableofcontents{}
+
+\end{frame}
+
+\global\long\def\vb#1{\bm{\mathrm{#1}}}
+
+\section{Launch with stationery}
+
+\begin{frame}[allowframebreaks, containsverbatim]
+\frametitle{Create a Skeleton}
+
+Create a skeleton (template) document by opening R and running
+
+<<eval=F>>=
+library(stationery)
+initWriteup("rnw2pdf-slides-sweave")
+@
+
+That will create a folder ``\code{rnw2pdf-slides-sweave}'' (unless
+you request otherwise by setting the \code{dir} argument). 
+
+\end{frame}
+
+\begin{frame}[allowframebreaks, containsverbatim]
+\frametitle{Edit our skeleton}
+\begin{itemize}
+\item Copy skeleton.lyx (or skeleton.Rnw, your choice) to a new file name,
+one which you will edit.
+\item Make small changes, try to compile.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{About the theme folder}
+\begin{itemize}
+\item Theme files are copied into the theme directory when this document
+is compiled the first time.
+\item After that, the author can revise those theme files to suit her taste. 
+\item The document will not erase those files and re-insert our defaults.
+\item We DO expect everybody will supply their own ``logo.pdf'' and ``logomini.pdf''
+files, for example.
+\end{itemize}
+\end{frame}
+
+\section{Our Design Plan}
+
+\begin{frame}[allowframebreaks, containsverbatim]
+\frametitle{Elegant yet helpful; artistic yet austere; delicious yet light}
+\begin{itemize}
+\item The theme settings are in the preamble. No external dependency on
+a theme file needed.
+\item Once we saw how simple a Beamer theme is–just a designation theme
+types for the outer edges and inner content–we knew what to do: \textbf{CUSTOMIZE!}
+\item Our preferred theme uses the \emph{right} shades of blue along with:
+\begin{exampleblock}{Key elements in our theme}
+
+\inputencoding{latin9}\begin{lstlisting}
+\useoutertheme{infolines}
+\useinnertheme{rounded}
+\setbeamertemplate{blocks}[default]
+\end{lstlisting}
+\inputencoding{utf8}\end{exampleblock}
+\item The outer theme is a conservative use of screen real estate (narrow
+top boxes)
+\item The inner theme gives the jazzy 3-D bullets
+\item We don't want the rounded alert boxes, however, so we have blocks
+set to the default box style.
+\item As the Beamer documentation makes clear, there are just a few of these
+outer and inner themes that can be ``mixed-and-matched'' to suit
+the author's taste.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{This is a default style we selected}
+\begin{itemize}
+\item This document is formatted to create 16:9 resolution slides. 
+\item To alter that, change document setting options.
+\item Citations use natbib with apacite. To check, we'll cite R (\citealp{RCore})
+and the single most influential book in modern applied statistics
+\citep{mccullagh_nelder_1989}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[containsverbatim, allowframebreaks]
+\frametitle{About frame options}
+
+In the frames used in these reports, the environment is initiated
+in one of 3 ways:
+\begin{enumerate}
+\item No options:
+
+\inputencoding{latin9}\begin{lstlisting}
+\begin{frame}
+\end{lstlisting}
+\inputencoding{utf8}\item Allow for long output to spill onto successive slides:
+
+\inputencoding{latin9}\begin{lstlisting}
+\begin{frame}[allowframebreaks]
+\end{lstlisting}
+\inputencoding{utf8}
+In case you want to force a break in a long slide, use LaTeX \code{\framebreak}.
+\item Allow for inclusion of R output or other LaTeX listings objects
+
+\inputencoding{latin9}\begin{lstlisting}[basicstyle={\small\ttfamily},tabsize=1]
+\begin{frame}[allowframebreaks, containsverbatim]
+\end{lstlisting}
+\inputencoding{utf8}
+\end{enumerate}
+\begin{alertblock}{containsverbatim is necessary}
+
+Any time your slide includes R output, any verbatim markup, or a listings
+box, the compile will fail if you do not declare the frame with ``containsverbatim''. 
+
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+\frametitle{"allowframebreaks" can be very convenient}
+\begin{itemize}
+\item While authors are developing content, and are not worried about the
+separation of items among slides, the allowframebreaks option may
+be just what the Doctor ordered.
+\item The document will be automatically broken up into slides. All of the
+slide titles will be the same, of course, but otherwise it is a nice
+way to get some work done and not worry about the fine details.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+\frametitle{Slide with "allowframebreaks" can spill onto several slides}
+
+Some filler that causes the spill onto another slide. The equation
+numbers are requested for some, but not all of the equations. The
+numbers become somewhat confusing when only some equations are numbered.
+
+Some authors will adjust the LyX keyboard so that all displayed equations
+have numbers by default to avoid this problem.
+\begin{itemize}
+\item Item one. Please gaze in wonder at the equation
+
+\begin{equation}
+1\times1\label{eq:one}
+\end{equation}
+\item The second equation is not numbered
+
+\[
+2\times1
+\]
+\item But the author numbered the third equation, we are not sure why
+
+\begin{equation}
+3\times1\label{eq:three}
+\end{equation}
+\item The fourth equation is
+
+\[
+4\times1
+\]
+\item But equation five is numbered
+
+\begin{equation}
+5\times1\label{eq:five}
+\end{equation}
+\item Equation six
+
+\begin{equation}
+6\times1\label{eq:six}
+\end{equation}
+\item Equation seven
+
+\[
+7\times1
+\]
+\end{itemize}
+One can ask lyx to automatically number displayed equations by changing
+the shortcut key associated with C-S-m to have the same effect as
+the pull down menu \code{Insert} -> \code{Math} -> \code{Numbered Formula}.
+
+\end{frame}
+
+\begin{frame}[allowframebreaks,containsverbatim]
+\frametitle{Using "allowframebreaks" and "containsverbatim"}
+\begin{itemize}
+\item I usually use both \textquotedbl{}\code{allowframebreaks}\textquotedbl{}
+and \textquotedbl{}\code{containsverbatim}\textquotedbl{} on most
+slides.
+\item ``\code{allowframebreaks}'' is now harmless. If there is only enough
+content for one slide, the appearance of the one slide is not affected
+(this was not always true).
+\item However, \code{containsverbatim} is not harmless. It will break use
+of Beamer overlay features, or one-at-a-time revelation of enumerated
+lists.
+\end{itemize}
+\end{frame}
+
+\section{R Code chunks}
+
+\subsection{Displaying R code and output}
+
+\begin{frame}[containsverbatim]
+\frametitle{Listings class is used to display code chunks}
+\begin{itemize}
+\item R code chunks are displayed with LaTeX listings, a highly customizable
+class for code displays. 
+\item We use 2 types of listings:
+\begin{itemize}
+\item \textbf{Rinput}: for all listings boxes and for R code 
+\item \textbf{Routput}: output listings use smaller font
+\end{itemize}
+\item Because slides are often ``guides'', the listings style is the same
+as a CRMDA guide document.
+\end{itemize}
+\framebreak
+\begin{itemize}
+\item The author can adjust these by editing the preamble of this document.
+At one time, we kept the settings in a separate file, but now they
+are actually in the preamble.
+\item Rather than changing document-wide settings, it is also possible to
+adjust individual listings items. In the previous slide, we adjusted
+the listings options for a smaller font in the third item, or
+\item I (often) fiddle the line-numbering settings in that tex file to suit
+my taste.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{line numbers on code chunks}
+\begin{itemize}
+\item Sometimes it appears that there are line numbers with code chunks.
+\item Sometimes they are invisible because they are outside the left margin
+\item The margins are adjustable when this happens, see preamble for example.
+Don't use LyX menus, use the preamble to edit.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{Code chunks suggestions for authors}
+\begin{itemize}
+\item Please name all chunks. 
+\begin{itemize}
+\item This makes bug-shooting much easier
+\item Here is a chunk named \code{dat10}. The default settings of the options
+\code{include} and \code{echo} are \code{TRUE}, so we set them
+as FALSE for variety.
+
+\inputencoding{latin9}\begin{lstlisting}
+ <<data10, include=FALSE, echo=FALSE>>=
+ x <- rnorm(100)
+ mean(x)
+ @
+\end{lstlisting}
+\inputencoding{utf8}\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[containsverbatim, allowframebreaks]
+\frametitle{Styling of non-chunk code commentary}
+\begin{itemize}
+\item The listings environment requires us to use ``\code{containsverbatim}''
+chunks. 
+\item In the preamble, there are several styles for listings objects. 
+\begin{itemize}
+\item E.g., author who desires listing output in the style of our \code{Routput}
+can tell listings ``style=Routput''. 
+\end{itemize}
+\item Inline comments will declared with the code environment will have
+a gray box similar to the Rinput box for chunks.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[containsverbatim, allowframebreaks]
+\frametitle{Careful proof-reading is required}
+\begin{itemize}
+\item Sometimes symbols are not correctly displayed!
+\item Observe the difference in output:
+\begin{itemize}
+\item code object created with LyX ``logical markup'' module:
+
+\code{lm(y \textasciitilde{} x, data = dat)}
+\item R code chunk filtered through listings class
+
+<<eval=F>>=
+lm(y ~ x, data = dat)
+@
+\item Raw LaTeX ``\textbackslash{}code'' environment
+
+\texttt{\code{lm(y ~ x, data = dat)}}
+\end{itemize}
+\item Different fonts in each case (bad).
+\item The tilde symbol is displayed differently in the first two and not
+at all in the final one.
+\item 1st example: LyX text code object notices ``\textasciitilde{}''
+and inserts ``\textbackslash{}textasciitilde\{\}'' on our behalf. 
+\item The second example use of the listings class. Our Rinput style as
+as symbol filter table. It converts keyboard tilde to ``\textasciitilde{}''
+to a math symbol, ``\$\textbackslash{}sim\$'', which implies $\sim$,
+in the output.
+\end{itemize}
+\end{frame}
+
+\subsection{More Frame Options}
+
+\begin{frame}[allowframebreaks,containsverbatim]
+\frametitle{Both "allowframebreaks" and "containsverbatim" accomodate large R output}
+
+<<reg10>>=
+example(lm)
+@
+
+\end{frame}
+
+\begin{frame}[allowframebreaks,containsverbatim]
+\frametitle{2 Columns}
+\begin{columns}[t]
+
+\column{6cm}
+\begin{itemize}
+\item Total width of page is 12cm
+\item Author can set each column at 6cm
+\end{itemize}
+\begin{block}{A Block Can be Nested}
+
+This is inside the content area of the block
+
+\end{block}
+
+\column{6cm}
+\begin{itemize}
+\item In LyX, I find it tricky to use the GUI tool for slides (in general)
+\item Columns often seem difficult, but I still use GUI because I don't
+want to write out lots of code
+\item But I do manually write Frames in LyX because I don't enjoy the GUI
+style these days.
+\end{itemize}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+\frametitle{References}
+
+\bibliographystyle{apalike2}
+\bibliography{theme/R}
+
+\end{frame}
+
+\begin{frame}[containsverbatim, allowframebreaks]
+\frametitle{Session}
+
+<<sess10>>=
+sessionInfo()
+@
+
+<<RoptionsRestore, echo=F, include=F>>=
+## Don't delete this. It puts the interactive session options
+## back the way they were. If this is compiled within a session
+## it is vital to do this.
+options(opts.orig)
+par(par.orig)
+@
+
+\end{frame}
+\end{document}

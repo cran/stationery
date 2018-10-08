@@ -1,0 +1,675 @@
+---
+title: "HTML Special Features"
+author:
+- affiliation: CRMDA
+  email: pauljohn@ku.edu
+  name: Paul Johnson
+- affiliation: CRMDA
+  email: zroman@ku.edu
+  name: Zack Roman
+date: "`r format(Sys.time(), '%B %d %Y')`"
+bibliography: "theme/R.bib"
+output:
+  stationery::crmda_html_document:
+    css: theme/kutils.css
+    highlight: haddock
+    template: theme/guide-template.html
+    theme: default 
+    toc: yes
+    toc_depth: 2
+    number_sections: true
+checked_by: Paul Johnson
+advertise: "Please  visit  [http://crmda.ku.edu/guides](http://crmda.ku.edu/guides)
+  \n"
+fontsize: 12pt
+keywords: guides, rmarkdown, rmd2html
+logoleft: theme/logoleft.png
+logoright: theme/logo-vert.png
+guide_number: 51
+abstract: |
+  This guide describes several key features/functionalities of R  Markdown for producing colorful and vivid HTML documents.
+subtitle: KU CRMDA Markdown
+Note to Authors: please_dont_change_the_next lines!
+vignette: >
+  %\VignetteIndexEntry{Rmarkdown HTML Special Features} 
+  %\VignetteEngine{knitr::rmarkdown} 
+  \usepackage[utf8]{inputenc}
+---
+
+
+```{r setup, include=FALSE}
+##This Invisible Chunk is required in all CRMDA documents
+outdir <- paste0("tmpout")
+if (!file.exists(outdir)) dir.create(outdir, recursive = TRUE)
+knitr::opts_chunk$set(echo=TRUE, comment=NA, fig.path=paste0(outdir, "/p-"))
+options(width = 70)
+set.seed(123123)
+```
+
+```{r themecopy, include = FALSE}
+library(stationery)
+## If theme directory does not have required images or TeX files
+## we need to retrieve them and put them in "theme" directory. 
+logos <- c(logoleft = "logoleft.png", 
+           logoright = "logo-vert.png",
+           "R.bib")
+files <- c("kutils.css", 
+           "guide-template.html")
+getFiles(logos, pkg = "stationery")
+getFiles(files, pkg = "stationery")
+```
+
+# Introduction
+
+This is about preparing Rmarkdown documents that exploit the
+special features available in Web pages. It is a work in progress.
+
+
+# First, Study the Rmarkdown Basics
+
+The `stationery` package includes a vignette that introduces the
+`markdown` philosophy and the `Rmarkdown` version of it. It shows how
+to use R [@RCore] code chunks. This document is focused on the
+special features that might be obtained with HTML documents.
+
+# How to Compile the Document
+
+The `stationery` package includes a vignette `stationery` that explains the
+process of compiling the document.  The document can be compiled
+either by starting R and using the `stationery` function named `rmd2html`
+or it can be compiled by the command line using the shell script
+`rmd2html.sh` that we provide with the package. 
+
+The rendered output is an HTML file that can be opened using any
+browser. The HTML document has figures and cascading style sheets
+embedded in it, so it is nearly self-contained (relies on MathJax 
+web server and possibly some external javascript). 
+
+
+# Special Features for Rmd into HTML documents.
+
+Rmarkdown intended for an HTML backend can include HTML code. If 
+Rmarkdown is missing syntax to achieve some purpose, then the
+HTML approach will generally get the job done. 
+
+Because many Rmarkdown authors are unfamiliar with HTML code,
+quite a few syntactic-shortcuts have been developed.  As we explained
+in the Rmarkdown vignette, it is preferable to use the Rmarkdown
+syntax when it is available because this improves the portability 
+of the document. However, when no markdown syntax exists, one must 
+improvise. 
+
+In this section, we first emphasize 2 special features that are
+provided in our cascading style sheet that facilitate use of some
+pleasant HTML markup strategies.  These are 1) colored callouts and 2)
+tabbed subsections.
+
+## Colored callouts
+
+The stylesheet includes style code for "callout" sections.  These
+were adapted from the HTML stylesheets in the bootstrap project.
+
+A colored callout must begin as a level-4 markdown heading.  The
+syntax begins with `####`, and then after that some syntax that is,
+actually, HTML style code, is included. The colors for which we have
+provided are "gray", "red", "orange", "blue", and "green".
+
+### Demonstrating callouts
+
+#### Gray Callout {.bs-callout .bs-callout-gray}
+The gray callout is created by this Rmarkdown code:
+
+    ```
+    #### Gray Callout {.bs-callout .bs-callout-gray}
+    ```
+Perhaps "gray" is for wisdom. Perhaps it is just a visual separator 
+between exciting colors like red and blue!
+
+
+#### Red Callout {.bs-callout .bs-callout-red}
+Syntax: 
+
+    ```
+    #### Red Callout {.bs-callout .bs-callout-red}
+    ```
+
+Red callout is for danger, in the eyes of some authors. Other authors
+just think it is pretty.
+
+#### Orange Callout {.bs-callout .bs-callout-orange}
+Orange might be used for examples. 
+
+    ```
+    #### Orange Callout {.bs-callout .bs-callout-orange}
+    ```
+
+#### Blue Callout {.bs-callout .bs-callout-blue}
+    ```
+    #### Blue Callout {.bs-callout .bs-callout-blue}
+    ```
+Blue is for correct answers, at least according to the color Nazis.
+
+#### Green Callout {.bs-callout .bs-callout-green}
+
+    ```
+    #### Green Callout {.bs-callout .bs-callout-green}
+    ```
+
+Green is the color of the Earth, of course, so we use it for
+ideas, suggestions, or whatever we like. 
+
+
+#### What is the meaning of the colors {.bs-callout .bs-callout-blue}
+At one time, we were calling naming these things by their purpose
+rather that colors. The purpose <==> color mapping was
+
+| purpose | color |
+| ---     |   --- |
+| info    | blue |
+| warning | orange |
+| danger  | red |
+
+However, we concluded that some people might like to use red for
+warnings or orange for danger. We are all about *diversity* and
+concluded it was superficial to use purpose-based names.  Some of us
+use the colored callout regions simply for decoration, so we don't
+name them by purpose anymore.
+
+Some of our older Rmarkdown documents do use that approach, however.
+
+#### Other structures can be embedded in colored callout {.bs-callout .bs-callout-red}
+
+This is an R code chunk embedded inside the red: colored callout:
+```{r xsummary}
+dat <- data.frame(x=rnorm(1000), y=rpois(1000, l=7))
+summary(dat)
+```
+
+```{r fig, fig=T, fig.height=2.5, fig.width=5}
+hist(dat$x, xlab = "Monkey Weight (deviations)", main = "Histogram", prob = TRUE, ylim = c(0, 1))
+```
+
+Note that the colored tabs, which were level 4 headings, are
+terminated when the next heading is declared at level 2.
+
+## Interactive Tabs
+
+This is the only feature that truly differentiates the HTML backend
+from PDF.  The user can "interact" with the tabs.  The major benefit
+is that a section in which there are, say 5, large subsections, can be
+made to seem shorter by "hiding" the subsections under the tabs.
+
+In our style sheet, tabs are created in two steps. First, a level two
+markdown header (`##`) is introduced with the flag `{.tabset
+.tabset-fade}`. The tabs within that group are created by level 3
+headers (`###`). To close down the tabbed section, it is necessary 
+to introduce a new level 1 or 2 header.
+
+Please note it is VERY IMPORTANT to include a blank line before
+a new tabbed section begins. If the line is omitted, then the new
+section will not be created properly. 
+
+## A very basic tabbed structure {.tabset .tabset-fade}
+
+As demonstrated by this paragraph, commentary before the level-3
+tabbed headers is allowed. In fact, one can introduce any number of
+paragraphs before the first level 3 header is inserted to begin
+the tabbed subsections.
+
+### Kansas
+
+Items about our fine state
+
+### Missouri
+
+Items about another fine state, which is not quite as good as Kansas
+
+### New York
+
+My baby daughter exclaimed "New York stinks!" in 1990.  Last time I
+was there, it was still correct to say that.
+
+### Connecticut
+
+If you could retire as a rich person, this might be the right place to
+go.
+
+## We need to fix up the style a little bit
+
+The "hidden" subsections are labeled, but not vividly, and our CSS is
+to blame. Or the CSS inherited from others is inadequate. Also we need
+to more easily color and dramatize these tabs. As discussed next, some
+raw HTML markup is needed to obtain colors.
+
+### I want more beautiful tabs!
+
+The only way (that we know of) to get colors is to wrap the tab
+headers in a `<span style>` as shown below. This might be useful to
+draw attention to the tabs. Blue is the default color.
+
+Note that it is necessary to declare the level-2 header again, to
+start a new tabset:
+
+```
+## A level-2 heading launches a new tabset, with color via HTML markup {.tabset .tabset-fade}
+```
+
+Followed by the tab captions, which are inside level-3 headers,
+including color markup:
+
+```
+### <span style="color:orange">An orange tab</span>
+```
+
+Here is the working example:
+
+## A level-2 heading launches a new tabset, with color via HTML markup {.tabset .tabset-fade}
+
+### <span style="color:red">A red tab</span>
+
+#### This Red callout embedded under the red tab {.bs-callout .bs-callout-red}
+Commentary about red stuff. We have embedded a red callout box here to
+have some pizzaz. Click "An orange tab" where we've hidded some R output.
+
+### <span style="color:orange">An orange tab</span>
+
+Lets try some R code within this tabbed level 3 section:
+
+```{r xsummary2, fig=T}
+dat <- data.frame(x=rgamma(1000, 1.4))
+hist(dat$x)
+```
+
+### A tab with no special color is blue
+
+words here!
+
+
+## Inserting images: Use HTML code
+
+Pictures or graphics can be inserted into Rmarkdown documents. The
+usual markdown syntax for image inserts is
+
+```
+![alt text](image/location/file.png "Image Title Text")
+```
+
+That syntax is somewhat limiting, mostly because we cannot resize the
+images. Another limitation is that some graphics formats are not
+allowed. The suggested file formats are svg, png, and jpg, so graphics
+in pdf will not be usable *as is*.
+
+To resize images, we need to resort to raw HTML code, which seems 
+somewhat disappointing to many authors. HTML allows rescaling. We
+can specify both the width and the height of the image. In this
+example code, a png format file named "plot1.png" is inserted in the
+document.
+
+```
+<img src="ext_img/plot1.png" alt = "Floating .png"
+  width  = "308"
+  height = "216">
+
+```
+
+<!-- <img src="ext_img/plot1.png" alt = "An external .png" -->
+<!--   width  = "308" -->
+<!--   height = "216"> -->
+
+<!-- We can insert more than just .png files, here is a .jpg: -->
+
+<!-- <img src="ext_img/plot3.jpg" alt = "An external .jpg" -->
+<!--   width  = "308" -->
+<!--   height = "216"> -->
+
+Authors who need to use graphics saved in other formats will need to
+convert to png, jpg, or svg. The Gold standard of format converters is
+the `convert` function of the ImageMagick suite of tools. It is also
+possible to open a PDF in some editors, such as
+the [GNU Image Manipulation program (GIMP)](http://www.gimp.org), and
+save as an image format.  There are some websites that might be useful
+for this purpose, such as http://pdf2png.com.
+
+
+## International characters
+
+If you can figure out how to insert characters with accents, they will
+display correctly.  For example, Karl Gustav Jöreskog, Dag Sörbom, and 
+Linda Muthén and Bengt Muthén. These are entered at the keyboard using
+editor-specific tools.
+
+
+
+# Illustration of Chunk Features
+
+In the `stationery` package vignette named `code_chunks`, we explain
+the idea that in both \LaTeX and Rmarkdown, one can insert R code
+chunks that will be processed.  There, we spell out a list of
+requirements for any chunk based system along with examples.
+
+We run the same code chunks here, to compare the HTML output
+with PDF from the `code_chunks` vignette.
+
+## Chunks that do not generate graphics
+
+1. A chunk that is evaluated, echoed, both input and output. This is a
+standard chunk, no chunk options are used:
+
+    \begin{lstlisting}
+    `r ''````{r chunk10}
+    set.seed(234234)
+    x <- rnorm(100)
+    mean(x)
+    `r ''````
+    \end{lstlisting}
+
+    The user will see both the input code and the output, each in a
+    separate box:
+
+    ```{r chunk10}
+    set.seed(234234)
+    x <- rnorm(100)
+    mean(x)
+    ```
+
+    Notice the code highlighting is not entirely successful, and is
+    different from results we see in other backends.
+
+
+2. A chunk with commands that are echoed into the document, but not
+   evaluated (`eval=F`).
+
+    When the document is compiled, the reader will see the depiction of
+    the code, which is (by default) beautified and reformatted:
+
+    ```{r chunk20, eval=F}
+    set.seed(234234)
+    x <- rnorm(100)
+    mean(x)
+    ``` 
+
+3. A chunk that is evaluated, with output displayed, but code is not
+   echoed (`echo=F`). It is not necessary to specify `eval=T` because
+   that is a default.
+
+    The user will not see any code that runs, but only a result:
+
+    ```{r chunk30, echo=F}
+    x <- rnorm(100)
+    mean(x)
+    ```
+
+
+4. A hidden code chunk. A chunk that is evaluated, but neither is the
+   input nor output displayed (`include=F`)
+
+     
+    ```{r chunk40, include=F}
+    set.seed(234234)
+    x <- rnorm(100)
+    mean(x)
+    ```
+
+    What is the grammatically correct way to say "did you see nothing?"
+    You should not even see an empty box? After that, the object `x`
+    exists in the on-going R session, it can be put to use.
+
+
+## Chunks with graphics
+
+5. A chunk that creates a graph, and allows it to be inserted into the
+       document, but the code is not echoed for the reader to see.
+    
+    ```{r chunk50, fig=T, fig.height=3, fig.width=4, fig.show="hold", echo=F}
+    hist(x, main = "One Histogram Displayed Inline")
+    ```
+
+6. Save a graph in a file and display it at a later point. 
+ 
+    This can be acheived by specifing: fig.show="hold", echo=F.
+    Optionally we can specify the height and width of the figure with
+    fig.height and fig.width (which are always in inches).  The file
+    will be saved in the current working directory.
+
+    ```{r chunk65, fig=T, fig.height=3, fig.width=4, fig.show="hide", dev=c('png'),fig.cap="A caption"}
+    hist(x, main = "Another Histogram")
+    ```
+    
+
+7. A chunk that shows a series of plotting commands. 
+
+    This is a named chunk that is not evaluated, but it is displayed
+    to reader. The same code is then put to use twice in what follows.
+
+    ```{r chunk71, eval=F, echo=TRUE, warning=FALSE}
+    par(mar = c(3,2,0.5,0.5))
+    cax <- 0.7 ## cex.axis
+    plot(c(0, 1), c(0, 1), xlim = c(0,1), ylim = c(0,1), type = "n", ann = FALSE, axes = FALSE)
+    rect(0, 0, 1, 1, col = "light grey", border = "grey")
+    axis(1, tck = 0.01, pos = 0, cex.axis = cax, padj = -2.8, lwd = 0.3,
+          at = seq(0, 1, by = 0.2), labels = c("", seq(0.2,0.8, by=0.2), ""))
+    axis(2, tck = 0.01, pos = 0, cex.axis = cax, padj = 2.8, lwd = 0.3,
+         at = seq(0, 1, by = 0.2), labels = c("", seq(0.2,0.8, by=0.2), ""))
+    mtext(expression(x), side = 1, line = 0.5, at = .5, cex = cax)
+    mtext(expression(y), side = 2, line = 0.5, at = .5, cex = cax)
+    mtext(c("Min x", "Max x"), side = 1, line = -0.5, at = c(0.05, 0.95), cex = cax)
+    mtext(c("Min y", "Max y"), side = 2, line = -0.5, at = c(0.05, 0.95), cex = cax)
+    lines(c(.6, .6, 0), c(0, .6, .6), lty = "dashed")
+    text(.6, .6, expression(paste("The location ",
+                    group("(",list(x[i] == .6, y[i] == .6),")"))), pos = 3, cex = cax + 0.1)
+    points(.6, .6, pch = 16)
+    ```
+
+    The first re-use of this code simply runs the whole chunk, and
+    keeps the final figure. This figure is a png file that is embedded
+    in the HTML document.
+
+    <a name="specialfig"></a>
+    ```{r chunk75, ref.label='chunk71', echo=F, fig=T, fig.keep="last", fig.width=5, fig.height=5, fig.cap="A Special Figure", fig.align="center"}
+    ```
+  	
+    ```{r chunk76, ref.label='chunk71', echo=F, fig=T, include=F, fig.keep="all", fig.width=4, fig.height=4, dev=c('png')}
+    ```
+  
+    A special feature of knitr is the ability to keep the intermediate
+    plots that are produced by each line.  An inspection of the
+    `tmpout` directory shows that this code created several
+    graphs. Observe there are several files:
+
+    ```{r chunk76b}
+    list.files("tmpout", pattern="p-chunk76.*png") 
+    ```
+
+    In a way that is rather similar to the PDF backend, we use a
+    backend-specific table structure to display four of the images. The
+    display of the table's caption is controlled by the style sheet.
+
+```
+<table border="0" cellpadding="0">
+<caption>Figure: Table Array of Four Graphics</caption>
+<tr><td><img src="tmpout/p-chunk76-4.png" height=350 width=350 alt = "a png"></td>
+<td><img src="tmpout/p-chunk76-8.png" height=350 width=350 alt = "b png"></td></tr>
+<tr><td><img src="tmpout/p-chunk76-9.png" height=350 width=350 alt = "c png"></td>
+<td><img src="tmpout/p-chunk76-11.png" height=350 width=350 alt = "d png"> </td></tr>
+</table>
+```
+
+<table border="0" cellpadding="0">
+<caption>Figure: Table Array of Four Graphics</caption>
+<tr><td><img src="tmpout/p-chunk76-4.png" height=350 width=350 alt = "a png"></td>
+<td><img src="tmpout/p-chunk76-8.png" height=350 width=350 alt = "b png"></td></tr>
+<tr><td><img src="tmpout/p-chunk76-9.png" height=350 width=350 alt = "c png"></td>
+<td><img src="tmpout/p-chunk76-11.png" height=350 width=350 alt = "d png"> </td></tr>
+</table>
+	
+	
+	
+## Chunks with tables
+
+Markdown includes a rather crude table-making syntax. We used it above
+in to display the purpose to color relationship of the colored callout
+boxes. For most serious analysis, that type of table will not be
+sufficient.
+
+The chunk option `results="asis"` is used to display HTML markup that
+can be created by R functions. The cascading style sheet will play an
+important role in the final display. If we are unhappy with the
+rendering of the tables, we should concentrate on fixing the CSS,
+rather than finger-painting borders and such. While working on this
+project we discovered a flaw in the pandoc processing engine that
+caused tables to fail. If the HTML generated by the chunk includes
+spaces, `pandoc` can be fooled into thinking the text is markdown
+rather than HTML. 
+
+8. Using results="asis" to display HTML markup: Regression Tables
+
+There are many packages that can create near-publication-quality
+regression tables. Here is an example of the rockchalk package can
+create HTML code for a regression table. In this case, we run the code
+chunk to generate the HTML code, and then we have to manually purge
+the extra spaces in the output so that `pandoc` will not corrupt the
+output.
+
+```{r, warning = FALSE, error = FALSE, message= FALSE, include=FALSE}
+library(rockchalk)
+   set.seed(2134234)
+   dat <- data.frame(x1 = rnorm(100), x2 = rnorm(100))
+   dat$y1 <- 30 + 5 * rnorm(100) + 3 * dat$x1 + 4 * dat$x2
+   dat$y2 <- rnorm(100) + 5 * dat$x2
+   m1 <- lm(y1 ~ x1, data = dat)
+   m2 <- lm(y1 ~ x2, data = dat)
+   m3 <- lm(y1 ~ x1 + x2, data = dat)
+   gm1 <- glm(y1 ~ x1, family = Gamma, data = dat)
+
+or1 <- outreg(list("Amod" = m1, "Bmod" = m2, "Gmod" = m3),
+title = "My Three Linear Regressions", float = FALSE, type = "html",
+browse = FALSE)
+or1 <- gsub("&nbsp;", " ", or1)
+## eliminate spaces at beginning of rows
+or1 <- gsub("^\\s+", "", or1)
+## Change multiple spaces to single spaces:
+or1 <- gsub("\\s+", " ", or1)
+or1 <- paste(or1, collapse = "")
+```
+
+```{r,results="asis"}
+cat(or1)
+```
+
+9. General purpose HTML output from the pander package
+
+The package `pander` offers flexability and functionality. It can
+display an R table, the coefficient object generated by a regression
+summary
+
+```{r, results="asis"}
+library(pander)    
+sum <- summary(m1)
+pander(sum$coefficients)
+```
+
+and it can also display a matrix created by the package `psyc`
+
+```{r, results="asis"}
+library(psych)
+pander(describe(dat))
+```
+	
+	
+# Dealing with missing features in HTML documents
+
+Some document elements that are available in PDF output are missing in
+Rmarkdown to HTML conversion.  The most serious missing pieces are
+numbered and labeled "floating" tables, figures, and equations. These
+losses seem nearly fatal for the HTML backend and are a strong reason
+why one should prefer PDF. 
+
+Nevertheless, for Web pages, some authors truly prefer HTML output
+(maybe because they like colored callouts and tabbed sections). As a
+result, we have some work arounds for these problems.
+
+## Equation Numbering
+
+In "display equation" mathematics, we want to insert numbered
+equations and then refer to them. Unfortunately, Rmarkdown to HTML
+does not support auto-numbering equations. However, one can number
+equations manually by adding```\tag{}``` to the end of equations. For 
+example,
+
+\[
++ - = \approx \ne \ge \lt \pm\tag{1} 
+\]
+
+\[
+\pi \approx 3.1415927\tag{2}
+\]
+
+\[
+a_i \ge 0~~~\forall i\tag{3}
+\]
+
+\[
+x \lt 15\tag{4}
+\]
+
+Unfortunately, when new equations are inserted, it will be necesssary
+to manually renumber these.  In addition, there is no HTML backend
+method to then refer to equation (3) without explicitly typing in the
+equation number.
+
+## Cross references
+
+HTML does offer its own form of cross referencing by hyperlink
+anchors, however. Suppose we want the reader to be able to click
+a link that goes to a figure that we have presented previously. 
+We go that that figure and insert HTML code along these lines: 
+
+```
+<a name="specialfig"></a>
+```
+
+When we want to write something like <a href="#specialfig">click here
+to see the special figure</a>", the HTML markup is
+
+```
+<a href="#specialfig">click here to see the special figure</a>
+```
+
+
+# Policies about writing in these documents. {.bs-callout .bs-callout-red}
+
+1. Use these callouts to attract attention.
+
+2. Blank rows separate paragraphs.
+
+3. The character width of rows should be 80 or less. I have no idea
+how anybody thinks they have a right to impose an infinitely long row,
+but it's bad. Edit the document with Emacs, run M-q to get
+re-positioned text. If your editor cannot do that, quit using it.
+
+4. Must make sure compiling using the kutils.css located in the stationery
+package. For example, `stationery::rmd2html("filename.Rmd")`
+
+
+[//]: (All guides must have this as the final stanza)
+
+# Session Info
+
+```{r sessionInfo, echo = FALSE}
+sessionInfo()
+```
+
+
+```{r warnings, echo = FALSE}
+if(!is.null(warnings())) {
+    print("Warnings:")
+    warnings()
+}
+```
+
+
+Available under
+[Created Commons license 3.0 <img src="http://crmda.dept.ku.edu/images/cc-3.0.png" alt="CC BY"
+style="width: 75px;height: 20px;"/>](http://creativecommons.org/licenses/by/3.0/)
+
+# References

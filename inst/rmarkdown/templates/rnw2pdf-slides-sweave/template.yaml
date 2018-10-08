@@ -1,0 +1,4 @@
+name: rnw2pdf slides 
+description: >
+  For slides in the CRMDA style, using Sweave
+create_dir: true

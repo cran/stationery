@@ -1,0 +1,111 @@
+---
+title: "A Title for Skeleton Template"
+subtitle: "A report using R markdown to PDF"
+author:
+- affiliation: CRMDA
+  email: first@ku.edu
+  name: First Author
+- affiliation: CRMDA
+  email: second@ku.edu
+  name: Second Author
+- affiliation: Institute
+  email: third@ku.edu
+  name: Third Author
+fontsize: 12pt
+output:
+  pdf_document:
+    citation_package: natbib
+    fig_caption: true
+    highlight: haddock
+    keep_tex: false
+    latex_engine: pdflatex
+    pandoc_args: --listings
+    template: "theme/report-template.tex"
+logo: theme/logo.pdf
+header-includes:
+- \usepackage{xcolor}
+addr:
+  l1: address row 1
+  l2: address row 2
+  l3: City State Zipcode
+  r1: 'Web: http://crmda.ku.edu'
+  r2: 'Email: author@ku.edu'
+  r3: 'Phone: 123-345-5678'
+---
+
+```{r setup, include=FALSE}
+##This Invisible Chunk is required in all CRMDA documents
+opts.orig <- options()
+par.orig <- par(no.readonly = TRUE)
+tmpdir <- paste0("tmpout")
+if (!dir.exists(tmpdir)) dir.create(tmpdir, recursive = TRUE)
+knitr::opts_chunk$set(echo=TRUE, comment=NA, fig.path=paste0(tmpdir, "/p-"))
+options(width = 70)
+```
+
+
+```{r themecopy, include = FALSE}
+library(stationery)
+## If theme directory does not have required images or TeX files
+## we need to retrieve them and put them in "theme" directory. 
+logos <- c("logo.pdf", "R.bib")
+getFiles(logos, pkg = "stationery")
+themefiles <- c("report-template.tex")
+getFiles(themefiles, pkg = "stationery")
+```
+
+\begin{abstract}
+\noindent 
+This is an abstract. Please include a terse, yet descriptive
+statement here of less than 200 words. It should avoid colloquialisms
+and polysyllabic profundities.
+\end{abstract}
+
+
+# Introduction {-}
+
+## Make minimal changes to the top part. {-}
+
+Fill in your name, title, email, tags.  
+
+# Your sections here {-}
+
+Please do use sections and subsections wish brief titles
+that are well crafted to guide the reader's eye.
+
+One equation to test
+
+\[
+\Sigma_{gt}=\Lambda_{gt}\Psi_{gt}\Lambda'_{gt}+\Theta_{gt}
+\]
+
+# `R` Code Chunks {-}
+
+In Reports, raw code chunks displaying input are not generally shown.
+Instead, generate valid \LaTeX output or graphic images and include
+them. 
+
+If a LaTeX table file has been created from another document,
+we do not recommend "cutting and pasting" into this document.
+Instead, use "\textbackslash{}input{filename}". 
+
+
+# Session Info {-}
+
+Session Information is usually not written into a report, but an output file is created by the following pieces.
+
+```{r session, include=FALSE}
+zz <- gsub("Rmd", "Rout", knitr::current_input())
+capture.output(sessionInfo(), file = zz, append = FALSE)
+if (!is.null(warnings())){
+    capture.output(warnings(), file = zz, append = TRUE)
+}
+```
+
+```{r session20, include=FALSE}
+## Don't delete this. It puts the interactive session options
+## back the way they were. If this is compiled within a session
+## it is vital to do this.
+options(opts.orig)
+par(par.orig)
+```

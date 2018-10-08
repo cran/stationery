@@ -1,0 +1,4 @@
+name: rnw2pdf guide knitr
+description: >
+  For rnw2pdf-guide-knit documents in the CRMDA style
+create_dir: true

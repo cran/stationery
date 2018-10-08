@@ -1,0 +1,737 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass extarticle
+\begin_preamble
+% Don't remove next commented line, its needed to fool Sweave
+%\usepackage{Sweave}
+
+\usepackage[includehead,includefoot,
+lmargin=1in,
+rmargin=1in,
+tmargin=0.75in,
+bmargin=1.0in,
+headheight=0pt,
+headsep=0pt,
+marginparwidth=0pt,
+footskip=1.5\baselineskip,
+]{geometry}
+
+\usepackage{dcolumn}
+\usepackage{booktabs}
+
+
+\input{theme/reportPreambleHeader.tex}
+\input{theme/preambleFooter.tex}
+\input{theme/reportPreambleSweavel.tex}
+\end_preamble
+\use_default_options false
+\begin_modules
+logicalmkup
+sweave
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding utf8
+\fontencoding global
+\font_roman "lmodern" "default"
+\font_sans "lmss" "default"
+\font_typewriter "lmtt" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 11
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize letterpaper
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 0
+\use_package esint 1
+\use_package mathdots 0
+\use_package mathtools 0
+\use_package mhchem 0
+\use_package stackrel 0
+\use_package stmaryrd 0
+\use_package undertilde 0
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date true
+\justification true
+\use_refstyle 0
+\branch R
+\selected 0
+\filename_suffix 0
+\color #faf0e6
+\end_branch
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1in
+\topmargin 1in
+\rightmargin 1in
+\bottommargin 1in
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%% Fill in values of the arguments here, 
+\end_layout
+
+\begin_layout Plain Layout
+
+%% If blanks are needed, must insert value " ~ "
+\end_layout
+
+\begin_layout Plain Layout
+
+%% If comma needed inside value, wrap in {}.
+\end_layout
+
+\begin_layout Plain Layout
+
+%% Delete secondauthor and thirdauthor if not needed
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+reportsetup{%
+\end_layout
+
+\begin_layout Plain Layout
+
+  author={
+\end_layout
+
+\begin_layout Plain Layout
+
+    lastname=Author,
+\end_layout
+
+\begin_layout Plain Layout
+
+    firstname=First, 
+\end_layout
+
+\begin_layout Plain Layout
+
+    affiliation=CRMDA,
+\end_layout
+
+\begin_layout Plain Layout
+
+    email=first@ku.edu},
+\end_layout
+
+\begin_layout Plain Layout
+
+ author={
+\end_layout
+
+\begin_layout Plain Layout
+
+    lastname=Author, 
+\end_layout
+
+\begin_layout Plain Layout
+
+    firstname=Second, 
+\end_layout
+
+\begin_layout Plain Layout
+
+    affiliation=CRMDA, 
+\end_layout
+
+\begin_layout Plain Layout
+
+    email=second@ku.edu},
+\end_layout
+
+\begin_layout Plain Layout
+
+  author={
+\end_layout
+
+\begin_layout Plain Layout
+
+    lastname=Author, 
+\end_layout
+
+\begin_layout Plain Layout
+
+    firstname=Third, 
+\end_layout
+
+\begin_layout Plain Layout
+
+    affiliation=Some other Institute, 
+\end_layout
+
+\begin_layout Plain Layout
+
+    email=third@ku.edu}, 
+\end_layout
+
+\begin_layout Plain Layout
+
+  title={A Title for Skeleton Template: rnw2pdf-report-sweave},
+\end_layout
+
+\begin_layout Plain Layout
+
+  rightlogo={theme/logo.pdf},
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+reporthdr
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% tmpout directory must exist first
+\end_layout
+
+\begin_layout Plain Layout
+
+<<tmpout, echo=FALSE, include=FALSE, results=hide>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+tdir <- "tmpout"
+\end_layout
+
+\begin_layout Plain Layout
+
+if(!dir.exists(tdir)) dir.create(tdir, showWarnings=FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\begin_layout Plain Layout
+
+% Please leave this code: In document Latex options:
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+fvset{listparameters={
+\backslash
+setlength{
+\backslash
+topsep}{0em}}}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+SweaveOpts{prefix.string=tmpout/t, split=TRUE, ae=FALSE, height=5, width=6}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% Please leave this chunk
+\end_layout
+
+\begin_layout Plain Layout
+
+<<Roptions, echo=F, include=F, results=hide>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+opts.orig <- options()
+\end_layout
+
+\begin_layout Plain Layout
+
+options(device = pdf)
+\end_layout
+
+\begin_layout Plain Layout
+
+options(width=160, prompt=" ", continue="  ")
+\end_layout
+
+\begin_layout Plain Layout
+
+options(useFancyQuotes = FALSE) 
+\end_layout
+
+\begin_layout Plain Layout
+
+set.seed(12345)
+\end_layout
+
+\begin_layout Plain Layout
+
+par.orig <- par(no.readonly=TRUE) 
+\end_layout
+
+\begin_layout Plain Layout
+
+pjmar <- c(5.1, 5.1, 1.5, 2.1) 
+\end_layout
+
+\begin_layout Plain Layout
+
+options(SweaveHooks=list(fig=function() par(mar=pjmar, ps=10)))
+\end_layout
+
+\begin_layout Plain Layout
+
+pdf.options(onefile=FALSE, family="Times", pointsize=10)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<texcopy, include=FALSE,echo=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+library(stationery)
+\end_layout
+
+\begin_layout Plain Layout
+
+## If theme directory does not have required logos, retrieve them.
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+logos <- c(logoright = "logo.pdf", address = "addressFooter.tex")
+\end_layout
+
+\begin_layout Plain Layout
+
+getFiles(logos, pkg = "stationery")
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Abstract
+\noindent
+This is an abstract.
+ Please include a terse, yet descriptive statement here of less than 200
+ words.
+ It should avoid colloquialisms and polysyllabic profundities.
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+How to write reports with R 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "RCore"
+
+\end_inset
+
+ using the 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+Sweave
+\end_layout
+
+\end_inset
+
+ code chunk engine.
+\end_layout
+
+\begin_layout Standard
+Please see the guide documents which are distributed with the stationery
+ package.
+ The guide 
+\begin_inset Quotes eld
+\end_inset
+
+code chunks
+\begin_inset Quotes erd
+\end_inset
+
+ provides an overview of Sweave and knitr.
+\end_layout
+
+\begin_layout Section*
+Section with no number
+\end_layout
+
+\begin_layout Standard
+Whether a section or subsection is numbered in LaTeX output is determined
+ by environment used.
+ The markup 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+
+\backslash
+section{}
+\end_layout
+
+\end_inset
+
+ asks for a numbered section, while the insertion of an asterix 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+
+\backslash
+section*{}
+\end_layout
+
+\end_inset
+
+ prevents numbering.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Make minimal changes to the top part
+\end_layout
+
+\begin_layout Standard
+Make small changes, test whether the document compiles.
+\end_layout
+
+\begin_layout Standard
+Start by putting your title & name in the top block.
+\end_layout
+
+\begin_layout Subsection*
+LyX warning
+\end_layout
+
+\begin_layout Standard
+Reminder: Don't change document margins with LyX menus.
+ You need to edit the preamble for that.
+\end_layout
+
+\begin_layout Section
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+R
+\end_layout
+
+\end_inset
+
+ Code Chunks
+\end_layout
+
+\begin_layout Standard
+Code chunks begin with 
+\begin_inset Quotes eld
+\end_inset
+
+<<>>=
+\begin_inset Quotes erd
+\end_inset
+
+ and end with a last line 
+\begin_inset Quotes eld
+\end_inset
+
+@
+\begin_inset Quotes erd
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+When inserting code chunks in LyX, I type them in LaTeX code boxes, because
+ that keeps them visually separate.
+ The LyX team has created a code chunk environment (see the pull down menu)
+ but I have not benefitted from it.
+\end_layout
+
+\begin_layout Standard
+Our report documents ALMOST NEVER show 
+\begin_inset Quotes eld
+\end_inset
+
+raw
+\begin_inset Quotes erd
+\end_inset
+
+ R code to readers.
+ Write chunks that generate results, figures or legal LaTeX output, but
+ do not display them.
+ Then results are included with LaTeX macros like 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+
+\backslash
+include
+\end_layout
+
+\end_inset
+
+ or 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+
+\backslash
+includegraphics
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+This document uses the Sweave parameter split=TRUE to separate the code
+ chunks in files saved in tmpout.
+ There is discussion of splitting in the 
+\begin_inset Quotes eld
+\end_inset
+
+code chunks
+\begin_inset Quotes erd
+\end_inset
+
+ vignette distributed with this package.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "theme/R"
+options "apalike2"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+\begin_inset Note Note
+status open
+
+\begin_layout Subsection*
+Session Info
+\end_layout
+
+\begin_layout Plain Layout
+Session Information is usually not written into a report, but an output
+ file is created by the following pieces.
+ Please leave the next 2 chunks
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<sessioninfo, include=F>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+zz <- "skeleton.Rout"
+\end_layout
+
+\begin_layout Plain Layout
+
+capture.output(sessionInfo(), file = zz, append = FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+if (!is.null(warnings())){
+\end_layout
+
+\begin_layout Plain Layout
+
+    capture.output(warnings(), file = zz, append =  TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<RoptionsRestore, echo=F, include=F>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+## Don't delete this.
+ It puts the interactive session options
+\end_layout
+
+\begin_layout Plain Layout
+
+## back the way they were.
+ If this is compiled within a session
+\end_layout
+
+\begin_layout Plain Layout
+
+## it is vital to do this.
+\end_layout
+
+\begin_layout Plain Layout
+
+options(opts.orig)
+\end_layout
+
+\begin_layout Plain Layout
+
+par(par.orig)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

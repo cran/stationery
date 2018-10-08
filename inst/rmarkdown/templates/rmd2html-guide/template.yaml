@@ -1,0 +1,4 @@
+name: rmd2html guide
+description: >
+  For guide documents in the CRMDA style
+create_dir: true

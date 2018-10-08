@@ -1,0 +1,459 @@
+%% LyX 2.2.3 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[11pt,letterpaper,american,english]{scrartcl}
+\usepackage{lmodern}
+\renewcommand{\sfdefault}{lmss}
+\renewcommand{\ttdefault}{lmtt}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage[active]{srcltx}
+\usepackage{babel}
+\usepackage{url}
+\usepackage[unicode=true,pdfusetitle,
+ bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
+ breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=false]
+ {hyperref}
+\usepackage{breakurl}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+\special{papersize=\the\paperwidth,\the\paperheight}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+\providecommand*{\code}[1]{\texttt{#1}}
+
+\@ifundefined{date}{}{\date{}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+% \VignetteIndexEntry{Instructions for rnw2pdf reports with knitted chunks}
+% \VignetteEngine{knitr}
+% \VignetteBuilder{stationery::rnw2pdf}
+% \VignetteEncoding{UTF-8}
+
+
+\usepackage[includehead,includefoot,
+margin=1in,
+rmargin=1in,
+tmargin=0.75in,
+bmargin=1.0in,
+headheight=0pt,
+headsep=0pt,
+marginparwidth=0pt,
+footskip=1.5\baselineskip,
+]{geometry}
+
+% \usepackage[yyyymmdd,hhmmss]{datetime}
+
+\usepackage{dcolumn}
+\usepackage{booktabs}
+
+%% PJ 20161110
+%% I want to use listings in the document and I want nice/same as knitr.
+%% Does knitr provide all of these settings for other listing uses outside
+%% weaved part?
+
+
+\input{theme/reportPreambleHeader.tex}
+\input{theme/preambleFooter.tex}
+%% Load Hyperref, don't let LyX do this
+\input{theme/reportPreambleKnitr.tex}
+
+\makeatother
+
+\usepackage{listings}
+\addto\captionsamerican{\renewcommand{\lstlistingname}{\inputencoding{latin9}Listing}}
+\addto\captionsenglish{\renewcommand{\lstlistingname}{\inputencoding{latin9}Listing}}
+\renewcommand{\lstlistingname}{\inputencoding{latin9}Listing}
+
+\begin{document}
+%% Fill in values of the arguments here, 
+%% If blanks are needed, must insert value " ~ "
+%% If comma needed inside value, wrap in {}.
+%% Delete secondauthor and thirdauthor if not needed
+\reportsetup{%
+  author={
+    lastname=Johnson,
+    firstname=Paul~E., 
+    affiliation=Director{,}~CRMDA,
+    email=first@ku.edu},
+ author={
+    lastname=Sullivan, 
+    firstname=Meghan, 
+    affiliation=CRMDA, 
+    email=second@ku.edu},
+  title={Instructions for rnw2pdf reports with knitted chunks},
+  rightlogo={theme/logo.pdf},
+}
+\reporthdr
+
+<<Roptions, echo=FALSE>>=
+opts.orig <- options()
+options(device = pdf)
+options(width=60, prompt=" ", continue="  ")
+options(useFancyQuotes = FALSE) 
+set.seed(12345)
+pdf.options(onefile=FALSE, family="Times", pointsize=10)
+if(!dir.exists("tmpout"))dir.create("tmpout", recursive = TRUE)
+@
+
+<<knitr10, include=FALSE, echo=FALSE>>=
+library(knitr)
+opts_chunk$set(fig.path='tmpout/t-', split=FALSE, ae=FALSE, comment=NA,
+               fig.height=5, fig.width=6)
+@
+
+\selectlanguage{american}%
+<<texcopy, include=FALSE>>=
+library(stationery)
+## If theme directory does not have required images or TeX files
+## we need to retrieve them and put them in "theme" directory. 
+logos <- c(logoright = "logo.pdf", "addressFooter.tex")
+getFiles(logos, pkg = "stationery")
+@
+\selectlanguage{english}%
+\begin{abstract}
+\noindent This shows how we use R \cite{RCore} to make report documents
+using the CRMDA style. This is a LaTeX ``noweb'' report generated
+with the knitr engine.
+
+\tableofcontents{}
+\end{abstract}
+
+\section{Introduction}
+
+Create a skeleton document by opening R and running
+
+\inputencoding{latin9}\begin{lstlisting}
+library(stationery)
+initWriteup("rnw2pdf-report-knit")
+\end{lstlisting}
+\inputencoding{utf8}
+That will create a folder ``writeup/rnw2pdf-report-knit'' (unless
+you request otherwise by setting the dir argument). 
+
+We suggest you
+\begin{enumerate}
+\item Compile the skeleton document \emph{as is }to test your setup
+\item Make revisions incrementally, and re-compile often to make sure nothing
+has been broken.
+\end{enumerate}
+Don't make changes that you don't understand in the code chunks above
+or the last chunks below.
+
+\section{LyX: Cautions}
+
+The document preamble has manual settings for margins (geometry) as
+well as hyperlinks (PDF hyperref). Don't use the LyX pull down menu
+to revise them. Edit preamble or config files for that. Repeat \textbf{CAUTION}:
+Don't change the page margins or settings for hyperlinks with pull
+down menus.
+
+\section{What to edit}
+
+\subsection*{Title and author information}
+
+The first block in the document has the title and author information.
+
+\subsection*{Footer information}
+
+The footer in this document uses data that is provided in a file named
+``addressFooter.tex''. After the document is compiled for the first
+time, that document should be available in the theme folder.
+
+\subsection*{About the theme folder}
+
+The theme folder should be empty when the initProject() function is
+run. 
+
+There is an R code chunk above called ``texcopy''. It will copy
+configuration files from the package into the theme folder. After
+running this for the first time, those files will not be automatically
+replaced by the scripts. 
+
+That means authors are free to edit them to fit their needs.
+
+If the author makes an error in editing a theme file, it is safe to
+delete the erroneous file and run the compile script again. That will
+copy a fresh version of the theme file into the directory.
+
+\section{Check our documentation}
+
+There are several vignettes distributed with this package. Please
+review them.
+\begin{enumerate}
+\item ``crmda'': the package framework overview
+\item ``code\_chunks'': discusses display of code in LaTeX documents
+\item ``instructions-rnw2pdf-report-knit''
+\end{enumerate}
+
+\section{Compile as usual, or with rnw2pdf}
+
+The skeleton file is provided in 2 formats, LyX and Rnw. 
+
+In either case, please understand that compiling is a two step process.
+\begin{enumerate}
+\item knitting: Run R to do the calculations in the R code chunks and write
+out a LaTeX file
+\item compiling: Run a LaTeX program, such as pdflatex or xelatex to convert
+the LaTeX file to pdf. It is usually necessary to run the compiler
+two or more times, along with a separate bibliography program. If
+it is available, we suggest an aggregator named texi2pdf, which will
+handle this effort.
+\end{enumerate}
+
+\subsection*{Edit the LyX file.}
+
+There are 4 methods, we hope one will suit your workflow.
+\begin{enumerate}
+\item Use the LyX editor. The file can be compiled to PDF in LyX, just like
+any other LyX file. LyX handles conversion from LyX to Rnw to tex
+to PDF. This has the same effect as using LyX from the command line.
+The following will create the PDF file using pdflatex as the final
+comiler:
+
+\inputencoding{latin9}\begin{lstlisting}
+$ lyx -e pdf2 skeleton.lyx
+\end{lstlisting}
+\inputencoding{utf8}
+Because lyx uses a separate working directory for the compilation
+work, the project directory stays clean. None of the intermediate
+LaTeX files ({*}.log, {*}.log, {*}.bbl) will appear.
+\item Open an R session and make sure the working directory is the same
+as the project writeup.
+
+\inputencoding{latin9}\begin{lstlisting}
+rnw2pdf("skeleton.lyx")
+\end{lstlisting}
+\inputencoding{utf8}\item The shell script \code{rnw2pdf.sh} is provided in the same folder.
+It can be run in the shell as
+
+\inputencoding{latin9}\begin{lstlisting}
+$ ./rnw2pdf.sh skeleton.lyx
+\end{lstlisting}
+\inputencoding{utf8}
+In the discussion in the next sub section, we outline usage of additional
+arguments with rnw2pdf for the compilation of Rnw files. All of those
+arguments are equally applicable in this context.
+\item In case you want to track the steps of compiling one by one, open
+the file in LyX. Use the pull down menu \code{File} $\rightarrow$
+\code{Export} $\rightarrow$ \code{Rnw (knitr)}. That will create
+a file named ``skeleton.Rnw''. This is the equivalent of the command
+line statement
+
+\inputencoding{latin9}\begin{lstlisting}
+$ lyx -e knitr skeleton.lyx
+\end{lstlisting}
+\inputencoding{utf8}
+After that Rnw file is created, proceed as described in the next subsection.
+
+This two-step process is valuable for debugging. It makes it easier
+to spot trouble by focusing on the separate transitions.
+\end{enumerate}
+
+\subsection*{Edit the Rnw file}
+
+The Rnw file we provide is produced by LyX, it is an intermediate
+step in the document production sequence. A two step compilation procedure
+is necessary. First, one must convert the ``Rnw'' file to ``pdf''
+(with knit), and then the knitted tex file is compiled into pdf by
+pdflatex (or one of the other LaTeX compilers). 
+
+The work flow here will vary, depending on your experience and the
+editor you choose to use. Here are some possibilities:
+\begin{enumerate}
+\item You may have a ``noweb'' aware editor. Emacs, Rstudio, and others
+have menus that can initiate the work of knitting and rendering the
+document.
+\item Open an R session and make sure the working directory is the same
+as the project writeup.
+
+\inputencoding{latin9}\begin{lstlisting}
+rnw2pdf("skeleton.Rnw")
+\end{lstlisting}
+\inputencoding{utf8}
+Additional arguments can be used, mainly to control the verbosity
+of the output and the creation of subsidiary files. Our function,
+by default, will create and R file summary of the command chunks.
+This file is referred to as a ``purled'' or ``tangled'' file. 
+\item The shell script \code{rnw2pdf.sh} is provided in the same folder.
+It can be run in the shell as
+
+\inputencoding{latin9}\begin{lstlisting}
+$ ./rnw2pdf.sh skeleton.Rnw
+\end{lstlisting}
+\inputencoding{utf8}
+The command script answers to all of the arguments followed by the
+R function \code{rnw2pdf}. The usage is nearly identical. Where the
+R function call would be 
+
+\inputencoding{latin9}\begin{lstlisting}
+rnw2pdf("skeleton.Rnw", purl = FALSE, clean = FALSE, verbose = TRUE, keep_tex = TRUE)
+\end{lstlisting}
+\inputencoding{utf8}
+the shell command would be
+
+\inputencoding{latin9}\begin{lstlisting}
+$ ./rnw2pdf --purl=FALSE --clean=FALSE --keep_tex=TRUE --verbose=TRUE skeleton.Rnw
+\end{lstlisting}
+\inputencoding{utf8}
+The only difference in usage arises when a quoted string must be passed
+through. Suppose the files are in a subdirectory named ``project''.
+Inside the R code, the quoted string to specify the directory where
+the file resides (the working directory) would be like so:
+
+\inputencoding{latin9}\begin{lstlisting}
+rnw2pdf("skeleton.lyx", wd = "project")
+\end{lstlisting}
+\inputencoding{utf8}
+the shell command would be
+
+\inputencoding{latin9}\begin{lstlisting}
+$ ./rnw2pdf --wd='"project"' skeleton.Rnw
+\end{lstlisting}
+\inputencoding{utf8}
+Note the single quotes that are protecting the double quotes.
+\item Our shell script is not the only way to use command line tools to
+get this done. One can run shell commands such as:
+
+\inputencoding{latin9}\begin{lstlisting}
+$ R CMD knit skeleton.Rnw
+\end{lstlisting}
+\inputencoding{utf8}
+That will create \code{skeleton.tex}, which we compile with
+
+\inputencoding{latin9}\begin{lstlisting}
+$ texi2pdf skeleton.tex
+\end{lstlisting}
+\inputencoding{utf8}
+The major difference between running this and the script we provide
+is that our script will handle LyX files and it will, by default,
+will create a purled copy of the R code.
+\end{enumerate}
+
+\section{Code Chunk Check}
+
+\subsection*{Reports don't include raw code chunks}
+
+What is the difference between a guide and a report? Simply put, a
+report document does not reveal source code and it should not distract
+the reader with raw output. A report is supposed to be presentable
+to a non R user. 
+
+As a result, it is important to think about whether to embed the R
+code in the document at all. One might keep the R code in another
+file, and use it to generate graphs and tables that can be included
+into this report document. 
+
+As we have mentioned in the ``code\_chunks'' vignette, there are
+some differences in the way code chunks are used in Sweave and knitr.
+These differences are especially important in controlling whether,
+and where, the output of code chunks is presented in a document. Of
+all of the changes brought by the knitr code chunk engine, the proliferation
+of chunk options will be the most noticeable. The author of the knitr
+engine, Yihui Xie, maintains the canonical documentation on code chunk
+options on his website, \url{https://yihui.name/knitr/options}.
+
+\subsection*{When code is embedded in the report document}
+
+To prevent the code chunks from printing their input and raw output
+into the document, the code chunks will often employ flags like ``include=FALSE''
+and ``echo=FALSE''. The code will need to write the tables and figures
+into files, and they can be inserted when it suits the author to do
+so. 
+
+There are many R packages that generate LaTeX output which is presentable,
+close to the final desired result. In the development process, we
+will use these nearly-good-enough tables and then, when a final presentation
+demands find-grained adjustments, we do so manually on the table files.
+
+<<m1, include=F>>=
+dat <- data.frame(x = rnorm(100), y = rnorm(100))
+m1 <- lm(y ~ x, data = dat)
+@
+
+Some examples of nearly-good-enough tables are now presented. The
+regression result presented in Table \ref{tab:A-Regression-Table}
+may not be perfect by APA standards, but it is certainly good enough
+for intermediate versions. This is produced by the \code{outreg()}
+function in the rockchalk package. There are, of course, many other
+packages designed to generate the same sort of LaTeX markup.
+
+\begin{table}
+\caption{A Regression Table\label{tab:A-Regression-Table}}
+
+<<outreg1, echo=F, results='asis'>>=
+library(rockchalk)
+vl <- c("x" = "Excellent Predictor")
+or <- outreg(list("First Model" = m1), varLabels = vl, tight = FALSE)
+cat(or)
+@
+\end{table}
+
+In the kutils package, we made a function \code{semTable()} that
+presents structural equation models. The result in Table \ref{tab:A-Confirmatory-Factor}
+is an example. 
+
+<<include=F>>=
+library(kutils)
+require(lavaan)
+@
+
+<<cfa1, echo=F, include=F>>=
+HS.model <- 'visual  =~ x1 + x2 + x3
+textual =~ x4 + x5 + x6
+speed   =~ x7 + x8 + x9'
+output1 <- cfa(HS.model, data = HolzingerSwineford1939, std.lv = TRUE)
+@
+
+<<cfa3, echo=F, include=F, results='asis'>>=
+cfa1 <- semTable(output1, fits = "rmsea", paramSets = c("loadings", "latentvariances"), type = "latex")
+cat(cfa1, file="tmpout/t-cfa3.tex")
+@
+
+\begin{table}
+\caption{A Confirmatory Factor Analysis Table\label{tab:A-Confirmatory-Factor}}
+
+\input{tmpout/t-cfa3.tex}
+\end{table}
+
+In the perfect world, the tables that come from software would be
+perfectly presentable. This is the idea of the fully reproducible
+research document. At the current time, that is unrealistic. Authors
+need to leave a back door though which they can answer the very demanding
+requirements of journals and colleagues who insist on tables aligned
+``just so'' with labels that have particular styles. The software
+will more closely approach that ideal, of course. But, for now, we
+make due. 
+
+In R, literate documents (using either knitr or Sweave) can be created
+with the document option ``split'' set as TRUE. If this is done,
+then an output file is generated for each and every the individual
+code chunk. In the CRMDA, our custom is to save these in a directory
+called ``tmpout''. The split option is not allowed in documents
+prepared as R vignettes, but it is still possible to get the work
+done. R has functions, mainly \code{cat}, that can be used to save
+output tables.
+
+\section{Session Information}
+
+Leave the code chunks below. Session Information is usually not written
+into a report, but an output file is created by the following pieces.
+
+<<session, include=F>>=
+zz <- gsub("Rnw", "Rout", knitr::current_input())
+capture.output(sessionInfo(), file = zz, append = FALSE)
+if (!is.null(warnings())){
+    capture.output(warnings(), file = zz, append = TRUE)
+}
+@
+
+<<RoptionsRestore, echo=F, include=F>>=
+## Don't delete this. It puts the interactive session options
+## back the way they were. If this is compiled within a session
+## it is vital to do this.
+options(opts.orig)
+@
+\end{document}

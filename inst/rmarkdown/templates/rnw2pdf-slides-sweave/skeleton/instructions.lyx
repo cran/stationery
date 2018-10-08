@@ -1,0 +1,2522 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass beamer
+\begin_preamble
+% \VignetteIndexEntry{rnw2pdf-slides-sweave}
+% \VignetteEngine{Sweave}
+% \VignetteBuilder{stationery::rnw2pdf}
+
+\usepackage{dcolumn}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{graphicx}
+\newcommand\makebeamertitle{\frame{\maketitle}}%
+
+% use 'handout' to produce handouts
+%\documentclass[handout]{beamer}
+\usepackage{wasysym}
+\usepackage{pgfpages}
+
+%PJ 20180213: where did following come from, why?
+\newcommand{\vn}[1]{\mbox{{\it #1}}}
+\newcommand{\vb}{\vspace{\baselineskip}}
+\newcommand{\vh}{\vspace{.5\baselineskip}}
+\newcommand{\vf}{\vspace{\fill}}
+\newcommand{\splus}{\textsf{S-PLUS}}
+\newcommand{\R}{\textsf{R}}
+%PJ 20180213
+
+
+
+%%paste in guidePreambleSweavel.tex
+%%% From beamer slide:
+\usepackage{Sweave}
+%% 
+%% This controls display of code chunks
+\usepackage{ae,fancyvrb,relsize,listings}
+
+\providecommand{\Sweavesize}{\normalsize}
+\providecommand{\Rsize}{}
+\renewcommand{\Rsize}{\normalsize}
+\providecommand{\Routsize}{\scriptsize}
+
+\providecommand{\Rcolor}{\color[rgb]{0.1, 0.1, 0.1}}
+\providecommand{\Routcolor}{\color[rgb]{0.2, 0.2, 0.2}}
+\providecommand{\Rcommentcolor}{\color[rgb]{0.101, 0.43, 0.432}}
+
+\providecommand{\Rbackground}{\color[gray]{0.91}}
+\providecommand{\Routbackground}{\color[gray]{0.935}}
+% Can specify \color[gray]{1} for white background or just \color{white}
+
+\lstdefinestyle{Rinput}{
+  language=R,
+  escapechar=`,
+  fancyvrb=false,%
+  tabsize=2,%
+  breaklines=true,
+  breakatwhitespace=true,%
+  captionpos=b,%
+  frame=single,%
+  framerule=0.2pt,%
+  framesep=1pt,%
+  showstringspaces=false,%
+  basicstyle=\Rsize\Rcolor\ttfamily,%
+  columns=fixed%,
+  \lst@ifdisplaystyle\scriptsize\fi,%,
+  commentstyle=\Rcommentcolor\ttfamily,%
+  identifierstyle=,%
+  keywords=\bfseries,%
+  keywordstyle=\color[rgb]{0, 0.5, 0.5},
+  escapeinside={(*}{*)},
+  literate={~}{{$\sim$}}1{==}{{=\,=}}2{--}{{-\,-}}2,
+  alsoother={$},
+  alsoletter={.<-},%
+  otherkeywords={!,!=,~,$$,*,\&,\%/\%,\%*\%,\%\%,<-,<<-,/},%
+  backgroundcolor=\Rbackground,%
+  numbers=left,%
+  %numberblanklines=false,%
+  stepnumber=5,
+  firstnumber=1,
+  numberstyle={\tiny}
+}%
+
+% Other options of interest:
+% frame=single,framerule=0.1pt,framesep=1pt,rulecolor=\color{blue},
+% numbers=left,numberstyle=\tiny,stepnumber=1,numbersep=7pt,
+% keywordstyle={\bf\Rcolor}
+
+\lstdefinestyle{Routput}{fancyvrb=false,
+  literate={~}{{$\sim$}}1{R^2}{{$R^{2}$}}2{^}{{$^{\scriptstyle\wedge}$}}1{R-squared}{{$R^{2}$}}2,%
+  basicstyle=\Routcolor\Routsize\ttfamily,%
+  backgroundcolor=\Routbackground,
+  language=R,
+  escapechar=`,
+  fancyvrb=false,%
+  tabsize=2,%
+  breaklines=true,
+  breakatwhitespace=true,%
+  captionpos=b,%
+  frame=single,%
+  framerule=0.2pt,%
+  framesep=1pt,%
+  showstringspaces=false,%
+  columns=fixed%,
+  \lst@ifdisplaystyle\scriptsize\fi,%
+  identifierstyle=,%
+  keywords=\bfseries,%
+  keywordstyle=\color[rgb]{0, 0.5, 0.5},
+  escapeinside={(*}{*)},
+  literate={~}{{$\sim$}}1 {==}{{=\,=}}2,
+  alsoother={$},
+  alsoletter={.<-},%
+  otherkeywords={!,!=,~,$,*,\&,\%/\%,\%*\%,\%\%,<-,<<-,/},
+  numbers=left,
+  %numberblanklines=false,%
+  stepnumber=5,
+  firstnumber=1,
+  numberstyle={\tiny}
+}
+
+\renewenvironment{Schunk}{}{}
+\renewenvironment{Sinput}{}{}
+\let\Sinput\relax
+\let\Scode\relax
+\let\Soutput\relax
+\lstnewenvironment{Sinput}{\lstset{style=Rinput}}{}
+\lstnewenvironment{Scode}{\lstset{style=Rinput}}{}
+\lstnewenvironment{Soutput}{\lstset{style=Routput}}{}
+
+\lstset{tabsize=2, breaklines=true, style=Rinput, breakatwhitespace=true}
+
+\fvset{listparameters={\setlength{\topsep}{0em}}}
+
+\usepackage{xcolor}
+\definecolor{light-gray}{gray}{0.90}
+\usepackage{realboxes}
+\providecommand*{\code}[1]{\texttt{#1}}
+\renewcommand{\code}[1]{%
+\Colorbox{light-gray}{#1}%
+}%
+%%end paste in guidePreambleSweavel.tex
+
+
+%Some eager users of APA6 style want this
+\usepackage[natbibapa]{apacite}
+\renewcommand{\doiprefix}{doi:\kern-1pt}
+\setlength{\bibsep}{10pt}
+
+
+\definecolor{darkblue}{HTML}{1e2277}
+
+%would be in beamerthemekucrmda%
+\mode<presentation>
+\definecolor{kublue}{RGB}{0,81,186}
+\usefonttheme{professionalfonts}
+\useoutertheme{infolines}
+\useinnertheme{rounded}
+%disable rounded for alert and example boxes%
+\setbeamertemplate{blocks}[default]
+\usecolortheme{whale}
+\usecolortheme{orchid}
+%\setbeamercolor*{structure}{bg=kublue,fg=kublue!90!black}
+\setbeamercolor{structure}{fg=kublue}
+\setbeamercolor{frametitle}{bg=kublue}
+\setbeamercolor{upper separation line head}{fg=kublue}
+%text color in table of contents
+\setbeamercolor{section in toc}{fg=kublue!40!black}
+
+
+\setbeamertemplate{frametitle continuation}[from second]
+\renewcommand\insertcontinuationtext{...}
+\beamertemplatenavigationsymbolsempty
+%end of beamerthemekucrmda%
+
+%If you want bigger margins, try this:
+\setbeamersize{text margin left=05mm,text margin right=10mm} 
+
+%Following seems to have no effect now
+%\usepackage{handoutWithNotes}
+%\pgfpagesuselayout{3 on 1 with notes}[letterpaper, border shrink=5mm]
+
+\titlegraphic{\includegraphics[width=6cm]{theme/logo}}
+\end_preamble
+\options aspectratio=1609
+\use_default_options false
+\begin_modules
+logicalmkup
+sweave
+natbibapa
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding utf8
+\fontencoding global
+\font_roman "lmodern" "default"
+\font_sans "lmss" "default"
+\font_typewriter "lmtt" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 10
+\spacing single
+\use_hyperref false
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks true
+\pdf_pdfborder false
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style 
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\branch R
+\selected 1
+\filename_suffix 0
+\color #faf0e6
+\end_branch
+\branch semboot
+\selected 1
+\filename_suffix 0
+\color #d6fbd6
+\end_branch
+\branch cfalvm
+\selected 1
+\filename_suffix 0
+\color #d6fbd6
+\end_branch
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip smallskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset Branch R
+status open
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% In document Latex options:
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+fvset{listparameters={
+\backslash
+setlength{
+\backslash
+topsep}{0em}}}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+SweaveOpts{prefix.string=tmpout/t,split=FALSE,ae=F,height=4.5,width=7}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<Roptions, echo=FALSE, include=FALSE, results=hide>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+opts.orig <- options()
+\end_layout
+
+\begin_layout Plain Layout
+
+options(width=70, prompt = " ", continue = "  ")
+\end_layout
+
+\begin_layout Plain Layout
+
+options(useFancyQuotes = FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+set.seed(12345)
+\end_layout
+
+\begin_layout Plain Layout
+
+par.orig <- par(no.readonly=TRUE) 
+\end_layout
+
+\begin_layout Plain Layout
+
+pjmar <- c(4.1, 4.1, 1.5, 2.1)
+\end_layout
+
+\begin_layout Plain Layout
+
+par(mar=pjmar, ps=11)
+\end_layout
+
+\begin_layout Plain Layout
+
+options(SweaveHooks=list(fig=function() par(mar=pjmar, ps=12, xpd=F)))
+\end_layout
+
+\begin_layout Plain Layout
+
+pdf.options(onefile=F,family="Times",pointsize=12)
+\end_layout
+
+\begin_layout Plain Layout
+
+if(!file.exists("tmpout")) dir.create("tmpout", showWarnings=F)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<texcopy, include=FALSE, echo=FALSE, results=hide>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+library(stationery)
+\end_layout
+
+\begin_layout Plain Layout
+
+## If theme directory does not have required logos, retrieve them.
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+logos <- c(logo = "logo.pdf",
+\end_layout
+
+\begin_layout Plain Layout
+
+            logomini = "logomini.png")
+\end_layout
+
+\begin_layout Plain Layout
+
+getFiles(logos, pkg = "stationery")
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Title
+Instructions for rmd2pdf-slides-sweave
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+beamer
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Author
+Paul Johnson
+\begin_inset Flex InstituteMark
+status open
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Institute
+\begin_inset Flex InstituteMark
+status collapsed
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+
+Center for Research Methods and Data Analysis 
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+K.U.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Date
+2018
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+logo{
+\backslash
+includegraphics[width=5mm]{theme/logomini}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+The following causes the table of contents to be shown at the beginning
+ of every subsection.
+ Delete this, if you do not want it.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+AtBeginSection[]{
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+frame<beamer>{ 
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+frametitle{Outline}
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+tableofcontents[currentsection] 
+\end_layout
+
+\begin_layout Plain Layout
+
+  }
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{frame}[containsverbatim, allowframebreaks]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+frametitle{Outline}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{frame}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\vb}[1]{\bm{\mathrm{#1}}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Launch with stationery
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{frame}[allowframebreaks, containsverbatim]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+frametitle{Create a Skeleton}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Create a skeleton (template) document by opening R and running
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<eval=F>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+library(stationery)
+\end_layout
+
+\begin_layout Plain Layout
+
+initWriteup("rnw2pdf-slides-sweave")
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+That will create a folder 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+rnw2pdf-slides-sweave
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ (unless you request otherwise by setting the 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+dir
+\end_layout
+
+\end_inset
+
+ argument).
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{frame}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{frame}[allowframebreaks, containsverbatim]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+frametitle{Edit our skeleton}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Copy skeleton.lyx (or skeleton.Rnw, your choice) to a new file name, one which
+ you will edit.
+\end_layout
+
+\begin_layout Itemize
+Make small changes, try to compile.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{frame}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{frame}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+frametitle{About the theme folder}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Theme files are copied into the theme directory when this document is compiled
+ the first time.
+\end_layout
+
+\begin_layout Itemize
+After that, the author can revise those theme files to suit her taste.
+ 
+\end_layout
+
+\begin_layout Itemize
+The document will not erase those files and re-insert our defaults.
+\end_layout
+
+\begin_layout Itemize
+We DO expect everybody will supply their own 
+\begin_inset Quotes eld
+\end_inset
+
+logo.pdf
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+logomini.pdf
+\begin_inset Quotes erd
+\end_inset
+
+ files, for example.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{frame}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Our Design Plan
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{frame}[allowframebreaks, containsverbatim]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+frametitle{Elegant yet helpful; artistic yet austere; delicious yet light}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+The theme settings are in the preamble.
+ No external dependency on a theme file needed.
+\end_layout
+
+\begin_layout Itemize
+Once we saw how simple a Beamer theme is–just a designation theme types
+ for the outer edges and inner content–we knew what to do: 
+\series bold
+CUSTOMIZE!
+\end_layout
+
+\begin_layout Itemize
+Our preferred theme uses the 
+\emph on
+right
+\emph default
+ shades of blue along with:
+\end_layout
+
+\begin_deeper
+\begin_layout ExampleBlock
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+Key elements in our theme
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+useoutertheme{infolines}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+useinnertheme{rounded}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+setbeamertemplate{blocks}[default]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+The outer theme is a conservative use of screen real estate (narrow top
+ boxes)
+\end_layout
+
+\begin_layout Itemize
+The inner theme gives the jazzy 3-D bullets
+\end_layout
+
+\begin_layout Itemize
+We don't want the rounded alert boxes, however, so we have blocks set to
+ the default box style.
+\end_layout
+
+\begin_layout Itemize
+As the Beamer documentation makes clear, there are just a few of these outer
+ and inner themes that can be 
+\begin_inset Quotes eld
+\end_inset
+
+mixed-and-matched
+\begin_inset Quotes erd
+\end_inset
+
+ to suit the author's taste.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{frame}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{frame}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+frametitle{This is a default style we selected}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+This document is formatted to create 16:9 resolution slides.
+ 
+\end_layout
+
+\begin_layout Itemize
+To alter that, change document setting options.
+\end_layout
+
+\begin_layout Itemize
+Citations use natbib with apacite.
+ To check, we'll cite R (
+\begin_inset CommandInset citation
+LatexCommand citealp
+key "RCore"
+
+\end_inset
+
+) and the single most influential book in modern applied statistics 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "mccullagh_nelder_1989"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{frame}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{frame}[containsverbatim, allowframebreaks]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+frametitle{About frame options}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the frames used in these reports, the environment is initiated in one
+ of 3 ways:
+\end_layout
+
+\begin_layout Enumerate
+No options:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{frame}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Allow for long output to spill onto successive slides:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{frame}[allowframebreaks]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In case you want to force a break in a long slide, use LaTeX 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+code{
+\backslash
+framebreak}
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Allow for inclusion of R output or other LaTeX listings objects
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},tabsize=1"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{frame}[allowframebreaks, containsverbatim]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout AlertBlock
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+containsverbatim is necessary
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Any time your slide includes R output, any verbatim markup, or a listings
+ box, the compile will fail if you do not declare the frame with 
+\begin_inset Quotes eld
+\end_inset
+
+containsverbatim
+\begin_inset Quotes erd
+\end_inset
+
+.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout AlertBlock
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{frame}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{frame}[allowframebreaks]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+frametitle{"allowframebreaks" can be very convenient}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+While authors are developing content, and are not worried about the separation
+ of items among slides, the allowframebreaks option may be just what the
+ Doctor ordered.
+\end_layout
+
+\begin_layout Itemize
+The document will be automatically broken up into slides.
+ All of the slide titles will be the same, of course, but otherwise it is
+ a nice way to get some work done and not worry about the fine details.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{frame}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{frame}[allowframebreaks]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+frametitle{Slide with "allowframebreaks" can spill onto several slides}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Some filler that causes the spill onto another slide.
+ The equation numbers are requested for some, but not all of the equations.
+ The numbers become somewhat confusing when only some equations are numbered.
+\end_layout
+
+\begin_layout Standard
+Some authors will adjust the LyX keyboard so that all displayed equations
+ have numbers by default to avoid this problem.
+\end_layout
+
+\begin_layout Itemize
+Item one.
+ Please gaze in wonder at the equation
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+1\times1\label{eq:one}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+The second equation is not numbered
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+2\times1
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+But the author numbered the third equation, we are not sure why
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+3\times1\label{eq:three}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+The fourth equation is
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+4\times1
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+But equation five is numbered
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+5\times1\label{eq:five}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Equation six
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+6\times1\label{eq:six}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Equation seven
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+7\times1
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+One can ask lyx to automatically number displayed equations by changing
+ the shortcut key associated with C-S-m to have the same effect as the pull
+ down menu 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+Insert
+\end_layout
+
+\end_inset
+
+ -> 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+Math
+\end_layout
+
+\end_inset
+
+ -> 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+Numbered Formula
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{frame}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{frame}[allowframebreaks,containsverbatim]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+frametitle{Using "allowframebreaks" and "containsverbatim"}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+I usually use both "
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+allowframebreaks
+\end_layout
+
+\end_inset
+
+" and "
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+containsverbatim
+\end_layout
+
+\end_inset
+
+" on most slides.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+allowframebreaks
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ is now harmless.
+ If there is only enough content for one slide, the appearance of the one
+ slide is not affected (this was not always true).
+\end_layout
+
+\begin_layout Itemize
+However, 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+containsverbatim
+\end_layout
+
+\end_inset
+
+ is not harmless.
+ It will break use of Beamer overlay features, or one-at-a-time revelation
+ of enumerated lists.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{frame}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+R Code chunks
+\end_layout
+
+\begin_layout Subsection
+Displaying R code and output
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{frame}[containsverbatim]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+frametitle{Listings class is used to display code chunks}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+R code chunks are displayed with LaTeX listings, a highly customizable class
+ for code displays.
+ 
+\end_layout
+
+\begin_layout Itemize
+We use 2 types of listings:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Rinput
+\series default
+: for all listings boxes and for R code 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Routput
+\series default
+: output listings use smaller font
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Because slides are often 
+\begin_inset Quotes eld
+\end_inset
+
+guides
+\begin_inset Quotes erd
+\end_inset
+
+, the listings style is the same as a CRMDA guide document.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+framebreak
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+The author can adjust these by editing the preamble of this document.
+ At one time, we kept the settings in a separate file, but now they are
+ actually in the preamble.
+\end_layout
+
+\begin_layout Itemize
+Rather than changing document-wide settings, it is also possible to adjust
+ individual listings items.
+ In the previous slide, we adjusted the listings options for a smaller font
+ in the third item, or
+\end_layout
+
+\begin_layout Itemize
+I (often) fiddle the line-numbering settings in that tex file to suit my
+ taste.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{frame}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{frame}[containsverbatim]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+frametitle{line numbers on code chunks}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Sometimes it appears that there are line numbers with code chunks.
+\end_layout
+
+\begin_layout Itemize
+Sometimes they are invisible because they are outside the left margin
+\end_layout
+
+\begin_layout Itemize
+The margins are adjustable when this happens, see preamble for example.
+ Don't use LyX menus, use the preamble to edit.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{frame}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{frame}[containsverbatim]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+frametitle{Code chunks suggestions for authors}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Please name all chunks.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+This makes bug-shooting much easier
+\end_layout
+
+\begin_layout Itemize
+Here is a chunk named 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+dat10
+\end_layout
+
+\end_inset
+
+.
+ The default settings of the options 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+include
+\end_layout
+
+\end_inset
+
+ and 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+echo
+\end_layout
+
+\end_inset
+
+ are 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+TRUE
+\end_layout
+
+\end_inset
+
+, so we set them as FALSE for variety.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+ <<data10, include=FALSE, echo=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+ x <- rnorm(100)
+\end_layout
+
+\begin_layout Plain Layout
+
+ mean(x)
+\end_layout
+
+\begin_layout Plain Layout
+
+ @
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{frame}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{frame}[containsverbatim, allowframebreaks]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+frametitle{Styling of non-chunk code commentary}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+The listings environment requires us to use 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+containsverbatim
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ chunks.
+ 
+\end_layout
+
+\begin_layout Itemize
+In the preamble, there are several styles for listings objects.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+E.g., author who desires listing output in the style of our 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+Routput
+\end_layout
+
+\end_inset
+
+ can tell listings 
+\begin_inset Quotes eld
+\end_inset
+
+style=Routput
+\begin_inset Quotes erd
+\end_inset
+
+.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Inline comments will declared with the code environment will have a gray
+ box similar to the Rinput box for chunks.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{frame}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{frame}[containsverbatim, allowframebreaks]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+frametitle{Careful proof-reading is required}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Sometimes symbols are not correctly displayed!
+\end_layout
+
+\begin_layout Itemize
+Observe the difference in output:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+code object created with LyX 
+\begin_inset Quotes eld
+\end_inset
+
+logical markup
+\begin_inset Quotes erd
+\end_inset
+
+ module:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+lm(y ~ x, data = dat)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+R code chunk filtered through listings class
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<eval=F>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+lm(y ~ x, data = dat)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Raw LaTeX 
+\begin_inset Quotes eld
+\end_inset
+
+
+\backslash
+code
+\begin_inset Quotes erd
+\end_inset
+
+ environment
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\family typewriter
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+code{lm(y ~ x, data = dat)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+Different fonts in each case (bad).
+\end_layout
+
+\begin_layout Itemize
+The tilde symbol is displayed differently in the first two and not at all
+ in the final one.
+\end_layout
+
+\begin_layout Itemize
+1st example: LyX text code object notices 
+\begin_inset Quotes eld
+\end_inset
+
+~
+\begin_inset Quotes erd
+\end_inset
+
+ and inserts 
+\begin_inset Quotes eld
+\end_inset
+
+
+\backslash
+textasciitilde{}
+\begin_inset Quotes erd
+\end_inset
+
+ on our behalf.
+ 
+\end_layout
+
+\begin_layout Itemize
+The second example use of the listings class.
+ Our Rinput style as as symbol filter table.
+ It converts keyboard tilde to 
+\begin_inset Quotes eld
+\end_inset
+
+~
+\begin_inset Quotes erd
+\end_inset
+
+ to a math symbol, 
+\begin_inset Quotes eld
+\end_inset
+
+$
+\backslash
+sim$
+\begin_inset Quotes erd
+\end_inset
+
+, which implies 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+sim$
+\end_layout
+
+\end_inset
+
+, in the output.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{frame}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+More Frame Options
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{frame}[allowframebreaks,containsverbatim]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+frametitle{Both "allowframebreaks" and "containsverbatim" accomodate large
+ R output}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<reg10>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+example(lm)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{frame}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{frame}[allowframebreaks,containsverbatim]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+frametitle{2 Columns}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout ColumnsTopAligned
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+6cm
+\end_layout
+
+\begin_layout Itemize
+Total width of page is 12cm
+\end_layout
+
+\begin_layout Itemize
+Author can set each column at 6cm
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+A Block Can be Nested
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+This is inside the content area of the block
+\end_layout
+
+\end_deeper
+\begin_layout Block
+
+\end_layout
+
+\begin_layout Column
+6cm
+\end_layout
+
+\begin_layout Itemize
+In LyX, I find it tricky to use the GUI tool for slides (in general)
+\end_layout
+
+\begin_layout Itemize
+Columns often seem difficult, but I still use GUI because I don't want to
+ write out lots of code
+\end_layout
+
+\begin_layout Itemize
+But I do manually write Frames in LyX because I don't enjoy the GUI style
+ these days.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{frame}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{frame}[allowframebreaks]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+frametitle{References}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "theme/R"
+options "apalike2"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{frame}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{frame}[containsverbatim, allowframebreaks]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+frametitle{Session}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<sess10>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+sessionInfo()
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<RoptionsRestore, echo=F, include=F>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+## Don't delete this.
+ It puts the interactive session options
+\end_layout
+
+\begin_layout Plain Layout
+
+## back the way they were.
+ If this is compiled within a session
+\end_layout
+
+\begin_layout Plain Layout
+
+## it is vital to do this.
+\end_layout
+
+\begin_layout Plain Layout
+
+options(opts.orig)
+\end_layout
+
+\begin_layout Plain Layout
+
+par(par.orig)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{frame}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

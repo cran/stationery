@@ -1,0 +1,146 @@
+
+% $ This nullifies emacs subscripting in following%
+%%BEGIN: This begins the custom header
+\usepackage{array, tabularx}
+\usepackage{xparse}
+\usepackage{setspace}
+\usepackage{babel}
+\usepackage{datetime}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{colortbl}
+
+\definecolor{darkblue}{HTML}{1e2277}
+\definecolor{kublue81186}{RGB}{0,81,186}
+\newdateformat{monddyyy}{\shortmonthname[\THEMONTH].~\THEDAY,~\THEYEAR}
+
+
+%% BEGIN custom header
+\ExplSyntaxOn
+\NewDocumentCommand \reportsetup { m }
+ {
+  \keys_set:nn { report } { #1 }
+ }
+
+\int_new:N \g_report_authors_int
+\prop_new:N \g_report_authors_prop
+\tl_new:N \l__report_authors_tl
+
+\keys_define:nn { report }
+ {
+  author .code:n =
+   {
+    \int_gincr:N \g_report_authors_int
+    \keys_set:nn { report / author } { #1 }
+   },
+  author/firstname .code:n = { \report_add_author:nn { firstname } { #1 } },
+  author/lastname .code:n = { \report_add_author:nn { lastname } { #1 } },
+  author/affiliation .code:n = { \report_add_author:nn { affiliation } { #1 } },
+  author/email .code:n = { \report_add_author:nn { email } { #1 } },
+  leftlogo .tl_set:N = \l_report_leftlogo_tl,
+  rightlogo .tl_set:N = \l_report_rightlogo_tl,
+  number .tl_set:N = \l_report_number_tl,
+  title .tl_set:N = \l_report_title_tl,
+  keywords .tl_set:N = \l_report_keywords_tl,
+  url .tl_set:N = \l_report_url_tl,
+  title .initial:n = {TITLE~NEEDED},
+}
+\NewDocumentCommand \reporthdr { +O{} }
+ {
+  \group_begin:
+  \keys_set:nn { report } { #1 }
+  \report_hdr:
+  \group_end:
+ }
+
+
+\cs_new_protected:Nn \report_hdr:
+{
+  \noindent\begin{minipage}[t]{6.5in}%
+    \begin{center}
+      \setlength{\tabcolsep}{2pt}
+      \setlength{\arrayrulewidth}{0.6pt}
+      \begin{tabular}[t]{@{}>{\raggedright}p{4in}>{\centering}p{2.5in}@{}}
+        \arrayrulecolor{kublue81186}\hline 
+        \medskip{}
+        \textsc{\Large{}\l_report_title_tl}{\par}
+        \bigskip{}
+        \textcolor{kublue81186}{\rule[0.5ex]{3.25in}{0.6pt}}
+        & \medskip{}
+          \includegraphics[width=2.5in]{\l_report_rightlogo_tl}
+          \tabularnewline
+         \multicolumn{2}{>{\raggedright}p{6in}}{
+         \report_print_authors:
+          \par
+          \medskip
+        \begin{singlespace}
+          \raggedright{}{\monddyyy\today}
+        \end{singlespace}
+        }\tabularnewline
+        \hline 
+      \end{tabular}
+      \par
+    \end{center}
+    \medskip{}
+    % 
+  \end{minipage}
+}
+\cs_new_protected:Nn \report_add_author:nn
+ {
+  \prop_gput:Nxn \g_report_authors_prop
+   { #1 \int_to_arabic:n { \g_report_authors_int } }
+   { #2 }
+ }
+\cs_generate_variant:Nn \prop_gput:Nnn { Nx }
+\cs_new_protected:Nn \report_print_authors:
+ {
+  \tl_clear:N \l__report_authors_tl
+  \int_step_inline:nnnn { 1 } { 1 } { \g_report_authors_int }
+   {
+    \tl_put_right:Nn \l__report_authors_tl
+     {
+       \prop_item:Nn \g_report_authors_prop { firstname ##1 }~
+       \prop_item:Nn \g_report_authors_prop { lastname ##1 },~
+       \prop_item:Nn \g_report_authors_prop { affiliation##1 }~
+       \prop_item:Nn \g_report_authors_prop { <  email##1 > } \\
+     }
+   }
+   \tl_use:N \l__report_authors_tl
+ }
+\ExplSyntaxOff
+%%END This ends the custom header
+
+\definecolor{darkblue}{HTML}{1e2277}
+
+\hypersetup{
+  unicode=true, pdfusetitle, bookmarks=true,  bookmarksnumbered=false,%
+  bookmarksopen=false,  breaklinks=true, pdfborder={0 0 0},  pdfborderstyle={},%
+  backref=false,  colorlinks=true, linkcolor=darkblue,  urlcolor=darkblue,
+  citecolor=darkblue}
+
+
+%% Was previously in "preambleFloatCenter.tex"
+%%BEGIN: graphics and such inside floats are centered by default
+\renewenvironment{figure}[1][]{%
+ \ifthenelse{\equal{#1}{}}{%
+   \@float{figure}
+ }{%
+   \@float{figure}[#1]%
+ }%
+ \centering
+}{%
+ \end@float
+}
+\renewenvironment{table}[1][]{%
+ \ifthenelse{\equal{#1}{}}{%
+   \@float{table}
+ }{%
+   \@float{table}[#1]%
+ }%
+
+ \centering
+}{%
+ \end@float
+}
+%%END: graphics and such inside floats are centered by default
+

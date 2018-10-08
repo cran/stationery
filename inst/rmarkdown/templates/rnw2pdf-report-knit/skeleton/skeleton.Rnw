@@ -1,0 +1,149 @@
+%% LyX 2.2.3 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[11pt,letterpaper,english]{extarticle}
+\usepackage{lmodern}
+\renewcommand{\sfdefault}{lmss}
+\renewcommand{\ttdefault}{lmtt}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{babel}
+\usepackage[unicode=true,pdfusetitle,
+ bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
+ breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=false]
+ {hyperref}
+\usepackage{breakurl}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+\special{papersize=\the\paperwidth,\the\paperheight}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+\providecommand*{\code}[1]{\texttt{#1}}
+
+\@ifundefined{date}{}{\date{}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usepackage[includehead,includefoot,
+margin=1in,
+rmargin=1in,
+tmargin=0.75in,
+bmargin=1.0in,
+headheight=0pt,
+headsep=0pt,
+marginparwidth=0pt,
+footskip=1.5\baselineskip,
+]{geometry}
+
+
+\input{theme/reportPreambleHeader.tex}
+\input{theme/preambleFooter.tex}
+%% Load Hyperref, don't let LyX do this
+\input{theme/reportPreambleKnitr.tex}
+
+\makeatother
+
+\begin{document}
+%% Fill in values of the arguments here, 
+%% If blanks are needed, must insert value " ~ "
+%% If comma needed inside value, wrap in {}.
+%% Delete secondauthor and thirdauthor if not needed
+\reportsetup{%
+  author={
+    lastname=Author,
+    firstname=First, 
+    affiliation=Where~Are~U,
+    email=first@where.edu},
+  author={
+    lastname=Author, 
+    firstname=Second, 
+    affiliation=Where~Are~U~Too, 
+    email=second@where.edu},
+  author={
+    lastname=Author, 
+    firstname=Third, 
+    affiliation=Where~Are~U, 
+    email=third@where.edu}, 
+  title={A Title for Skeleton Template: rnw2pdf-report-knit},
+  rightlogo={theme/logo.pdf},
+}
+\reporthdr
+
+<<knitr10, include=FALSE, echo=FALSE>>=
+library(knitr)
+if(!dir.exists("tmpout"))dir.create("tmpout", recursive = TRUE)
+opts_chunk$set(fig.path='tmpout/t-', split=TRUE, ae=FALSE, comment=NA,
+               fig.height=5, fig.width=6)
+@
+
+<<texcopy, include=FALSE, echo=FALSE>>=
+library(stationery)
+## If theme directory does not have required logo files, retrieve them.
+logos <- c(logoright = "logo.pdf", 
+              address = "addressFooter.tex")
+getFiles(logos, pkg = "stationery")
+@
+
+<<Roptions, echo=FALSE, include=FALSE>>=
+opts.orig <- options()
+par.orig <- par(no.readonly=TRUE)
+options(device = pdf)
+options(width=70, prompt=" ", continue="  ")
+options(useFancyQuotes = FALSE) 
+set.seed(12345)
+pdf.options(onefile=FALSE, family="Times", pointsize=10)
+@
+\begin{abstract}
+\noindent This is an abstract. Please include a terse, yet descriptive
+statement here of less than 200 words. It should avoid colloquialisms
+and polysyllabic profundities.
+\end{abstract}
+
+\section{Introduction}
+
+Please see the guide document that is included in the same folder
+as this skeleton.
+
+\subsection*{Make minimal changes to the top part}
+
+Do put your title \& name in the top block.
+
+Don't change the 4 code chunks above or the last chunk below.
+
+Write your content in here.
+
+Don't change document margins with LyX menus. You need to edit the
+preamble for that.
+
+We have separate instructions for the crmda package in vignettes if
+you want more detailed information about what to do.
+
+\section{\protect\code{R} Code Chunks}
+
+Test a code chunk.
+
+<<>>=
+## Create 100 random standard normal observations
+x <- rnorm(100)
+head(x, 10)
+summary(x)
+@
+
+<<sessioninfo, include=F>>=
+zz <- paste0(knitr::current_input(), ".Rout")
+capture.output(sessionInfo(), file = zz, append = FALSE)
+if (!is.null(warnings())){
+    capture.output(warnings(), file = zz, append =  TRUE)
+}
+@
+
+<<RoptionsRestore, echo=FALSE, include=FALSE>>=
+## Don't delete this. It puts the interactive session options
+## back the way they were. If this is compiled within a session
+## it is vital to do this.
+options(opts.orig)
+par(par.orig)
+@
+\end{document}

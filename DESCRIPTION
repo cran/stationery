@@ -1,0 +1,35 @@
+Package: stationery
+Type: Package
+Title: Working Examples for Reproducible Research Documents
+Version: 0.98.5.5
+Date: 2018-09-12
+Authors@R: c(person("Paul", "Johnson", role = c("aut", "cre"), email = "pauljohn@ku.edu"),
+             person("Brent", "Kaplan", role = c("ctb"), email = "bkaplan4@ku.edu"),
+             person("Meghan", "Sullivan", role = c("ctb"), email = "meg.sullivan@ku.edu"),
+             person("Charles", "Redmon", role = "ctb", email = "redmon@ku.edu"),
+             person("Zack", "Roman", role = "ctb", email = "zroman@ku.edu"),
+			 person("Chong", "Xing", role = "ctb", email = "cxing@ku.edu"))
+Maintainer: Paul Johnson <pauljohn@ku.edu>
+Description: Templates, guides, and scripts for
+    writing documents in 'LaTeX' and 'R markdown' to produce
+    guides, slides, and reports. Special care is taken to
+    illustrate use of templates and customization opportunities.
+    Challenges and opportunities of 'HTML' output from 'R markdown'
+    receive special attention. Includes several vignettes
+    to assist new users of literate programming.
+License: CC BY-SA 4.0
+Imports: kutils, rmarkdown, knitr
+Suggests: rockchalk, xtable, lavaan, utils, psych, pander
+LazyData: TRUE
+RoxygenNote: 6.0.1
+VignetteBuilder: knitr, utils
+NeedsCompilation: no
+Packaged: 2018-09-12 21:32:08 UTC; pauljohn
+Author: Paul Johnson [aut, cre],
+  Brent Kaplan [ctb],
+  Meghan Sullivan [ctb],
+  Charles Redmon [ctb],
+  Zack Roman [ctb],
+  Chong Xing [ctb]
+Repository: CRAN
+Date/Publication: 2018-10-08 10:30:03 UTC

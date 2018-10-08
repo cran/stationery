@@ -1,0 +1,324 @@
+---
+title: "Instructions for Reports"
+subtitle: "Using the rmd2pdf-report framework"
+author:
+- name: Paul Johnson 
+  affiliation: CRMDA
+  description: Director
+  email: crmda@ku.edu
+- name:  Brent Kaplan 
+  affiliation: CRMDA
+  description: GRA
+  email: crmda@ku.edu
+addr:
+    l1: 1425 Jayhawk Blvd.
+    l2: Watson Library, Suite 470
+    l3: Lawrence, KS 66045-7594
+    r1: "Web: http://crmda.ku.edu"
+    r2: "Email: crmda@ku.edu" 
+    r3: "Phone: 785-864-3353"
+logo: theme/logo.pdf
+output: 
+  pdf_document:
+    keep_tex: false 
+    fig_caption: true
+    latex_engine: pdflatex
+    citation_package: natbib
+    template: "theme/report-template.tex"
+    pandoc_args: [
+      "--listings"
+    ]
+bibliography: "theme/R.bib"
+table: true
+fontsize: 12pt
+header-includes:
+- \usepackage{xcolor}
+---
+
+```{r setup, include=FALSE}
+##This Invisible Chunk is required in all CRMDA documents
+tmpdir <- paste0("tmpout")
+if (!dir.exists(tmpdir)) dir.create(tmpdir, recursive = TRUE)
+knitr::opts_chunk$set(echo=TRUE, comment=NA, fig.path=paste0(tmpdir, "/p-"))
+options(width = 70)
+```
+
+```{r themecopy, include = FALSE}
+library(stationery)
+## If theme directory does not have required images or TeX files
+## we need to retrieve them and put them in "theme" directory. 
+logos <- c("logo.pdf", "R.bib")
+themefiles <- c("report-template.tex")
+getFiles(logos, pkg = "stationery")
+getFiles(themefiles, pkg = "stationery")
+```
+
+# Introduction
+
+## Insert author information in the yaml header
+
+It is necessary for the author to edit the yaml header of this
+document to specify the title, author data, address and the name of a
+logo file.
+
+# We use a template file
+
+The look and feel of the document will be controlled by a template
+file. It is specified in the header as "theme/report-template.tex".
+ 
+In July 2018, we learned how to selectively override settings
+from the document's yaml header.  These alternative parameters
+can be specified either as command line arguments to `rmd2pdf.sh`
+or as parameters in the R function call `rmd2pdf`. 
+
+# Compile the document
+
+If the user starts an R session, she can run the `rmd2pdf` function
+with many optional arguments, as follows:
+
+    > rmd2pdf("skeleton.Rmd", toc=FALSE, template="theme/report-template.tex")
+
+From the command line, the same file can be compiled using notation
+that is nearly identical
+
+    $ ./rmd2pdf.sh --toc=FALSE --template='"theme/report-template.tex"' skeleton.Rmd
+	
+Note the single quotes protect the double quotes.
+
+The template can, of course, be edited for your purposes. The
+formatting for the header is tricky, but in most of the other parts,
+it is fairly obvious how this can be customized. An important thing to
+remember is that a template file treats dollar signs `$` as special
+symbols, so if one intends to insert a literal dollar sign in the
+template, one enters two dollar signs (`$$`).
+
+If this document is edited in **Rstudio**, the "knit" menu sometimes does
+not work correctly. We notice that Rstudio will sometimes alter the
+document yaml header in a harmful way, but this does not always
+happen.  If you open the Rnw file in Rstudio, click "Knit" and choos
+"knit to pdf", it is very likely to work. However, if you accidentally
+choose "knit to HTML", then Rstudio will alter the header and the
+document will not compile correctly any more.  It seems like a mistake
+to allow the editor to alter the content of the header.
+
+Users who do not want to bother with the command line arguments can
+edit the `rmd2pdf.sh` script and change the defaults for the
+parameters in the obvious way at the top of the file.
+
+The `rmd2pdf` function (and shell script) will also generate a 
+"purled" copy of the R code chunks. The term "purled" is equivalent
+to "tangled" in the Sweave chunk engine.  The user can specify
+either `purl=TRUE` or `tangle=TRUE`, the script will treat them
+as equivalent.
+
+
+# Formatting Input
+
+## Much \LaTeX\ Syntax is allowed
+
+This is not true only for math, but also other \LaTeX environments.
+
+This is explained in the `crmda` package vignette `Rmarkdown`. 
+Not all \LaTeX markup will work well, but most will. 
+
+CAUTION: Some \LaTeX will fail without warning or error
+messages. Careful proof reading of output is essential.  The markdown
+to PDF conversion does not warn us of unrecognized LaTeX code.  The
+result is not an error, but rather "empty white space" where the user
+expects \LaTeX output.
+
+## Equations
+
+Use `\[` and `\[` for display equations. Do not use the 
+double dollar signs:
+
+\[
+\Sigma_{gt}=\Lambda_{gt}\Psi_{gt}\Lambda'_{gt}+\Theta_{gt}
+\]
+
+To create a numbered equation, do this
+
+\begin{equation}
+\Sigma_{gt}=\Lambda_{gt}\Psi_{gt}\Lambda'_{gt}+\Theta_{gt}\label{eq:sigma}
+\end{equation}
+
+and cross-reference that as equation (\ref{eq:sigma}).
+
+## Document customization: essentials
+
+With the `stationery` package, we provide generic logos as
+placeholders.  Feel free to replace them with your own logos.
+Most of the example documents have a code chunk that copies
+the logo files from an R packages. That `themecopy`
+stanza can be removed after the document is compiled for the first
+time, it will not replace a user-edited file from the theme directory
+with a new copy.  We usually leave that chunk, so that we can 
+delete the theme folder and it will be replaced when the document
+is compiled.
+
+## Customizations requiring more \LaTeX packages
+
+In addition, if you insert \LaTeX features that require packages that
+are not currently in the template `report-template.tex`, then those
+packages can be inserted into the preamble by YAML header markup like
+so:
+
+```
+header-includes:
+-  \usepackage{xcolor}
+-  \usepackage{amsmath}
+-  \usepackage{amssymb}
+-  \usepackage{fancybox}
+```
+
+We have added many packages in the template already, and we have
+tested that, even when the template parameter is used, the
+header-includes values are taken into account by the compiling
+process.
+
+
+
+# `R` code chunks
+
+In our report style, the author will not generally insert visible code
+chunks, so almost always the chunk will have the flag `include=FALSE`
+or, if the chunk is included, the code will not be echoed, but perhaps
+a \LaTeX mark-up table or a figure may be placed into the document.
+
+The process for doing this depends on the document type. As explained
+in the `crmda` vignette `code_chunks`, the appearance of code
+chunks--whether they are revealed in the document at all--is
+controlled by many options.
+
+One approach might be to use one document to create graphs or tables,
+which are then to be saved in a folder (such as our tmpout folder,
+which is used in this document). This chunk code will create the
+output file "tmpout/p-hist-1.pdf"
+
+```{r hist, include=F, fig.cap = "One caption that is not used for anything because the image is not included in a float"}
+set.seed(234234)
+x <- rnorm(1000)
+hist(x, main = "A Histogram", xlab = "Random Normal Data, N = 1000")
+```
+
+\begin{lstlisting}
+`r ''````{r hist, include=F, caption = "One Histogram"}
+x <- rnorm(1000)
+hist(x, main = "Random Normal Data", xlab = "N(0,1) (1000 observations)")
+`r ''````
+\end{lstlisting}
+
+The graphic file, "tmpout/p-hist-1.pdf", is a picture, it does not
+have the code with it to make it "float" in the document. Observe
+that it is just "paste in" at the current location:
+
+\includegraphics[width=4in]{tmpout/p-hist-1}
+
+On the other hand, if we want a floating figure to be produced
+automatically, we can change the code slightly:
+
+```{r hist20, fig.cap="\\label{fig:hist20}One Histogram that Floats Automatically", fig.width=4}
+x <- rnorm(1000)
+hist(x, main = "", xlab = "Random Normal Data, N = 1000")
+```
+
+Note we forced a label into the caption itself with \LaTeX\ code.  We
+can use a cross reference to identify that. We'd write as in Figure
+\ref{fig:hist20}, we get a fabulous result. 
+
+It shouldn't be necessary to wedge a label in with the caption as we
+did, but the "automatic" ways is not working today. If it works
+for you, please tell me how.
+
+There are several R packages intended to create "ready to publish"
+\LaTeX tables. One of the oldest and most venerable of these is
+`xtable`, which we use here to create a simple table that displays
+as a cross tabulation table.
+
+When the \LaTeX output is going directly into the document, the
+chunk flag is "results='asis'" and the echo parameter should be FALSE.
+The default configuration for xtable is to create tables that are
+floating \LaTeX objects.
+
+```{r ex-1, results='asis', echo=FALSE}
+set.seed(1234)
+x <- rnorm(100, 0, 1)
+y <- rnorm(100, 0, 1)
+library(xtable)
+xt <- xtable(head(data.frame(x, y), 10),
+    caption = "Ten Lines from One Data Frame",
+    label="tab:onedf")
+print(xt, floating = TRUE, comment = FALSE,
+      include.rownames = FALSE, caption.placement = "top")
+```
+
+See the help pages for `xtable` and `print.xtable` to find out all of
+the possible arguments.  If one does intend to have the output go
+directly into the document, without any hand editing, it is almost
+certainly necessary to specify a large number of arguments.
+
+It may be more workable to write the \LaTeX file on disk and then
+double-check its contents before manual inclusion in the document. If
+a LaTeX table file has been created from another document, we do not
+recommend "cutting and pasting" into this document.  Instead, use
+"\textbackslash{}input{filename}".
+
+The following code chunk will save the same \LaTeX markup table
+in a file.
+
+```{r ex-2, include=FALSE}
+print(xt, file = "tmpout/p-ex-2.tex", floating = TRUE, comment = FALSE,
+      include.rownames = FALSE, caption.placement = "top")
+```
+
+
+# Bibliographical citations. {-}
+
+This document is produced with R [@RCore]. Here's a citation that
+excludes some author names [-@diggle_analysis_2013, p. 37]. Note that
+to get the full parenthesized statement with names and dates, we
+insert hard brackets `[`, an `@` sign, the bibtex tag, and a closer
+`]`. If we don't want their names, we insert a `-` sign. It is also
+possible to refer to a group of projects [@hsiao_analysis_2014;
+@fitzmaurice_applied_2011; @mccullagh_nelder_1983].
+
+Because this document is going to be compiled to a PDF back end via
+latex, it is also allowed to use LaTeX style natbib citations, which
+are considerably more flexible.  Concerning R
+\citep{venablesripley2000}, the result is the same for the basic
+citation.
+
+A citation that has three authors [@diggle_analysis_2013], using
+the markdown style, and a citation that has three authors, using
+the LaTeX natbib markup \citep{hastie_elements_2009}.
+
+One of the reasons why the APA citations are desirable, and also a
+pain, is that the APA has very picky requirements about how the
+citations appear in the document. Note the in-text parenthesized
+citations use the ampersand, where humans might use the word "and".
+On the other hand, if only the date is parenthesized, the
+"\textbackslash{}citet" results in \citet{hastie_elements_2009}.
+But if we want to write names, we can get that with
+"\textbackslash{}citeyearpar", as in Hastie, Tibshirani, and 
+Friedman \citeyearpar{hastie_elements_2009}.
+
+The bibliographic format is using the apacite package for LaTeX.
+
+
+
+# Session Info
+
+Reports do not include the R session replication information, generally 
+speaking.  However, compiling the document will produce a
+record-keeping file in which the session information is saved. This
+will be in the current working directory.
+
+```{r session, include=F}
+zz <- gsub("Rmd", "Rout", knitr::current_input())
+capture.output(sessionInfo(), file = zz, append = TRUE)
+if (!is.null(warnings())){
+    capture.output(warnings(), file = zz)
+}
+```
+
+# References

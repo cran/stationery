@@ -1,0 +1,120 @@
+---
+title: "A Title for Template"
+subtitle: "rmd2pdf-guide"
+guidenum: 0
+guideurl: https://crmda.ku.edu/guides
+keywords: Rmarkdown, R, documents
+author:
+- name: First Author
+  affiliation: CRMDA
+  email: first@ku.edu
+- name:  Second Author
+  affiliation: CRMDA
+  email: second@ku.edu
+- name:  Third Author
+  affiliation: Some other Institute
+  email: third@ku.edu
+addr:
+    l1: address row 1
+    l2: address row 2
+    l3: City State Zipcode
+    r1: "Web: http://crmda.ku.edu"
+    r2: "Email: author@ku.edu"
+    r3: "Phone: 123-345-5678"
+logoleft: theme/logoleft.pdf
+logoright: theme/logo-vert.pdf
+output: 
+  pdf_document:
+    toc: true
+    toc_depth: 1
+    citation_package: natbib
+    fig_caption: yes
+    latex_engine: pdflatex
+    highlight: haddock
+    pandoc_args: [
+        --listings
+    ]
+    template:  theme/guide-template.tex
+fontsize: 11pt
+bibliography: theme/R.bib
+header-includes:
+- \usepackage{xcolor}
+---
+
+```{r setup, include=FALSE}
+##This Invisible Chunk is required in all CRMDA documents
+tmpdir <- paste0("tmpout")
+if (!dir.exists(tmpdir)) dir.create(tmpdir, recursive = TRUE)
+knitr::opts_chunk$set(echo=TRUE, comment=NA, fig.path=paste0(tmpdir, "/p-"))
+opts.orig <- options()
+par.orig <- par(no.readonly = TRUE)
+options(width = 70)
+```
+
+```{r themecopy, include = FALSE}
+library(stationery)
+## If theme directory does not have required images, retrieve them.
+logos <- c("logoleft.pdf", "logo-vert.pdf", "R.bib")
+getFiles(logos, pkg = "stationery")
+## Theme folder should already have theme files, but in case it does not:
+themefiles <- c("guide-template.tex")
+getFiles(themefiles, pkg = "stationery")
+```
+
+\begin{abstract}
+\noindent
+This is an abstract. Please include a terse, yet descriptive 
+statement here of less than 200 words. It should avoid 
+colloquialisms and polysyllabic profundities.
+\end{abstract}
+
+# Header Level 1 with a number
+
+At the last minute, we changed the template to use APA6 style
+citations and it is important to see if that works on your system. 
+
+*Lets test citations*. This citation uses the markdown method
+[@RCore]. It inserts parentheses, name and date. Can use natbib
+format citations as well, please see the instructions file.
+
+
+# Header Level 1 without number {-}
+
+If you DO NOT want section numbers, insert {-} to prevent the 
+compiler from inserting them.
+
+## Make minimal changes to the top part. {-}
+
+Fill in your name, title, email, tags.  Please don't change the
+pdf_document settings unless you know what you are doing.
+
+
+
+[//]: (All guides must have this as the final stanza)
+
+# Session Info {-}
+
+Session Information is usually not written into a report, but in a
+guide file we regularly will include it as follows.
+
+```{r sessionInfo, echo=FALSE}
+sessionInfo()
+```
+
+```{r warnings, echo=FALSE}
+if(!is.null(warnings())){
+    print("Warnings:")
+    warnings()
+}
+```
+
+```{r RoptionsRestore, echo=FALSE, include=FALSE}
+## Don't delete this. It puts the interactive session options
+## back the way they were. If this is compiled within a session
+## it is vital to do this.
+options(opts.orig)
+par(par.orig)
+```
+
+
+# References {-}

@@ -1,0 +1,287 @@
+---
+title: "Guide for writing with Rmd to create PDF Guides"
+subtitle: "All the News that is Fit to Print"
+guideurl: http://crmda.ku.edu/guides
+author:
+- name: Paul Johnson 
+  affiliation: CRMDA
+  description: Director
+  email: pauljohn@ku.edu
+- name:  Brent Kaplan 
+  affiliation: CRMDA
+  description: GRA
+  email: bkaplan4@ku.edu
+output: 
+  pdf_document:
+    citation_package: natbib
+    keep_tex: true
+    fig_caption: true
+    latex_engine: pdflatex
+    template:  "theme/guide-template.tex"
+    pandoc_args: [
+      "--listings"
+    ]
+addr:
+    l1: 1425 Jayhawk Blvd
+    l2: Watson Library, Suite 470
+    l3: Lawrence, KS 66045-7594
+    r1: "Phone: 785-864-3353"
+    r2: "Web: http://crmda.ku.edu"
+    r3: "Email: crmda@ku.edu"
+logoleft: theme/logoleft.pdf
+logoright: theme/logo-vert.pdf
+guidenum: 00
+keywords: "R markdown"
+bibliography: theme/R.bib
+fontsize: 11pt
+header-includes:
+- \usepackage{xcolor}
+---
+
+```{r setup, include=FALSE}
+##This Invisible Chunk is required in all CRMDA documents
+tmpdir <- paste0("tmpout")
+if (!dir.exists(tmpdir)) dir.create(tmpdir, recursive = TRUE)
+knitr::opts_chunk$set(echo=TRUE, comment=NA, fig.path=paste0(tmpdir, "/p-"))
+options(width = 70)
+```
+
+```{r themecopy, include = FALSE}
+library(stationery)
+## If theme directory does not have required images, retrieve them. 
+logos <- c("logoleft.pdf", "logo-vert.pdf", "R.bib")
+getFiles(logos, pkg = "stationery")
+## Theme folder should already have theme files, but in case it does not:
+themefiles <- c("guide-template.tex")
+getFiles(themefiles, pkg = "stationery")
+```
+
+\begin{abstract} 
+Guide documents are educational in nature. They show
+more code and raw output than report documents would.  This abstract
+is done in LaTeX markup. 
+\end{abstract}
+  
+# Nuts and Bolts
+
+## Fix the title and other document-specific information 
+
+The header has a place to insert a title, subtitle, email
+addresses. Do not change the `pdf_document` settings unless you want
+to get serious.
+
+## To compile this document
+
+This is discussed in detail in the stationery vignette.
+
+To compile, either start R and use the function `rmd2pdf` or use the
+shell script `rmd2pdf.sh` that is in the same directory as the `Rmd`
+file. The function `rmd2pdf` (same as the script) will receive
+arguments that override the settings within the document header. For
+example, one could replace the template by specifying 
+
+```
+rmd2pdf("instructions.Rmd", template = "theme/myothertemplate.tex")
+```
+
+It is tricky to provide the same setting in the command line script
+because of quotation marks. One would run
+
+```
+./rmd2pdf.sh --template='"theme/myothertemplate.tex"' instructions.Rmd
+```
+supplies settings. The
+user can supply many arguments to control the table of contents and so
+forth.
+
+Compiling the document will also produce an R file that is a "tangled"
+version of the code chunks in the document.
+
+## Document customization: essentials
+
+
+The document header depends on a \LaTeX template called
+"guide-template.tex".  That will be copied to the theme directory
+the first time a document is compiled in this directory. If you do
+want to edit the theme template, edit
+theme/guide-template.tex. Make sure the compiler uses that
+document.  If you use our compiler script or the R function rmd2pdf,
+it is necessary to supply the template argument with the function
+call.
+
+That is, it is not sufficient to insert a template name in the YAML
+header, and it is also not sufficient to use Rstudio's "knit" menu.
+One must specify the template argument with `rmd2pdf`.
+
+
+# Section Headers
+
+Insert section titles with `#`, `##`, as in markdown. Sections are
+numbered, by default, to prevent that insert a ` {-}` after, as
+demonstrated next
+
+# LaTeX Syntax is allowed {-}
+
+This is explained in the `stationery` package vignette `Rmarkdown`.
+Use `\[` and `\[` for unnumbered display equations:
+
+\[
+\Sigma_{gt}=\Lambda_{gt}\Psi_{gt}\Lambda'_{gt}+\Theta_{gt}
+\]
+
+
+\[
+\Sigma_{gt}=\Lambda_{gt}\Psi_{gt}\Lambda'_{gt}+\Theta_{gt}
+\]
+
+For a numbered
+display, use `\begin{equation}` and `\end{equation}`, and insert a
+label that can be referenced later:
+
+\begin{equation}
+\Sigma_{gt}=\Lambda_{gt}\Psi_{gt}\Lambda'_{gt}+\Theta_{gt}\label{eq:sem}
+\end{equation}
+
+To demonstrate a cross-reference, that is equation
+(\ref{eq:sem}). Note this will only work with "rmd2pdf" documents, not
+when HTML is the output target. If we put in another equation, you
+will see it is automatically numbered:
+
+\begin{equation}
+y_i=\beta_0 + \beta_{1}X_i\label{eq:reg}
+\end{equation}
+
+That's equation (\ref{eq:reg}).
+
+## Additional LaTeX packages
+
+In addition, if you insert \LaTeX features that require packages
+that are not currently in the report-template.tex, then those
+packages can be inserted into the preamble by YAML header markup like
+so:
+
+```
+header-includes:
+-  \usepackage{xcolor}
+-  \usepackage{amsmath}
+-  \usepackage{amssymb}
+-  \usepackage{fancybox}
+```
+
+We found out we needed `amssymb` in several projects. 
+
+# `R` code chunks {-}
+
+This document includes R[@RCore] code chunks.
+
+In guide documents, we *do* generally include input and output from code
+chunks. There is a vignette "code_chunks" distributed with this
+package to demonstrate. 
+
+Please **DO** name each chunk. This improves your ability to
+troubleshoot the compiling and tangling processes.
+
+First, create a data frame
+
+```{r ex-1}
+set.seed(1234)
+x <- rnorm(100, 0, 1)
+y <- rnorm(100, 0, 1)
+dat <- data.frame(x=x, y=y)
+```
+
+Of course, because this is guide, we are also likely to have some ugly
+raw R output.
+
+```{r ex-4}
+summary(dat)
+```
+
+The document template controls the numbering of lines. This can be
+changed by altering the template.
+
+We can show ugly output if we really need to. But we'd rather include
+lovely graphs or nicely formatted \LaTeX tables.
+
+When tables are concerned, the placement of tables is the major issue.
+Sometimes we like tables that are "numbered floating"
+objects. However, because this is a guide document, we might want the
+\LaTeX table output to show "right here" (prevent it from floating
+into a numbered table). The following code shows that the `print.xtable`
+method from the `xtable` package allows us to control that.
+
+The following creates output that does not go into a floating
+object. Note the output will blurt into the document, immediately
+after the code chunk itself:
+
+```{r ex-2, results='asis', echo=TRUE}
+library(xtable)
+xt <- xtable(head(dat, 10), caption="Ten Lines from One Data Frame",
+             label="tab:ex2")
+print(xt, comment=FALSE, include.rownames=FALSE, floating=FALSE)
+```
+Note that because the print.xtable arguments include "floating=FALSE",
+the table caption is not printed with the output table.  The concept
+of caption is meaningful only for floating tables, as we illustrate next.
+
+A more professional result is obtained if we allow `xtable` to create a
+"floating" table object.  The following code creates Table
+\ref{tab:ex2}.
+
+```{r ex-3, results='asis', echo=TRUE}
+print(xt, comment=FALSE, include.rownames=FALSE, floating=TRUE,
+      caption.placement = "top")
+```
+
+For whatever reason, the custom is that captoins (titles) of tables are placed
+**on top** while titles for figures are placed on the bottom.
+
+As explained in the `stationery` vignette `code_chunks`, many 
+options are avaiable for code chunks.
+
+
+# Bibliographical citations. {-}
+
+This document is produced with R [@RCore]. Here's a citation that
+excludes some author names [-@diggle_analysis_2013, p. 37]. Note that
+to get the full parenthesized statement with names and dates, we
+insert hard brackets `[`, an `@` sign, the bibtex tag, and a closer
+`]`. If we don't want their names, we insert a `-` sign. It is also
+possible to refer to a group of projects [@hsiao_analysis_2014;
+@fitzmaurice_applied_2011; @mccullagh_nelder_1983].
+
+Because this document is going to be compiled to a PDF back end via
+latex, it is also allowed to use LaTeX style natbib citations, which
+are considerably more flexible.  Concerning R
+\citep{venablesripley2000}, the result is the same for the basic
+citation.
+
+A citation that has three authors [@diggle_analysis_2013], using
+the markdown style, and a citation that has three authors, using
+the LaTeX natbib markup \citep{hastie_elements_2009}.
+
+One of the reasons why the APA citations are desirable, and also a
+pain, is that the APA has very picky requirements about how the
+citations appear in the document. Note the in-text parenthesized
+citations use the ampersand, where humans might use the word "and".
+On the other hand, if only the date is parenthesized, the
+"\textbackslash{}citet" results in \citet{hastie_elements_2009}.
+But if we want to write names, we can get that with
+"\textbackslash{}citeyearpar", as in Hastie, Tibshirani, and 
+Friedman \citeyearpar{hastie_elements_2009}.
+
+The bibliographic format is using the apacite package for LaTeX.
+
+# Session Info
+
+This is a required element in a guide
+
+```{r session}
+sessionInfo()
+if (!is.null(warnings())){
+    print("Warnings:")
+    warnings()
+}
+```
+
+# References

@@ -1,0 +1,67 @@
+2018-07-27  Paul Johnson  <pauljohn@delllap-16>
+
+	* ../R/runme.R (crmda_html_document): crmda_document_html: fix
+	theme parameter passing
+
+2018-02-24  Paul Johnson  <pauljohn@delllap-16>
+
+	* ../R/runme.R (sysrun): texi2pdf fails on Windows builder test,
+	workaround. New function "sysrun" adapt to Windows or other
+
+2018-02-21  Paul Johnson  <pauljohn@delllap-16>
+
+	* ../R/utils.R (fc): wholesale change over for stationery package.
+	separating parts unique to crmda package
+
+2017-10-12  Paul Johnson  <pauljohn@delllap-16>
+
+	* examples/test_writeups.R: insert inst/examples, test_writeups.R
+	creates a directory structure for all document types
+
+2017-09-21  Paul Johnson  <pauljohn@delllap-16>
+
+	* ../R/utils.R (getFiles): convenience to use in LaTeX or Rmd
+	files that can copy style files from package into theme directory
+	of current working directory.  Part of disentangling CRMDA logo
+	from rest of package.
+
+2017-09-11  Paul Johnson  <pauljohn@delllap-16>
+
+	* rmarkdown/templates/rnw2pdf-report-sweave/skeleton/kureport.sty:
+	black face in R output, comments dark dark gray
+
+2017-09-07  Paul Johnson  <pauljohn@delllap-16>
+
+	* rmarkdown/templates/rmd2html-guide/skeleton/theme: Big policy
+	change. The original, working copies of styles, css, icons are
+	under vignettes/theme, and in the folders under
+	inst/rmarkdown/templates... we will have symbolic links
+
+2017-09-05  Paul Johnson  <pauljohn@delllap-16>
+
+	* ../R/runme.R (crmda_html_document): wrapper function to make
+	custom html template work with MathJax. See function doc
+
+2017-08-08  Paul Johnson  <pauljohn@delllap-16>
+
+	* extdata/rmd2html-guide/rmd2html.sh: copy argument-handling
+	scheme from rmd2pdf-report
+
+	* extdata/rmd2pdf-report/rmd2pdf.sh: overhaul function argument handling.
+
+2017-08-04  Paul Johnson  <pauljohn@delllap-16>
+
+	* extdata/rmd2pdf-report/rmd2pdf.sh: revised to call rmd2pdf
+	function in the package
+	* R/runme.R: new function rmd2pdf
+
+
+2017-06-23  Paul Johnson  <pauljohn@delllap-16>
+
+	* extdata/rmd2html-guide/rmd2html.sh (render): insert purl call in rmd2html
+
+2016-10-25  Paul Johnson  <pauljohn@delllap-16>
+
+	* ../R/initWriteup.R (initWriteup): customizing to combinations of
+	input, output, and render.
+

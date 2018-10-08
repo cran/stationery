@@ -1,0 +1,2567 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass scrartcl
+\begin_preamble
+% \VignetteIndexEntry{rnw2pdf-report-sweave}
+% \VignetteEngine{Sweave}
+% \VignetteBuilder{stationery::rnw2pdf}
+% Don't remove next commented line, its needed to fool Sweave
+%\usepackage{Sweave}
+
+\usepackage[includehead,includefoot,
+lmargin=1in,
+rmargin=1in,
+tmargin=0.5in,
+bmargin=1.0in,
+headheight=0pt,
+headsep=0pt,
+marginparwidth=0pt,
+footskip=1.5\baselineskip,
+]{geometry}
+
+\usepackage{multicol}
+\usepackage{dcolumn}
+\usepackage{booktabs}
+
+
+\input{theme/reportPreambleHeader.tex}
+\input{theme/preambleFooter.tex}
+%% Load Hyperref, don't let LyX do this
+\input{theme/reportPreambleSweavel.tex}
+
+\usepackage{fancyvrb}
+\fvset{listparameters={\setlength{\topsep}{0em}}}
+\end_preamble
+\use_default_options false
+\begin_modules
+logicalmkup
+sweave
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding utf8
+\fontencoding global
+\font_roman "lmodern" "default"
+\font_sans "lmss" "default"
+\font_typewriter "lmtt" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 11
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize letterpaper
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 0
+\use_package esint 1
+\use_package mathdots 0
+\use_package mathtools 0
+\use_package mhchem 0
+\use_package stackrel 0
+\use_package stmaryrd 0
+\use_package undertilde 0
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date true
+\justification true
+\use_refstyle 0
+\branch R
+\selected 0
+\filename_suffix 0
+\color #faf0e6
+\end_branch
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1in
+\topmargin 1in
+\rightmargin 1in
+\bottommargin 1in
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%% Fill in values of the arguments here, 
+\end_layout
+
+\begin_layout Plain Layout
+
+%% If blanks are needed, must insert value " ~ "
+\end_layout
+
+\begin_layout Plain Layout
+
+%% If comma needed inside value, wrap in {}.
+\end_layout
+
+\begin_layout Plain Layout
+
+%% Delete secondauthor and thirdauthor if not needed
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+reportsetup{%
+\end_layout
+
+\begin_layout Plain Layout
+
+  author={
+\end_layout
+
+\begin_layout Plain Layout
+
+    lastname=Johnson,
+\end_layout
+
+\begin_layout Plain Layout
+
+    firstname=Paul~E., 
+\end_layout
+
+\begin_layout Plain Layout
+
+    affiliation=Director{,}~CRMDA,
+\end_layout
+
+\begin_layout Plain Layout
+
+    email=pauljohn@ku.edu},
+\end_layout
+
+\begin_layout Plain Layout
+
+  author={
+\end_layout
+
+\begin_layout Plain Layout
+
+    lastname=Coauthor,
+\end_layout
+
+\begin_layout Plain Layout
+
+    firstname=Imaginar~E.,
+\end_layout
+
+\begin_layout Plain Layout
+
+    affiliation=CRMDA,
+\end_layout
+
+\begin_layout Plain Layout
+
+    email=imaginary@ku.edu},
+\end_layout
+
+\begin_layout Plain Layout
+
+  author={
+\end_layout
+
+\begin_layout Plain Layout
+
+    lastname=Coauthor,
+\end_layout
+
+\begin_layout Plain Layout
+
+    firstname=Another~Imaginary,
+\end_layout
+
+\begin_layout Plain Layout
+
+    affiliation=CRMDA,
+\end_layout
+
+\begin_layout Plain Layout
+
+    email=imaginary@ku.edu},
+\end_layout
+
+\begin_layout Plain Layout
+
+  title={Guide for authoring reports with Sweave code chunks},
+\end_layout
+
+\begin_layout Plain Layout
+
+  rightlogo={theme/logo.pdf},
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+reporthdr
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% tmpout directory must exist first
+\end_layout
+
+\begin_layout Plain Layout
+
+<<tmpout, echo=FALSE, include=FALSE, results=hide>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+tdir <- "tmpout"
+\end_layout
+
+\begin_layout Plain Layout
+
+if(!dir.exists(tdir)) dir.create(tdir, showWarnings=FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\begin_layout Plain Layout
+
+% Please leave this code: In document Latex options:
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+fvset{listparameters={
+\backslash
+setlength{
+\backslash
+topsep}{0em}}}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+SweaveOpts{prefix.string=tmpout/t, split=FALSE, ae=FALSE, height=5, width=6}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<texcopy, include=FALSE, echo=FALSE, results=hide>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+library(stationery)
+\end_layout
+
+\begin_layout Plain Layout
+
+## If theme directory does not have required logos, retrieve.
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+logos <- c(logoright = "logo.pdf", "addressFooter.tex")
+\end_layout
+
+\begin_layout Plain Layout
+
+getFiles(logos, pkg = "stationery")
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% Please leave this chunk
+\end_layout
+
+\begin_layout Plain Layout
+
+<<Roptions, echo=F, include=FALSE,results=hide>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+opts.orig <- options()
+\end_layout
+
+\begin_layout Plain Layout
+
+options(width=65, prompt=" ", continue="  ")
+\end_layout
+
+\begin_layout Plain Layout
+
+options(useFancyQuotes = FALSE) 
+\end_layout
+
+\begin_layout Plain Layout
+
+set.seed(12345)
+\end_layout
+
+\begin_layout Plain Layout
+
+par.orig <- par(no.readonly=TRUE) 
+\end_layout
+
+\begin_layout Plain Layout
+
+pjmar <- c(5.1, 5.1, 1.5, 2.1) 
+\end_layout
+
+\begin_layout Plain Layout
+
+options(SweaveHooks=list(fig=function() par(mar=pjmar, ps=10)))
+\end_layout
+
+\begin_layout Plain Layout
+
+pdf.options(onefile=FALSE, family="Times", pointsize=10)
+\end_layout
+
+\begin_layout Plain Layout
+
+if(!dir.exists("tmpout"))dir.create("tmpout", recursive = TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Abstract
+\noindent
+This shows how we use R 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "RCore"
+
+\end_inset
+
+ to make report documents using the CRMDA style.
+ This is a LaTeX 
+\begin_inset Quotes eld
+\end_inset
+
+noweb
+\begin_inset Quotes erd
+\end_inset
+
+ report document using the Sweave code chunk engine.
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+This is a LaTeX 
+\begin_inset Quotes eld
+\end_inset
+
+noweb
+\begin_inset Quotes erd
+\end_inset
+
+ report generated with the Sweave engine.
+ We use R 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "RCore"
+
+\end_inset
+
+ to do statistical analysis.
+ 
+\end_layout
+
+\begin_layout Section*
+Please Check our documentation
+\end_layout
+
+\begin_layout Standard
+There are several vignettes distributed with the 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+stationery
+\end_layout
+
+\end_inset
+
+ package.
+ The ones that are pertinent to this document are
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Quotes eld
+\end_inset
+
+stationery
+\begin_inset Quotes erd
+\end_inset
+
+: a package overview
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Quotes eld
+\end_inset
+
+code_chunks
+\begin_inset Quotes erd
+\end_inset
+
+: comparing Sweave and knitr code chunk usage
+\end_layout
+
+\begin_layout Section
+Create a New Report Skeleton Folder
+\end_layout
+
+\begin_layout Standard
+If you did not do this yet, create a fresh skeleton document by opening
+ R and running
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<eval=T, results=hide>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+library(stationery)
+\end_layout
+
+\begin_layout Plain Layout
+
+initWriteup("rnw2pdf-report-sweave")
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+That will create a folder 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+rnw2pdf-report-sweave
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+ That folder will have the following files:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<echo=F>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+list.files("rnw2pdf-report-sweave", recursive = TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We suggest you
+\end_layout
+
+\begin_layout Enumerate
+Test with documents 
+\emph on
+as they are 
+\emph default
+to make sure your computer is correctly configured
+\end_layout
+
+\begin_layout Enumerate
+Make revisions incrementally, and re-compile often to test your changes
+\end_layout
+
+\begin_layout Subsection*
+About the theme folder
+\end_layout
+
+\begin_layout Standard
+The theme folder has files needed to produce the document.
+ In the stationery project, the various document types have different requiremen
+ts, and some share 
+\begin_inset Quotes eld
+\end_inset
+
+boilerplate
+\begin_inset Quotes erd
+\end_inset
+
+ code that we include in several document types.
+ In stationery version 0.91, we decided to copy the boilerplate files into
+ the theme folder when the 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+initWriteup()
+\end_layout
+
+\end_inset
+
+ function is called.
+\end_layout
+
+\begin_layout Standard
+The theme folder will also need files for the organizational logos or address
+ information (
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+addressFooter.tex
+\end_layout
+
+\end_inset
+
+).
+ These are not copied into the folder automatically.
+ There is an R code chunk above called 
+\begin_inset Quotes eld
+\end_inset
+
+texcopy
+\begin_inset Quotes erd
+\end_inset
+
+.
+ It will copy configuration files from a package into the theme folder.
+ The vignette 
+\begin_inset Quotes eld
+\end_inset
+
+stationery
+\begin_inset Quotes erd
+\end_inset
+
+ describes the approach and how it can be customized.
+\end_layout
+
+\begin_layout Standard
+That means authors are free to edit them to fit their needs.
+\end_layout
+
+\begin_layout Standard
+If the author makes an error in editing a theme file, the original version
+ of the theme is available in the package's install folder.
+ The files are in the top level folder named 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+theme
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+LyX
+\end_layout
+
+\begin_layout Standard
+The files named 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+skeleton.lyx
+\end_layout
+
+\end_inset
+
+ and 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+instructions.lyx
+\end_layout
+
+\end_inset
+
+ can be edited with the editor LyX.
+ Benefits and limitations of using LyX are discussed in the vignette 
+\begin_inset Quotes eld
+\end_inset
+
+stationery
+\begin_inset Quotes erd
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+If using LyX, the file can be compiled by the usual methods to create PDF
+ output.
+ Note also the File -> Export -> Sweave menu sequence can create a fresh
+ 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+.Rnw
+\end_layout
+
+\end_inset
+
+ file.
+ 
+\end_layout
+
+\begin_layout Subsection
+LyX caution
+\end_layout
+
+\begin_layout Standard
+The document preamble and theme files have settings for margins (geometry)
+ as well as hyperlinks (PDF hyperref).
+ Don't use the LyX pull down menu to revise them.
+ Repeat 
+\series bold
+CAUTION
+\series default
+: Don't change the page margins or settings for hyperlinks with pull down
+ menus.
+\end_layout
+
+\begin_layout Subsection
+Other ways to compile a LyX document
+\end_layout
+
+\begin_layout Enumerate
+In R, run.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+> library(stationery)
+\end_layout
+
+\begin_layout Plain Layout
+
+> rnw2pdf("skeleton.lyx", engine = "Sweave")
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Use the shell script 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+rnw2pdf.sh
+\end_layout
+
+\end_inset
+
+: 
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ ./rnw2pdf.sh --engine='"Sweave"' skeleton.lyx
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+In case you want to track the steps of compiling one by one, open the file
+ in LyX.
+ Use the pull down menu 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+File
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+Export
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+Sweave
+\end_layout
+
+\end_inset
+
+.
+ That will create a file named 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+skeleton.Rnw
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+ This is the equivalent of the command line statement
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ lyx -e sweave skeleton.lyx
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+After that 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+.Rnw
+\end_layout
+
+\end_inset
+
+ file is created, run
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ R CMD Sweave skeleton.Rnw
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+That creates a LaTeX file and errors are usually easy to diagnose.
+\end_layout
+
+\end_deeper
+\begin_layout Section
+Compiling when editing the Rnw file
+\end_layout
+
+\begin_layout Standard
+This is explained in more depth in the 
+\begin_inset Quotes eld
+\end_inset
+
+stationery
+\begin_inset Quotes erd
+\end_inset
+
+ vignette.
+ Editing the 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+.Rnw
+\end_layout
+
+\end_inset
+
+ file in a Emacs or RStudio will make it possible to test individual chunks
+ one at a time.
+ 
+\end_layout
+
+\begin_layout Standard
+Note: there is no perfectly safe 
+\begin_inset Quotes eld
+\end_inset
+
+round trip
+\begin_inset Quotes erd
+\end_inset
+
+ conversion of .Rnw to .lyx formats, so if you work in the .Rnw file, it is
+ necessary to stay with that format.
+\end_layout
+
+\begin_layout Subsection*
+Compile the .Rnw file
+\end_layout
+
+\begin_layout Enumerate
+In R, run
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+> library(stationery)
+\end_layout
+
+\begin_layout Plain Layout
+
+> rnw2pdf("skeleton.Rnw", engine = "Sweave")
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Additional arguments can be used, mainly to control the verbosity of the
+ output to preserve intermediate files.
+ For debugging, we use parameters 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+--verbose=FALSE
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+--clean=FALSE
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The shell script 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+rnw2pdf.sh
+\end_layout
+
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ ./rnw2pdf.sh --engine='"Sweave"' skeleton.Rnw
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The command script answers to all of the arguments followed by the R function
+ 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+rnw2pdf
+\end_layout
+
+\end_inset
+
+.
+ The usage is nearly identical.
+ Where the R function call would be 
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+> rnw2pdf("skeleton.Rnw", purl = FALSE, clean = FALSE, verbose = TRUE, keep_tex
+ = TRUE)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+the shell command would be
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ ./rnw2pdf -engine='"Sweave"' --purl=FALSE --clean=FALSE --keep_tex=TRUE
+ --verbose=TRUE skeleton.Rnw
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note the trick to include a parameter 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+"Sweave"
+\end_layout
+
+\end_inset
+
+ that is a quoted string.
+ The single quotes that are protecting the double quotes in the command
+ line.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Manual command line interactions using R and shell functions.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ R CMD Sweave skeleton.Rnw
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+That will create 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+skeleton.tex
+\end_layout
+
+\end_inset
+
+, which we compile with
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ texi2pdf skeleton.tex
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Section
+Code Chunk Check
+\end_layout
+
+\begin_layout Standard
+Our report documents ALMOST NEVER show 
+\begin_inset Quotes eld
+\end_inset
+
+raw
+\begin_inset Quotes erd
+\end_inset
+
+ R code to readers and very seldom will they display 
+\begin_inset Quotes eld
+\end_inset
+
+raw
+\begin_inset Quotes erd
+\end_inset
+
+ R output.
+ Almost always, code chunks will not be echoed into the document, but they
+ may create output files and graphics that are inserted.
+ 
+\end_layout
+
+\begin_layout Subsection*
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+R
+\end_layout
+
+\end_inset
+
+ Code Chunks
+\end_layout
+
+\begin_layout Standard
+We'd like to be as close as possible to the 
+\begin_inset Quotes eld
+\end_inset
+
+reproducible document
+\begin_inset Quotes erd
+\end_inset
+
+ idea.
+ If R functions can produce perfectly presentable LaTeX output, then we
+ use it.
+ On the other hand, one might write the output files that need some minor
+ manual re-formatting.
+ Call these 
+\begin_inset Quotes eld
+\end_inset
+
+intermediate files.
+\begin_inset Quotes erd
+\end_inset
+
+ After cleaning up the files, we can use them them in the document.
+ 
+\end_layout
+
+\begin_layout Standard
+We don't mean to say that it is desirable to write output files and then
+ manually edit them.
+ It is, however, often necessary in practice.
+ We expect it will be necessary, in practice, for almost any medium-to-large
+ sized report.
+ 
+\end_layout
+
+\begin_layout Standard
+In the next sections, we discuss practical methods for getting this done.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Sweave's split feature
+\end_layout
+
+\begin_layout Standard
+Sweave has a feature called 
+\begin_inset Quotes eld
+\end_inset
+
+split
+\begin_inset Quotes erd
+\end_inset
+
+, which means that the individual code chunks, their output, and graphics
+ will be saved into separate files in an intermediate output folder.
+ In the top of the .Rnw file, there will be a LaTeX macro:
+\end_layout
+
+\begin_layout LyX-Code
+
+\backslash
+SweaveOpts{prefix.string=tmpout/t, split=TRUE, ae=FALSE, height=5, width=6}
+\end_layout
+
+\begin_layout Standard
+In our case, the pieces are saved into a folder named 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+tmpout
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+ These chunk files will be created while the document is being compiled.
+ We choose to have the letter 
+\begin_inset Quotes eld
+\end_inset
+
+t
+\begin_inset Quotes erd
+\end_inset
+
+ prepended with each chunk name.
+ (Below we will list the contents of the 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+tmpout
+\end_layout
+
+\end_inset
+
+ folder.)
+\end_layout
+
+\begin_layout Standard
+The attraction of splitting the chunks is that the individual pieces can
+ be used in several ways.
+ First, we may want to keep a document 
+\begin_inset Quotes eld
+\end_inset
+
+clean
+\begin_inset Quotes erd
+\end_inset
+
+ by concentrating the code chunks in a section at the top of the file, and
+ then insert the results in later sections where desired.
+ Second, we may need to create a presentation or brief overview document
+ that uses some of the chunks.
+ If we have a research report and a client asks for a 10 minute slide show,
+ we might write the slide show and then integrate a few of the code chunks
+ for the presentation 
+\emph on
+without re-running
+\emph default
+ all of the analysis in the larger report.
+ Third, if tables created by R need some minor enhancements, we can isolate
+ their files easily and make manual corrections.
+\end_layout
+
+\begin_layout Standard
+Using 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+split=TRUE
+\end_layout
+
+\end_inset
+
+ causes a complication in tangling the code chunks.
+ If we want to generate one R document to accumulate all of the code, then
+ it is necessary to change 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+split=TRUE
+\end_layout
+
+\end_inset
+
+ to 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+split=FALSE
+\end_layout
+
+\end_inset
+
+ in the document.
+ The function 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+stationery::rnw2pdf
+\end_layout
+
+\end_inset
+
+ has a sub-routine that handles that 
+\begin_inset Quotes eld
+\end_inset
+
+smart tangling
+\begin_inset Quotes erd
+\end_inset
+
+ problem, so the author does not need to change the split setting in the
+ document itself.
+\end_layout
+
+\begin_layout Standard
+Splitting goes against the grain of some advice about reproducible documents.
+ In the typical documentation, a user is told to type in a chunk and then
+ the output plops into the document 
+\begin_inset Quotes eld
+\end_inset
+
+right there
+\begin_inset Quotes erd
+\end_inset
+
+.
+ If the output from the chunk is not perfectly correct, then one ought to
+ revise the software to fix the chunk output.
+ Theoretically, that is sound advice.
+ It is simply not practical at the current time.
+ 
+\end_layout
+
+\begin_layout Standard
+Possibly for reasons mentioned in the previous paragraph, the 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+knitr
+\end_layout
+
+\end_inset
+
+ code chunk system does not allow splitting.
+ In addition, the R CRAN archive will not accept package vignettes that
+ use chunk splitting.
+ 
+\end_layout
+
+\begin_layout Subsubsection*
+If Split is Forbidden
+\end_layout
+
+\begin_layout Standard
+If policy does not allow splitting code chunks, then one can use R built-in
+ functions to export text files, such as cat.
+ The 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+xtable
+\end_layout
+
+\end_inset
+
+ package includes a function 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+print 
+\end_layout
+
+\end_inset
+
+that can write into files.
+ Many regression-table writing packages have a file-export parameter.
+\end_layout
+
+\begin_layout Subsubsection*
+How to Hide code chunks
+\end_layout
+
+\begin_layout Standard
+The Sweave chunk option 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+include=FALSE
+\end_layout
+
+\end_inset
+
+ conceals a graph that is created by the chunk (i.e., it is only relevant
+ when 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+fig=TRUE
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+).
+ Even if 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+include=FALSE
+\end_layout
+
+\end_inset
+
+, the current behavior of Sweave is to both echo the chunk code and to insert
+ any text results from the chunk.
+ Hence, to have a truly quiet code chunk in Sweave, one must insert 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+echo=FALSE
+\end_layout
+
+\end_inset
+
+ and 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+results=hide
+\end_layout
+
+\end_inset
+
+ (note, there are no quotation marks around 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+hide
+\end_layout
+
+\end_inset
+
+ in Sweave chunks).
+ If a figure is produced, 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+include=FALSE
+\end_layout
+
+\end_inset
+
+ is also needed.
+ 
+\end_layout
+
+\begin_layout Standard
+If you see nothing in the output document before 
+\begin_inset Quotes eld
+\end_inset
+
+it means
+\begin_inset Quotes erd
+\end_inset
+
+ on the next line,
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<chunkfig, fig=T, include=F, echo=F, results=hide>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+x <- rnorm(1000)
+\end_layout
+
+\begin_layout Plain Layout
+
+hist(x)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+it means that the chunk is invisible.
+ However, the code chunk does generate a figure, 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+tmpout/t-chunkfig.pdf
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+To insert that graphic in the document, write a LaTeX statement such as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "style=Rinput"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+includegraphics[width=5in]{tmpout/t-chunkfig}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note: don't put 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+.pdf
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ on the end of the file name, LaTeX finds the file named 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+t-chunkfig.pdf
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+If the code makes a LaTeX table that is presentable as is, then we can include
+ that in the document at the suitable point.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Tables that are close, but not ready
+\end_layout
+
+\begin_layout Standard
+The key issue is that the table output from an R function is not perfectly
+ ready for inclusion in a report.
+ The row and column names might need beautification.
+ That is why, realistically, it is generally easier to write those tables
+ into tex files and revise them by hand, and then use LaTeX 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+
+\backslash
+input{}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ to include them in the document where appropriate.
+\end_layout
+
+\begin_layout Standard
+We'd manually copy it to another folder (to protect it from being over-written)
+ and manually revise it.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Assume Floating Tables and Figures are Used
+\end_layout
+
+\begin_layout Standard
+If this were a training guide document, we might want graphics and tables
+ to print 
+\begin_inset Quotes eld
+\end_inset
+
+right here
+\begin_inset Quotes erd
+\end_inset
+
+.
+ In a report, we almost always want tabular and graphical items to float.
+ A result that is a tabular object should be enclosed in a LaTeX table object,
+ and graphics should be enclosed in figure objects.
+ Tables and Figures should have proper captions and labels for cross referencing.
+\end_layout
+
+\begin_layout Subsection*
+Make Nice Looking Tables
+\end_layout
+
+\begin_layout Standard
+We don't want the report reader to see ugly output:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<Rsummary, echo=F>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+set.seed(234234)
+\end_layout
+
+\begin_layout Plain Layout
+
+dat <- data.frame(x = rnorm(100), y = rnorm(100))
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<tab0, echo=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+summary(dat)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Instead, we want to refer the reader to a numbered Table 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{tab:summ}
+\end_layout
+
+\end_inset
+
+ (using a LaTeX cross-references), where a more-or-less acceptable table
+ is presented.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<tab1a, echo=F, results=hide>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+## results hidden to prevent ugly raw output
+\end_layout
+
+\begin_layout Plain Layout
+
+tab1 <- rockchalk::summarize(dat)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<tab1, echo=F, results=tex>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+tab1.x <- xtable::xtable(tab1$numericsfmt, caption = "Floating Table with
+ Summary Statistics", label = "tab:summ")
+\end_layout
+
+\begin_layout Plain Layout
+
+print(tab1.x, caption.placement = "top")
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+There are several packages in R that can be used to generate LaTeX tables.
+ Some of them can also create HTML or other formats suitable for other output
+ document types.
+ Here we used the time-tested classic 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+xtable
+\end_layout
+
+\end_inset
+
+, which has many fine-grained settings that can be adjusted (see the help
+ pages for 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+xtable
+\end_layout
+
+\end_inset
+
+ and 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+print.xtable
+\end_layout
+
+\end_inset
+
+.
+ There are, we should mention, many other packages that can generate presentable
+ tables.
+ In the 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+knitr
+\end_layout
+
+\end_inset
+
+ package, there is a function called 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+kable
+\end_layout
+
+\end_inset
+
+ intended to produce simple tables in various formats.
+ There are also many eager adherents of the packages 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+pander
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+Hmisc
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+memisc
+\end_layout
+
+\end_inset
+
+, and many others.
+\end_layout
+
+\begin_layout Subsection*
+Regression output
+\end_layout
+
+\begin_layout Standard
+I'll illustrate output from the 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+outreg
+\end_layout
+
+\end_inset
+
+ function in the 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+rockchalk
+\end_layout
+
+\end_inset
+
+ package.
+ This table may not be perfect by APA standards, but it is certainly good
+ enough for our reports.
+ We estimate a regression and save the LaTeX markup in a file named 
+\begin_inset Quotes eld
+\end_inset
+
+tmpout/t-outreg1.tex
+\begin_inset Quotes erd
+\end_inset
+
+.
+ (This approach is necessary in this document because it is a vignette in
+ the stationery package and the split=TRUE flag is not allowed in vignettes
+ for packages on CRAN).
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<outreg1, include=F, echo=F, results=hide>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+library(rockchalk)
+\end_layout
+
+\begin_layout Plain Layout
+
+m1 <- lm(y ~ x, data = dat)
+\end_layout
+
+\begin_layout Plain Layout
+
+vl <- c("x" = "Excellent Predictor")
+\end_layout
+
+\begin_layout Plain Layout
+
+or <- outreg(list("First Model" = m1), varLabels = vl, tight = FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+cat(or, file = "tmpout/t-outregtest.tex")
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+After the file is created, we then incorporate it in the usual way, embedding
+ it in a floating object, Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:A-Regression"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+A Regression from 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+outreg
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:A-Regression"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{tmpout/t-outregtest.tex}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+There are many other regression-table-making functions available today.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Structural equation models
+\end_layout
+
+\begin_layout Standard
+In the good looking table department, we also need to display structural
+ equation models.
+ This has been a long term objective in CRMDA.
+ In the 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+kutils
+\end_layout
+
+\end_inset
+
+ package, we made a function 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+semTable
+\end_layout
+
+\end_inset
+
+.
+ Please see example output in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:A-Confirmatory-Factor"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<include=F>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+library(kutils)
+\end_layout
+
+\begin_layout Plain Layout
+
+require(lavaan)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<cfa1, echo=F, include=F,results=tex>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+HS.model <- 'visual  =~ x1 + x2 + x3
+\end_layout
+
+\begin_layout Plain Layout
+
+textual =~ x4 + x5 + x6
+\end_layout
+
+\begin_layout Plain Layout
+
+speed   =~ x7 + x8 + x9'
+\end_layout
+
+\begin_layout Plain Layout
+
+output1 <- cfa(HS.model, data = HolzingerSwineford1939, std.lv = TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+cfa1 <- semTable(output1, fits = "rmsea", paramSets = c("loadings", "latentvaria
+nces"), type = "latex", print.results=FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+A Confirmatory Factor Analysis Table
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:A-Confirmatory-Factor"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{tmpout/t-cfa1.tex}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A warning is in order.
+ Some R packages will export a table in using the 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+longtable
+\end_layout
+
+\end_inset
+
+ package.
+ We noticed that longtable objects cannot be included in LaTeX floating
+ tables.
+ Instead, a longtable provides its own caption and label arguments, and
+ longtable objects will thus float on their own.
+\end_layout
+
+\begin_layout Subsubsection*
+Finally, check the tmp out folder
+\end_layout
+
+\begin_layout Standard
+After compiling this document, the files we have in the 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+tmpout
+\end_layout
+
+\end_inset
+
+ folder are:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<tmpprint, echo=F>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+list.files(tdir)
+\end_layout
+
+\begin_layout Plain Layout
+
+unlink("rnw2pdf-report-sweave", recursive = TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We see here one of the reasons why we suggest that all chunks should have
+ names.
+ It is easier to find them in the output directory if they have meaningful
+ names.
+\end_layout
+
+\begin_layout Standard
+As we complete this document, we will delete the test document folder 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+rnw2pdf-report-sweave
+\end_layout
+
+\end_inset
+
+ at this point, but will leave 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+tmpout
+\end_layout
+
+\end_inset
+
+ for user inspection.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<rnwdirclean, echo=F>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+unlink("rnw2pdf-report-sweave", recursive = TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Replication Information
+\end_layout
+
+\begin_layout Standard
+Leave the code chunks below.
+ But the visible words and section name should be removed.
+ Session Information is usually not written into a report, but an output
+ file is created by the following pieces.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<session, include=F>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+zz <- "report-instructions.Rout"
+\end_layout
+
+\begin_layout Plain Layout
+
+capture.output(sessionInfo(), file = zz, append = FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+if (!is.null(warnings())){
+\end_layout
+
+\begin_layout Plain Layout
+
+    capture.output(warnings(), file = zz, append = TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<RoptionsRestore, echo=F, include=F>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+## Don't delete this.
+ It puts the interactive session options
+\end_layout
+
+\begin_layout Plain Layout
+
+## back the way they were.
+ If this is compiled within a session
+\end_layout
+
+\begin_layout Plain Layout
+
+## it is vital to do this.
+\end_layout
+
+\begin_layout Plain Layout
+
+options(opts.orig)
+\end_layout
+
+\begin_layout Plain Layout
+
+par(par.orig)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "theme/R"
+options "apalike2"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
