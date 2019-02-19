@@ -1,14 +1,15 @@
 Package: stationery
 Type: Package
 Title: Working Examples for Reproducible Research Documents
-Version: 0.98.5.5
-Date: 2018-09-12
+Version: 0.98.6
+Date: 2019-02-19
 Authors@R: c(person("Paul", "Johnson", role = c("aut", "cre"), email = "pauljohn@ku.edu"),
              person("Brent", "Kaplan", role = c("ctb"), email = "bkaplan4@ku.edu"),
              person("Meghan", "Sullivan", role = c("ctb"), email = "meg.sullivan@ku.edu"),
              person("Charles", "Redmon", role = "ctb", email = "redmon@ku.edu"),
              person("Zack", "Roman", role = "ctb", email = "zroman@ku.edu"),
-			 person("Chong", "Xing", role = "ctb", email = "cxing@ku.edu"))
+			 person("Chong", "Xing", role = "ctb", email = "cxing@ku.edu"),
+             person("Longcan 'Emma'", "Huang", role = "ctb", email = "longcan@ku.edu"))
 Maintainer: Paul Johnson <pauljohn@ku.edu>
 Description: Templates, guides, and scripts for
     writing documents in 'LaTeX' and 'R markdown' to produce
@@ -21,15 +22,16 @@ License: CC BY-SA 4.0
 Imports: kutils, rmarkdown, knitr
 Suggests: rockchalk, xtable, lavaan, utils, psych, pander
 LazyData: TRUE
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 VignetteBuilder: knitr, utils
 NeedsCompilation: no
-Packaged: 2018-09-12 21:32:08 UTC; pauljohn
+Packaged: 2019-02-19 20:30:14 UTC; pauljohn
 Author: Paul Johnson [aut, cre],
   Brent Kaplan [ctb],
   Meghan Sullivan [ctb],
   Charles Redmon [ctb],
   Zack Roman [ctb],
-  Chong Xing [ctb]
+  Chong Xing [ctb],
+  Longcan 'Emma' Huang [ctb]
 Repository: CRAN
-Date/Publication: 2018-10-08 10:30:03 UTC
+Date/Publication: 2019-02-19 21:00:04 UTC

@@ -1,4 +1,4 @@
-%% LyX 2.2.3 created this file.  For more info, see http://www.lyx.org/.
+%% LyX 2.3.1 created this file.  For more info, see http://www.lyx.org/.
 %% Do not edit unless you really know what you are doing.
 \documentclass[11pt,letterpaper,english]{extarticle}
 \usepackage{lmodern}
@@ -14,7 +14,6 @@
  bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
  breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=false]
  {hyperref}
-\usepackage{breakurl}
 
 \makeatletter
 
@@ -46,7 +45,7 @@ footskip=1.5\baselineskip,
 
 \usepackage{dcolumn}
 \usepackage{booktabs}
-
+\usepackage{siunitx}
 
 \input{theme/reportPreambleHeader.tex}
 \input{theme/preambleFooter.tex}
@@ -73,27 +72,40 @@ footskip=1.5\baselineskip,
   author={
     lastname=Author, 
     firstname=Third, 
-    affiliation=Some other Institute, 
+    affiliation=CRMDA, 
     email=third@ku.edu}, 
   title={A Title for Skeleton Template: rnw2pdf-report-sweave},
   rightlogo={theme/logo.pdf},
 }
 \reporthdr
 
-% tmpout directory must exist first
-<<tmpout, echo=FALSE, include=FALSE, results=hide>>=
+% 1. If you have an address file, use it here:
+% \input{addressFooter.tex}
+% 2. If you don't have an address file, remove % signs and fill in your information
+% This stanza must end with "\guideftr"
+% (after removing percent signs):
+%\urlstyle{tt}
+%\footersetup{
+%  leftside={
+%    lone={Address line 1}, 
+%    ltwo={Address line 2}, 
+%    lthree={City State Zipcode}},
+%  rightside={
+%    rone={Web: \url{https://crmda.ku.edu}},
+%    rtwo={Email: \href{mailto:you@where.edu}{\url{you@where.edu}}},
+%    rthree={Phone: 123-345-5678}}
+%}
+%\guideftr
+% 3. If you don't want an address footer, just delete this subsection.
+
+% Please leave this code
+<<ignoremeRoptions, echo=FALSE, include=FALSE, results=hide>>=
 tdir <- "tmpout"
 if(!dir.exists(tdir)) dir.create(tdir, showWarnings=FALSE)
-@
-% Please leave this code: In document Latex options:
-\fvset{listparameters={\setlength{\topsep}{0em}}}
-\SweaveOpts{prefix.string=tmpout/t, split=TRUE, ae=FALSE, height=5, width=6}
-
-% Please leave this chunk
-<<Roptions, echo=F, include=F, results=hide>>=
+library(stationery)
 opts.orig <- options()
 options(device = pdf)
-options(width=160, prompt=" ", continue="  ")
+options(width=80, prompt=" ", continue="  ")
 options(useFancyQuotes = FALSE) 
 set.seed(12345)
 par.orig <- par(no.readonly=TRUE) 
@@ -101,12 +113,23 @@ pjmar <- c(5.1, 5.1, 1.5, 2.1)
 options(SweaveHooks=list(fig=function() par(mar=pjmar, ps=10)))
 pdf.options(onefile=FALSE, family="Times", pointsize=10)
 @
+\fvset{listparameters={\setlength{\topsep}{0em}}}
+\SweaveOpts{prefix.string=tmpout/t, split=TRUE, ae=FALSE, height=4, width=6}
 
-<<texcopy, include=FALSE,echo=FALSE>>=
-library(stationery)
-## If theme directory does not have required logos, retrieve them. 
-logos <- c(logoright = "logo.pdf", address = "addressFooter.tex")
-getFiles(logos, pkg = "stationery")
+% This concerns images in your header!
+% Can delete this chunk after first usage because theme logo files will be available
+<<ignoremetexcopy, include=FALSE,echo=FALSE>>=
+## Put your desired "logo.pdf" in the theme folder. If
+## you don't, you can either use getFiles() to retrieve
+## one for you, or let blankPDF() create a blank image
+## for you.  Its your choice.
+## This will retrieve a logo.pdf file if you want
+getFiles("logo.pdf", pkg = "stationery", overwrite = FALSE)
+## If you do not have a file after that, 
+## the following will manufacture a blank image for a placeholder
+if(!file.exists("theme/logo.pdf")){
+  blankPDF(file = "theme/logo.pdf", height=1, width=3.5, messg = "")
+}
 @
 \begin{abstract}
 \noindent This is an abstract. Please include a terse, yet descriptive
@@ -116,52 +139,31 @@ and polysyllabic profundities.
 
 \section{Introduction}
 
-How to write reports with R \citep{RCore} using the \code{Sweave}
-code chunk engine.
+This is a document template for LaTeX files integrated with R \citep{RCore}
+using the \code{Sweave} code chunk engine.
 
-Please see the guide documents which are distributed with the stationery
-package. The guide ``code chunks'' provides an overview of Sweave
-and knitr.
+This skeleton document was created by these commands in R:
 
-\section*{Section with no number}
+<<eval=F, echo=T>>=
+library(stationery)
+initWriteup("rnw2pdf-report-sweave")
+@
 
-Whether a section or subsection is numbered in LaTeX output is determined
-by environment used. The markup \code{\textbackslash{}section\{\}}
-asks for a numbered section, while the insertion of an asterix \code{\textbackslash{}section{*}\{\}}
-prevents numbering. 
-
-\subsection*{Make minimal changes to the top part}
-
-Make small changes, test whether the document compiles.
-
-Start by putting your title \& name in the top block.
-
-\subsection*{LyX warning}
-
-Reminder: Don't change document margins with LyX menus. You need to
-edit the preamble for that.
-
-\section{\protect\code{R} Code Chunks}
-
-Code chunks begin with ``<\textcompwordmark{}<>\textcompwordmark{}>=''
-and end with a last line ``@''. 
-
-When inserting code chunks in LyX, I type them in LaTeX code boxes,
-because that keeps them visually separate. The LyX team has created
-a code chunk environment (see the pull down menu) but I have not benefitted
-from it.
+See the vignettes provided with the stationery package. See the ``\code{instructions}''
+file that was created by \code{initWriteup}.
 
 Our report documents ALMOST NEVER show ``raw'' R code to readers.
 Write chunks that generate results, figures or legal LaTeX output,
 but do not display them. Then results are included with LaTeX macros
-like \code{\textbackslash{}include} or \code{\textbackslash{}includegraphics}.
+like \code{\textbackslash include} or \code{\textbackslash includegraphics}.
 
 This document uses the Sweave parameter split=TRUE to separate the
 code chunks in files saved in tmpout. There is discussion of splitting
 in the ``code chunks'' vignette distributed with this package.
 
 \bibliographystyle{apalike2}
-\bibliography{theme/R}
+\bibliography{R}
+
 
 \subsection*{}
 

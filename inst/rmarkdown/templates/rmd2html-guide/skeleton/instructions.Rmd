@@ -22,17 +22,16 @@ output:
      theme: default
      css: theme/kutils.css
      template: theme/guide-template.html
-  prettydoc::html_pretty: 
-    theme: cayman 
+     number_sections: true
 logoleft: theme/logoleft.png
 logoright: theme/logo-vert.png
 guide_number: 00
-bibliography: theme/R.bib
+bibliography: R.bib
 header-includes: 
   \usepackage[utf8]{inputenc}
 ---
 
-```{r setup, include=FALSE}
+```{r ignoremeRsetup, include=FALSE, results='hide'}
 ##This Invisible Chunk is required in all CRMDA documents
 outdir <- paste0("tmpout")
 if (!file.exists(outdir)) dir.create(outdir, recursive = TRUE)
@@ -42,38 +41,99 @@ options(width = 70)
 
 
 
-# The big picture
+```{r ignoremeTexcopy, echo=F, results='hide'}
+library(stationery)
+## If theme directory does not have required images or TeX files
+## we need to retrieve them and put them in "theme" directory. 
+logos <- c("logoleft.png", "logo-vert.png")
+try(getFiles(logos, pkg = "stationery", overwrite = FALSE))
+## These theme files should be available already, but if not
+themefiles <- c("kutils.css", "guide-template.html")
+try(getFiles(themefiles, pkg = "stationery", overwrite = FALSE))
+## If you do not have a file after that, 
+## the following will manufacture a blank image for a placeholder
+if(!file.exists("theme/logoleft.pdf")){
+  blankPDF(file = "theme/logoleft.pdf", height=1, width=3.5, messg = "")
+}
+if(!file.exists("theme/logo-vert.pdf")){
+  blankPDF(file = "theme/logo-vert.pdf", height=1, width=3.5, messg = "")
+}
+```
 
-This instruction sheet hits only the hig points about using R [@RCore]
-with Rmarkdown. There are more details in the vignettes "Rmarkdown",
-"code_chunks", and "HTML_special_features".
 
-See the `stationery` vignette in the `stationery` package.  That
-explains the big picture. 
+# Introduction
 
-## To create a new document. 
-
-In R, run
+Create a template (skeleton) document by opening R and running
 
 ```
+library(stationery)
 initWriteup("rmd2html-guide")
 ```
 
-That will create a directory "rmd2html-guide" in which the skeleton
-file will be found. The `initWriteup` function allows one to designate
-a folder within which the new document should be stored.
+That will create a folder `rmd2html-guide`. If you do not want a
+directory to be created, then instead run
+
+
+```
+library(stationery)
+initWriteup("rmd2html-guide", dir = ".")
+```
 
 This is not meaningfully different from the function in `rmarkdown`
 called `draft`. 
 
-## To compile
+# Proceed as follows
 
-There are several options. 
+If you allowed initWriteup to create a directory, rename that
+directory in a way that will be helpful to your project. For example,
+“homework-1-2019” (anything that helps you remember what is in the
+write-up).
 
-1. Use the R function `rmd2html`
+Work on your own *.Rmd file. 
+
+1. Copy the skeleton file to a new name. Choose a name that helps you,
+   possibly “hw-1-2019.Rmd” or such.
+
+2. See the code chunk above named ignoremeTexcopy. That is used to
+   retrieve image files for the header. If you don't have image logo
+   files that you want to use, the last part of that chunk will
+   manufacture empty “blank” pdf logo files. It is safe to delete the
+   ignoremeTexcopy chunk after you have the logo files you want in the
+   theme folder.
+
+3. Compile the document without making other changes. For instructions
+   on compiling, see the Section named Compile the Document.
+
+4. Make revisions incrementally. Start by inserting your own title and
+   address information. Re-compile often to make sure no errors have
+   been made.
+
+Don't make changes that you don't understand in the ignoremeRoptions
+code chunk above. For goodness sake, don't delete that one.
+
+
+# Check our instructions
+
+With every skeleton, we also provide an instructions file in the
+working directory. 
+
+There are also several vignettes distributed with the stationery package. Please review them.
+
+1. “stationery”: the package framework overview
+2. “code_chunks”: discusses display of code in LaTeX documents with both Sweave and knitr chunks
+3. “Rmarkdown”: about using Markdown with R, an alternative to LaTeX/Noweb.
+4. “HTML Special Features”: In Markdown intended for HTML output, authors can exploit some features. 
+
+
+##  Compile the Document
+
+There are several options. Suppose the document we edit is `skeleton.Rmd`.
+
+1. Within R, run our function `rmd2html`
 
 ```
-stationery::rmd2html("skeleton.Rmd")
+library(stationery)
+rmd2html("skeleton.Rmd")
 ```
 
 2. Use the shell script that is provided with the `skeleton.Rmd` file:
@@ -82,9 +142,11 @@ stationery::rmd2html("skeleton.Rmd")
 $ ./rmd2html.sh skeleton.Rmd
 ```
 
-Both of these allow additional arguments, of course. Arguments
-specified here will override the settings in the yaml header of the documetn:
+Both of these allow additional arguments, of course. The details on
+all arguments allowed are offered in the documention within R.
 
+For example, arguments specified here will override the settings in the
+yaml header of the document:
 
 ```
 stationery::rmd2html("skeleton.Rmd", toc = TRUE, toc_depth = 1, keep_md = TRUE)
@@ -98,13 +160,23 @@ the option:
 $ ./rmd2html.sh --toc=TRUE --toc_depth=1 --keep_md=TRUE skeleton.Rmd
 ```
 
-A full list of arguments is provided in `?rmd2html`.
+A full list of arguments is provided, in R run `?rmd2html`.
 
 3. Open the Rmd file in RStudio. The "knit" menu should offer the
-   correct choice "crmda_html_document".
+   correct choice "crmda_html_document". It is **VITAL** to choose the
+   correct output format.
+   
+# Editor Caution: Rstudio Danger
 
 
-# About our template and style files
+While editing an Rnw file in Rstudio, there will be a button labeled
+knit and a small triangle by that item. It is very (VERY!) important
+to choose the correct output format. If you choose incorrectly,
+Rstudio may damage your document by trying to revise it.
+
+# What to edit
+
+## Leave our template and style files (probably)
 
 For our documents, we use a customized template and style sheet, those
 are specified in the document header. 
@@ -118,21 +190,30 @@ output:
 ```
 
 Notice that the theme folder is supposed to have the style sheet,
-images, etc. If those are not provided, a code chunk like this
-can be run to get them:
+images, etc. If those are not provided, the example documents have a
+code chunk like this can be run to get them:
 
-```{r themecopy, eval = FALSE}
-library(stationery)
-## If theme directory does not have required images or TeX files
-## we need to retrieve them and put them in "theme" directory. 
-logos <- c("logoleft.png", "logo-vert.png", "R.bib")
-getFiles(logos, pkg = "stationery")
-## These theme files should be available already, but if not
-themefiles <- c("kutils.css", "guide-template.html")
-getFiles(themefiles, pkg = "stationery")
-```
+    `r ''````{r ignoreTexcopy, include=FALSE}
+    library(stationery)
+    ## If theme directory does not have required images or TeX files
+    ## we need to retrieve them and put them in "theme" directory. 
+    logos <- c("logoleft.png", "logo-vert.png", "R.bib")
+    try(getFiles(logos, pkg = "stationery", overwrite = FALSE))
+    ## These theme files should be available already, but if not
+    themefiles <- c("kutils.css", "guide-template.html")
+    try(getFiles(themefiles, pkg = "stationery", overwrite = FALSE))
+    ## If you do not have a file after that, 
+    ## the following will manufacture a blank image for a placeholder
+    if(!file.exists("theme/logoleft.pdf")){
+        blankPDF(file = "theme/logoleft.pdf", height=1, width=3.5, messg = "")
+    }
+    if(!file.exists("theme/logo-vert.pdf")){
+        blankPDF(file = "theme/logo-vert.pdf", height=1, width=3.5, messg = "")
+    }
+     `r ''````
+  
 
-`getFiles` is a simple little function that does almost nothing.  It
+`getFiles()` is a simple little function that does almost nothing.  It
 just saves one little step required to use `system.file` from R
 base. That will not erase files if they exist already. Note you can
 change the package where your logo files are stored. That's how we
@@ -205,7 +286,7 @@ This is the content inside the third tab
 Note to terminate the tabbed sections we need to declare a new
 section of a higher level.
 
-## Equations
+## Math Check
 
 The usage of equations is discussed in the vignette "R markdown". 
 In HTML output, the display of equations requires an available MathJax
@@ -250,12 +331,12 @@ document. The proof-reading required to figure out which LaTeX
 features might work, and which do not, is exhausting.
 
 
-## Chunks
+## Code Chunk Check
 
 R code chunks are demarcated by three back-ticks and appear in-text
 with a shaded box (because we are using the listings-style output).
 
-```{r myFirstPlot, dev=c('png'), out.width="500px", fig.width=3}
+```{r myFirstPlot, dev=c('png'), out.width="500px",out.height="300px", fig.width=4, fig.heigth=2}
 x <- rnorm(500)
 hist(x)
 ```
@@ -265,6 +346,33 @@ There are many more examples of code chunks in the vignette "code_chunks".
 #### R code inside a colored callout {.bs-callout .bs-callout-red}
 ```{r xsummary}
 mean(x)
+```
+
+```{r reg10}
+dat <- data.frame(x = rnorm(100), y = rnorm(100))
+m1 <- lm(y ~ x, data = dat)
+```
+```{r reg20, results='asis'}
+library(rockchalk)
+vl <- c("x" = "Excellent Predictor")
+or <- outreg(list("First Model" = m1), varLabels = vl, tight = FALSE,
+type = "html", browse = FALSE)
+```
+
+In the kutils package, we made a function semTable() that presents
+structural equation models. 
+
+```{r sem10}
+library(kutils)
+require(lavaan)
+HS.model <- 'visual  =~ x1 + x2 + x3
+textual =~ x4 + x5 + x6
+speed   =~ x7 + x8 + x9'
+output1 <- cfa(HS.model, data = HolzingerSwineford1939, std.lv = TRUE)
+```
+
+```{r sem20, results='asis'}
+cfa1 <- semTable(output1, fits = "rmsea", paramSets = c("loadings", "latentvariances"), type = "html")
 ```
 
 # Citations

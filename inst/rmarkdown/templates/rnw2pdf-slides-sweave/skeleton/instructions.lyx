@@ -1,5 +1,5 @@
-#LyX 2.2 created this file. For more info see http://www.lyx.org/
-\lyxformat 508
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
 \begin_document
 \begin_header
 \save_transient_properties true
@@ -13,8 +13,8 @@
 \usepackage{dcolumn}
 \usepackage{booktabs}
 \usepackage{longtable}
-\usepackage{graphicx}
-\newcommand\makebeamertitle{\frame{\maketitle}}%
+\usepackage{siunitx}
+%\usepackage{graphicx}
 
 % use 'handout' to produce handouts
 %\documentclass[handout]{beamer}
@@ -206,6 +206,8 @@ natbibapa
 \font_osf false
 \font_sf_scale 100 100
 \font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures false
 \graphics default
 \default_output_format default
 \output_sync 0
@@ -237,13 +239,14 @@ natbibapa
 \use_package undertilde 1
 \cite_engine natbib
 \cite_engine_type authoryear
-\biblio_style 
+\biblio_style \use_bibtopic false
 \use_bibtopic false
 \use_indices false
 \paperorientation portrait
 \suppress_date false
 \justification true
 \use_refstyle 0
+\use_minted 0
 \branch R
 \selected 1
 \filename_suffix 0
@@ -267,7 +270,10 @@ natbibapa
 \tocdepth 3
 \paragraph_separation skip
 \defskip smallskip
-\quotes_language english
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
@@ -281,153 +287,14 @@ natbibapa
 \begin_body
 
 \begin_layout Standard
-\begin_inset Branch R
-status open
-
-\begin_layout Standard
 \begin_inset ERT
 status open
 
 \begin_layout Plain Layout
 
-% In document Latex options:
-\end_layout
-
-\begin_layout Plain Layout
-
 
 \backslash
-fvset{listparameters={
-\backslash
-setlength{
-\backslash
-topsep}{0em}}}
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-SweaveOpts{prefix.string=tmpout/t,split=FALSE,ae=F,height=4.5,width=7}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-<<Roptions, echo=FALSE, include=FALSE, results=hide>>=
-\end_layout
-
-\begin_layout Plain Layout
-
-opts.orig <- options()
-\end_layout
-
-\begin_layout Plain Layout
-
-options(width=70, prompt = " ", continue = "  ")
-\end_layout
-
-\begin_layout Plain Layout
-
-options(useFancyQuotes = FALSE)
-\end_layout
-
-\begin_layout Plain Layout
-
-set.seed(12345)
-\end_layout
-
-\begin_layout Plain Layout
-
-par.orig <- par(no.readonly=TRUE) 
-\end_layout
-
-\begin_layout Plain Layout
-
-pjmar <- c(4.1, 4.1, 1.5, 2.1)
-\end_layout
-
-\begin_layout Plain Layout
-
-par(mar=pjmar, ps=11)
-\end_layout
-
-\begin_layout Plain Layout
-
-options(SweaveHooks=list(fig=function() par(mar=pjmar, ps=12, xpd=F)))
-\end_layout
-
-\begin_layout Plain Layout
-
-pdf.options(onefile=F,family="Times",pointsize=12)
-\end_layout
-
-\begin_layout Plain Layout
-
-if(!file.exists("tmpout")) dir.create("tmpout", showWarnings=F)
-\end_layout
-
-\begin_layout Plain Layout
-
-@
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-<<texcopy, include=FALSE, echo=FALSE, results=hide>>=
-\end_layout
-
-\begin_layout Plain Layout
-
-library(stationery)
-\end_layout
-
-\begin_layout Plain Layout
-
-## If theme directory does not have required logos, retrieve them.
- 
-\end_layout
-
-\begin_layout Plain Layout
-
-logos <- c(logo = "logo.pdf",
-\end_layout
-
-\begin_layout Plain Layout
-
-            logomini = "logomini.png")
-\end_layout
-
-\begin_layout Plain Layout
-
-getFiles(logos, pkg = "stationery")
-\end_layout
-
-\begin_layout Plain Layout
-
-@
-\end_layout
-
-\end_inset
-
-
+mode<presentation>{
 \end_layout
 
 \end_inset
@@ -576,6 +443,20 @@ status open
 
 \begin_layout Plain Layout
 
+}%end mode presentation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
 
 \backslash
 begin{frame}[containsverbatim, allowframebreaks]
@@ -621,6 +502,281 @@ end{frame}
 \begin_layout Standard
 \begin_inset FormulaMacro
 \newcommand{\vb}[1]{\bm{\mathrm{#1}}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Branch R
+inverted 0
+status open
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%Please leave this code block.
+ OK to revise values inside.
+\end_layout
+
+\begin_layout Plain Layout
+
+<<Roptions, echo=FALSE, include=FALSE, results=hide>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+tdir <- 
+\begin_inset Quotes eld
+\end_inset
+
+tmpout
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+if(!dir.exists(tdir)) dir.create(tdir, showWarnings=FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+library(stationery)
+\end_layout
+
+\begin_layout Plain Layout
+
+opts.orig <- options()
+\end_layout
+
+\begin_layout Plain Layout
+
+options(width=70, prompt = " ", continue = "  ")
+\end_layout
+
+\begin_layout Plain Layout
+
+options(useFancyQuotes = FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+set.seed(12345)
+\end_layout
+
+\begin_layout Plain Layout
+
+par.orig <- par(no.readonly=TRUE) 
+\end_layout
+
+\begin_layout Plain Layout
+
+pjmar <- c(4.1, 4.1, 1.5, 2.1)
+\end_layout
+
+\begin_layout Plain Layout
+
+par(mar=pjmar, ps=11)
+\end_layout
+
+\begin_layout Plain Layout
+
+options(SweaveHooks=list(fig=function() par(mar=pjmar, ps=12, xpd=F)))
+\end_layout
+
+\begin_layout Plain Layout
+
+pdf.options(onefile=F,family="Times",pointsize=12)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\begin_layout Plain Layout
+
+% In document Latex options:
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+fvset{listparameters={
+\backslash
+setlength{
+\backslash
+topsep}{0em}}}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+SweaveOpts{prefix.string=tmpout/t,split=FALSE,ae=F,height=4.5,width=7}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% We need 2 image files for logos, front page (logo.pdf) and lower-right
+\end_layout
+
+\begin_layout Plain Layout
+
+% decoration (logomini.pdf) that shows on all slides.
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+% You can manually copy your desired image files
+\end_layout
+
+\begin_layout Plain Layout
+
+% 
+\begin_inset Quotes eld
+\end_inset
+
+logo.pdf
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+logomini.pdf
+\begin_inset Quotes erd
+\end_inset
+
+ into the theme folder.
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+% Or run this to retrieve or create them:
+\end_layout
+
+\begin_layout Plain Layout
+
+<<texcopy, include=FALSE, echo=FALSE, results=hide>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+logos <- c("logo.pdf", "logomini.pdf")
+\end_layout
+
+\begin_layout Plain Layout
+
+## This will retrieve logo files from a designated package:
+\end_layout
+
+\begin_layout Plain Layout
+
+try(getFiles(logos, pkg = "stationery", overwrite = FALSE))
+\end_layout
+
+\begin_layout Plain Layout
+
+## If you do not have a file after that, 
+\end_layout
+
+\begin_layout Plain Layout
+
+## the following will manufacture a blank images for placeholders
+\end_layout
+
+\begin_layout Plain Layout
+
+if(!file.exists(
+\begin_inset Quotes eld
+\end_inset
+
+theme/logo.pdf
+\begin_inset Quotes erd
+\end_inset
+
+)){
+\end_layout
+
+\begin_layout Plain Layout
+
+  blankPDF(file = "theme/logo.pdf", height=1, width=2, messg = 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+if(!file.exists(
+\begin_inset Quotes eld
+\end_inset
+
+theme/logomini.pdf
+\begin_inset Quotes erd
+\end_inset
+
+)){
+\end_layout
+
+\begin_layout Plain Layout
+
+  blankPDF(file = "theme/logomini.pdf", height=1, width=11, messg = 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \end_inset
 
 
@@ -1032,6 +1188,7 @@ Citations use natbib with apacite.
 \begin_inset CommandInset citation
 LatexCommand citealp
 key "RCore"
+literal "true"
 
 \end_inset
 
@@ -1039,6 +1196,7 @@ key "RCore"
 \begin_inset CommandInset citation
 LatexCommand citep
 key "mccullagh_nelder_1989"
+literal "true"
 
 \end_inset
 
@@ -2385,7 +2543,8 @@ frametitle{References}
 \align left
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
-bibfiles "theme/R"
+btprint "btPrintCited"
+bibfiles "R"
 options "apalike2"
 
 \end_inset

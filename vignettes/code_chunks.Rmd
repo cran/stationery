@@ -22,9 +22,7 @@ output:
     fig_caption: yes
     latex_engine: pdflatex
     highlight: haddock
-    pandoc_args: [
-        --listings
-    ]
+    pandoc_args: [--listings]
     template:  theme/guide-template.tex
 fontsize: 11pt
 bibliography: theme/R.bib

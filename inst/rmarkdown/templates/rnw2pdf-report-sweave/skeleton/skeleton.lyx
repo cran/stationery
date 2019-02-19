@@ -1,5 +1,5 @@
-#LyX 2.2 created this file. For more info see http://www.lyx.org/
-\lyxformat 508
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
 \begin_document
 \begin_header
 \save_transient_properties true
@@ -22,7 +22,7 @@ footskip=1.5\baselineskip,
 
 \usepackage{dcolumn}
 \usepackage{booktabs}
-
+\usepackage{siunitx}
 
 \input{theme/reportPreambleHeader.tex}
 \input{theme/preambleFooter.tex}
@@ -48,6 +48,8 @@ sweave
 \font_osf false
 \font_sf_scale 100 100
 \font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
 \graphics default
 \default_output_format default
 \output_sync 0
@@ -86,6 +88,7 @@ sweave
 \suppress_date true
 \justification true
 \use_refstyle 0
+\use_minted 0
 \branch R
 \selected 0
 \filename_suffix 0
@@ -103,7 +106,10 @@ sweave
 \tocdepth 3
 \paragraph_separation skip
 \defskip medskip
-\quotes_language english
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
@@ -215,7 +221,7 @@ reportsetup{%
 
 \begin_layout Plain Layout
 
-    affiliation=Some other Institute, 
+    affiliation=CRMDA, 
 \end_layout
 
 \begin_layout Plain Layout
@@ -245,6 +251,127 @@ reportsetup{%
 reporthdr
 \end_layout
 
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+% 1.
+ If you have an address file, use it here:
+\end_layout
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+input{addressFooter.tex}
+\end_layout
+
+\begin_layout Plain Layout
+
+% 2.
+ If you don't have an address file, remove % signs and fill in your information
+\end_layout
+
+\begin_layout Plain Layout
+
+% This stanza must end with 
+\begin_inset Quotes eld
+\end_inset
+
+
+\backslash
+guideftr
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+% (after removing percent signs):
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+urlstyle{tt}
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+footersetup{
+\end_layout
+
+\begin_layout Plain Layout
+
+%  leftside={
+\end_layout
+
+\begin_layout Plain Layout
+
+%    lone={Address line 1}, 
+\end_layout
+
+\begin_layout Plain Layout
+
+%    ltwo={Address line 2}, 
+\end_layout
+
+\begin_layout Plain Layout
+
+%    lthree={City State Zipcode}},
+\end_layout
+
+\begin_layout Plain Layout
+
+%  rightside={
+\end_layout
+
+\begin_layout Plain Layout
+
+%    rone={Web: 
+\backslash
+url{https://crmda.ku.edu}},
+\end_layout
+
+\begin_layout Plain Layout
+
+%    rtwo={Email: 
+\backslash
+href{mailto:you@where.edu}{
+\backslash
+url{you@where.edu}}},
+\end_layout
+
+\begin_layout Plain Layout
+
+%    rthree={Phone: 123-345-5678}}
+\end_layout
+
+\begin_layout Plain Layout
+
+%}
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+guideftr
+\end_layout
+
+\begin_layout Plain Layout
+
+% 3.
+ If you don't want an address footer, just delete this subsection.
+\end_layout
+
 \end_inset
 
 
@@ -256,12 +383,12 @@ status open
 
 \begin_layout Plain Layout
 
-% tmpout directory must exist first
+% Please leave this code
 \end_layout
 
 \begin_layout Plain Layout
 
-<<tmpout, echo=FALSE, include=FALSE, results=hide>>=
+<<ignoremeRoptions, echo=FALSE, include=FALSE, results=hide>>=
 \end_layout
 
 \begin_layout Plain Layout
@@ -276,49 +403,7 @@ if(!dir.exists(tdir)) dir.create(tdir, showWarnings=FALSE)
 
 \begin_layout Plain Layout
 
-@
-\end_layout
-
-\begin_layout Plain Layout
-
-% Please leave this code: In document Latex options:
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-fvset{listparameters={
-\backslash
-setlength{
-\backslash
-topsep}{0em}}}
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-SweaveOpts{prefix.string=tmpout/t, split=TRUE, ae=FALSE, height=5, width=6}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-% Please leave this chunk
-\end_layout
-
-\begin_layout Plain Layout
-
-<<Roptions, echo=F, include=F, results=hide>>=
+library(stationery)
 \end_layout
 
 \begin_layout Plain Layout
@@ -333,7 +418,7 @@ options(device = pdf)
 
 \begin_layout Plain Layout
 
-options(width=160, prompt=" ", continue="  ")
+options(width=80, prompt=" ", continue="  ")
 \end_layout
 
 \begin_layout Plain Layout
@@ -371,6 +456,24 @@ pdf.options(onefile=FALSE, family="Times", pointsize=10)
 @
 \end_layout
 
+\begin_layout Plain Layout
+
+
+\backslash
+fvset{listparameters={
+\backslash
+setlength{
+\backslash
+topsep}{0em}}}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+SweaveOpts{prefix.string=tmpout/t, split=TRUE, ae=FALSE, height=4, width=6}
+\end_layout
+
 \end_inset
 
 
@@ -382,28 +485,107 @@ status open
 
 \begin_layout Plain Layout
 
-<<texcopy, include=FALSE,echo=FALSE>>=
+% This concerns images in your header!
 \end_layout
 
 \begin_layout Plain Layout
 
-library(stationery)
+% Can delete this chunk after first usage because theme logo files will
+ be available
 \end_layout
 
 \begin_layout Plain Layout
 
-## If theme directory does not have required logos, retrieve them.
- 
+<<ignoremetexcopy, include=FALSE,echo=FALSE>>=
 \end_layout
 
 \begin_layout Plain Layout
 
-logos <- c(logoright = "logo.pdf", address = "addressFooter.tex")
+## Put your desired 
+\begin_inset Quotes eld
+\end_inset
+
+logo.pdf
+\begin_inset Quotes erd
+\end_inset
+
+ in the theme folder.
+ If
 \end_layout
 
 \begin_layout Plain Layout
 
-getFiles(logos, pkg = "stationery")
+## you don't, you can either use getFiles() to retrieve
+\end_layout
+
+\begin_layout Plain Layout
+
+## one for you, or let blankPDF() create a blank image
+\end_layout
+
+\begin_layout Plain Layout
+
+## for you.
+  Its your choice.
+\end_layout
+
+\begin_layout Plain Layout
+
+## This will retrieve a logo.pdf file if you want
+\end_layout
+
+\begin_layout Plain Layout
+
+getFiles(
+\begin_inset Quotes eld
+\end_inset
+
+logo.pdf
+\begin_inset Quotes erd
+\end_inset
+
+, pkg = "stationery", overwrite = FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+## If you do not have a file after that, 
+\end_layout
+
+\begin_layout Plain Layout
+
+## the following will manufacture a blank image for a placeholder
+\end_layout
+
+\begin_layout Plain Layout
+
+if(!file.exists(
+\begin_inset Quotes eld
+\end_inset
+
+theme/logo.pdf
+\begin_inset Quotes erd
+\end_inset
+
+)){
+\end_layout
+
+\begin_layout Plain Layout
+
+  blankPDF(file = "theme/logo.pdf", height=1, width=3.5, messg = 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+
+}
 \end_layout
 
 \begin_layout Plain Layout
@@ -429,10 +611,11 @@ Introduction
 \end_layout
 
 \begin_layout Standard
-How to write reports with R 
+This is a document template for LaTeX files integrated with R 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "RCore"
+literal "true"
 
 \end_inset
 
@@ -450,114 +633,69 @@ Sweave
 \end_layout
 
 \begin_layout Standard
-Please see the guide documents which are distributed with the stationery
- package.
- The guide 
-\begin_inset Quotes eld
-\end_inset
-
-code chunks
-\begin_inset Quotes erd
-\end_inset
-
- provides an overview of Sweave and knitr.
-\end_layout
-
-\begin_layout Section*
-Section with no number
+This skeleton document was created by these commands in R:
 \end_layout
 
 \begin_layout Standard
-Whether a section or subsection is numbered in LaTeX output is determined
- by environment used.
- The markup 
-\begin_inset Flex Code
+\begin_inset ERT
 status open
 
 \begin_layout Plain Layout
 
-\backslash
-section{}
+<<eval=F, echo=T>>=
 \end_layout
-
-\end_inset
-
- asks for a numbered section, while the insertion of an asterix 
-\begin_inset Flex Code
-status open
 
 \begin_layout Plain Layout
 
-\backslash
-section*{}
+library(stationery)
 \end_layout
-
-\end_inset
-
- prevents numbering.
- 
-\end_layout
-
-\begin_layout Subsection*
-Make minimal changes to the top part
-\end_layout
-
-\begin_layout Standard
-Make small changes, test whether the document compiles.
-\end_layout
-
-\begin_layout Standard
-Start by putting your title & name in the top block.
-\end_layout
-
-\begin_layout Subsection*
-LyX warning
-\end_layout
-
-\begin_layout Standard
-Reminder: Don't change document margins with LyX menus.
- You need to edit the preamble for that.
-\end_layout
-
-\begin_layout Section
-\begin_inset Flex Code
-status open
 
 \begin_layout Plain Layout
-R
+
+initWriteup("rnw2pdf-report-sweave")
 \end_layout
 
-\end_inset
-
- Code Chunks
-\end_layout
-
-\begin_layout Standard
-Code chunks begin with 
-\begin_inset Quotes eld
-\end_inset
-
-<<>>=
-\begin_inset Quotes erd
-\end_inset
-
- and end with a last line 
-\begin_inset Quotes eld
-\end_inset
+\begin_layout Plain Layout
 
 @
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+See the vignettes provided with the stationery package.
+ See the 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+instructions
+\end_layout
+
+\end_inset
+
+
 \begin_inset Quotes erd
+\end_inset
+
+ file that was created by 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+initWriteup
+\end_layout
+
 \end_inset
 
 .
- 
-\end_layout
-
-\begin_layout Standard
-When inserting code chunks in LyX, I type them in LaTeX code boxes, because
- that keeps them visually separate.
- The LyX team has created a code chunk environment (see the pull down menu)
- but I have not benefitted from it.
 \end_layout
 
 \begin_layout Standard
@@ -616,7 +754,8 @@ code chunks
 \begin_layout Standard
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
-bibfiles "theme/R"
+btprint "btPrintCited"
+bibfiles "R"
 options "apalike2"
 
 \end_inset
@@ -626,7 +765,7 @@ options "apalike2"
 
 \begin_layout Subsection*
 \begin_inset Note Note
-status open
+status collapsed
 
 \begin_layout Subsection*
 Session Info

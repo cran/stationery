@@ -4,22 +4,63 @@
 \alias{getFiles}
 \title{Retrieve theme files}
 \usage{
-getFiles(fn, dn = "theme", pkg = "stationery")
+getFiles(fn, pkg = "stationery", overwrite = FALSE,
+  backup = overwrite, pkgdir = "theme", outputdir = "theme")
 }
 \arguments{
-\item{fn}{Vector of file names}
-
-\item{dn}{"theme", or directory name used in package inst for
-theme information.}
+\item{fn}{A file name vector. In \code{stationery}, this is
+typically retrieving logo images or theme files.}
 
 \item{pkg}{Package name, default "stationery"}
+
+\item{overwrite}{Default FALSE, function returns TRUE, meaning
+"my work was done before."  If TRUE, old file will be
+replaced.}
+
+\item{backup}{Default is TRUE, if a file is to be overwritten, then a
+backup will be created with kutils::file.backup.}
+
+\item{pkgdir}{package directory name where files are
+found. Default is "theme" because that is used in
+\code{stationery} and related CRMDA packages.  It is the name
+of a directory in the package's \code{inst} folder, the same
+place where R \code{system.file} looks for files and
+directories.}
+
+\item{outputdir}{Default is same as \code{pkgdir}. A directory
+where file file will be copied within the current working
+directory.}
 }
 \value{
-TRUE if succeeded
+TRUE if succeeded, either a file existed before (and
+    overwrite=FALSE) or a file was copied.
 }
 \description{
 A wrapper for file.copy that retieves files from the dn = "theme"
-directory of a package
+directory of a package.  It ties in the file.backup function from
+kutils so that if a file is overwritten, then a backup copy is
+created, using the last modification time of the file in the
+backup file name.
+}
+\details{
+This was originally created because we wanted to protect user logo
+and address files from accidental erasure.  Now it has a little
+more versatility because \code{overwrite=TRUE} and
+\code{backup=TRUE} add a little bit of valuable functionality.
+When a file is overwritten, it should never be lost if
+\code{backup=TRUE}.
+}
+\examples{
+## To demonstrate, we use a temporary directory.  Usage of setwd is discouraged
+## in examples, so this is a little bit more indirect than a real usage would be:
+tdir <- tempdir()
+list.files(file.path(tdir, "theme"))
+getFiles("logo.pdf", pkg = "stationery", overwrite = TRUE, outputdir = file.path(tdir, "theme"))
+list.files(file.path(tdir, "theme"))
+getFiles("logo.pdf", pkg = "stationery", overwrite = TRUE, outputdir = file.path(tdir, "theme"),
+         backup = TRUE)
+list.files(file.path(tdir, "theme"))
+unlink(file.path(tdir, "theme"), recursive = TRUE)
 }
 \author{
 Paul Johnson<pauljohn@ku.edu>

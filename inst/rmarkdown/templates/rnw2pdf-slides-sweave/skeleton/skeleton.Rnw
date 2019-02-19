@@ -1,6 +1,6 @@
-%% LyX 2.2.3 created this file.  For more info, see http://www.lyx.org/.
+%% LyX 2.3.1 created this file.  For more info, see http://www.lyx.org/.
 %% Do not edit unless you really know what you are doing.
-\documentclass[10pt,english,aspectratio=1609]{beamer}
+\documentclass[10pt,english,noae,aspectratio=1609,color=pdftex]{beamer}
 \usepackage{lmodern}
 \renewcommand{\sfdefault}{lmss}
 \renewcommand{\ttdefault}{lmtt}
@@ -13,14 +13,25 @@
 
 \makeatletter
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+% this default might be overridden by plain title style
+\newcommand\makebeamertitle{\frame{\maketitle}}%
+% (ERT) argument for the TOC
+\AtBeginDocument{%
+  \let\origtableofcontents=\tableofcontents
+  \def\tableofcontents{\@ifnextchar[{\origtableofcontents}{\gobbletableofcontents}}
+  \def\gobbletableofcontents#1{\origtableofcontents}
+}
+<<echo=F>>=
+  if(exists(".orig.enc")) options(encoding = .orig.enc)
+@
 \usepackage[natbibapa]{apacite}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
 \usepackage{dcolumn}
 \usepackage{booktabs}
+\usepackage{siunitx}
 \usepackage{longtable}
-\usepackage{graphicx}
-\newcommand\makebeamertitle{\frame{\maketitle}}%
+%%\usepackage{graphicx}
 \renewcommand{\doiprefix}{doi:\kern-1pt}
 \setlength{\bibsep}{10pt}
 
@@ -33,8 +44,8 @@
 
 
 %%paste in guidePreambleSweavel.tex
-%%% From beamer slide:
-\usepackage{Sweave}
+%% From beamer slide:
+%% \usepackage{Sweave}
 %% 
 %% This controls display of code chunks
 \usepackage{ae,fancyvrb,relsize,listings}
@@ -121,8 +132,8 @@
   numberstyle={\tiny}
 }
 
-\renewenvironment{Schunk}{}{}
-\renewenvironment{Sinput}{}{}
+\newenvironment{Schunk}{}{}
+\newenvironment{Sinput}{}{}
 \let\Sinput\relax
 \let\Scode\relax
 \let\Soutput\relax
@@ -134,7 +145,7 @@
 
 \fvset{listparameters={\setlength{\topsep}{0em}}}
 
-\usepackage{xcolor}
+%%\usepackage{xcolor}
 \definecolor{light-gray}{gray}{0.90}
 \usepackage{realboxes}
 \providecommand*{\code}[1]{\texttt{#1}}
@@ -148,7 +159,7 @@
 \definecolor{darkblue}{HTML}{1e2277}
 
 %would be in beamerthemekucrmda%
-\mode<presentation>
+\mode<presentation>{
 \definecolor{kublue}{RGB}{0,81,186}
 \usefonttheme{professionalfonts}
 \useoutertheme{infolines}
@@ -170,51 +181,18 @@
 %If you want bigger margins, try this:
 \setbeamersize{text margin left=05mm,text margin right=10mm} 
 \hypersetup{colorlinks,allcolors=.,urlcolor=darkblue}
-%Following seems to have no effect now
-%\usepackage{handoutWithNotes}
-%\pgfpagesuselayout{3 on 1 with notes}[letterpaper, border shrink=5mm]
 
 \titlegraphic{\includegraphics[width=6cm]{theme/logo}}
+} %end mode presentation
 
 \makeatother
 
 \usepackage{babel}
 \begin{document}
-% tmpout directory must exist first
-<<tmpout, echo=FALSE, include=FALSE, results=hide>>=
-if(!dir.exists("tmpout")) dir.create("tmpout", showWarnings=FALSE)
-@
-% In document Latex options:
-\fvset{listparameters={\setlength{\topsep}{0em}}}
-\SweaveOpts{prefix.string=tmpout/t,split=T,ae=F,height=4.5,width=7}
-
-<<Roptions, echo=F>>=
-opts.orig <- options()
-options(width=100, prompt = " ", continue = "  ")
-options(useFancyQuotes = FALSE)
-set.seed(12345)
-par.orig <- par(no.readonly = TRUE) 
-pjmar <- c(4.1, 4.1, 1.5, 2.1)
-par(mar=pjmar, ps=11)
-options(SweaveHooks=list(fig=function() par(mar=pjmar, ps=12, xpd=F)))
-pdf.options(onefile=F,family="Times",pointsize=12)
-if(!file.exists("tmpout")) dir.create("tmpout", showWarnings=F)
-@
-
-<<texcopy, include=FALSE>>=
-library(stationery)
-## If theme directory does not have required logo files, retrieve them.
-logos <- c(logo = "logo.pdf",
-            logomini = "logomini.pdf")
-getFiles(logos, pkg = "stationery")
-@
-
+\mode<presentation>{
 \title[beamer]{Skeleton rmd2pdf-slides-sweave}
-
 \author{Your Name Here\inst{1}}
-
 \institute[NUWUA]{\inst{1}Name of Unit Where You Are }
-
 \date{2018}
 
 \makebeamertitle
@@ -227,6 +205,8 @@ getFiles(logos, pkg = "stationery")
   }
 }
 
+}%end mode presentation
+
 \begin{frame}[containsverbatim, allowframebreaks]
 \frametitle{Outline}
 
@@ -236,7 +216,45 @@ getFiles(logos, pkg = "stationery")
 
 %following is LyX shortcut \vb for bold upright math for matrices
 
-\global\long\def\vb#1{\bm{\mathrm{#1}}}
+\global\long\def\vb#1{\bm{\mathrm{#1}}}%
+
+%Please leave this code block. OK to revise values inside.
+<<ignoremeRoptions, echo=F>>=
+tdir <- "tmpout"
+if(!dir.exists(tdir)) dir.create(tdir, showWarnings=FALSE)
+library(stationery)
+opts.orig <- options()
+options(width=70, prompt = " ", continue = "  ")
+options(useFancyQuotes = FALSE)
+set.seed(12345)
+par.orig <- par(no.readonly = TRUE) 
+pjmar <- c(4.1, 4.1, 1.5, 2.1)
+par(mar=pjmar, ps=11)
+options(SweaveHooks=list(fig=function() par(mar=pjmar, ps=12, xpd=F)))
+pdf.options(onefile=F,family="Times",pointsize=12)
+@
+% In document Latex options:
+\fvset{listparameters={\setlength{\topsep}{0em}}}
+\SweaveOpts{prefix.string=tmpout/t,split=TRUE,ae=FALSE,height=4.5,width=7}
+
+% We need 2 image files for logos, front page (logo.pdf) and lower-right
+% decoration (logomini.pdf) that shows on all slides. 
+% You can manually copy your desired image files
+% "logo.pdf" and "logomini.pdf" into the theme folder. 
+% Or run this to retrieve or create them:
+<<texcopy, include=FALSE, echo=FALSE, results=hide>>=
+logos <- c("logo.pdf", "logomini.pdf")
+## This will retrieve logo files from a designated package:
+try(getFiles(logos, pkg = "stationery", overwrite = FALSE))
+## If you do not have a file after that, 
+## the following will manufacture a blank images for placeholders
+if(!file.exists("theme/logo.pdf")){
+  blankPDF(file = "theme/logo.pdf", height=1, width=2, messg = "")
+}
+if(!file.exists("theme/logomini.pdf")){
+  blankPDF(file = "theme/logomini.pdf", height=1, width=11, messg = "")
+}
+@
 
 \section{Instructions}
 
@@ -267,7 +285,7 @@ mean(x)
 \frametitle{References}
 
 \bibliographystyle{apalike2}
-\bibliography{theme/R}
+\bibliography{R}
 
 \end{frame}
 

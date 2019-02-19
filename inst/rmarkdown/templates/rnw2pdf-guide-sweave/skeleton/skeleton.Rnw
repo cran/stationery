@@ -1,4 +1,4 @@
-%% LyX 2.2.3 created this file.  For more info, see http://www.lyx.org/.
+%% LyX 2.3.1 created this file.  For more info, see http://www.lyx.org/.
 %% Do not edit unless you really know what you are doing.
 \documentclass[11pt,letterpaper,english]{extarticle}
 \usepackage{lmodern}
@@ -14,7 +14,6 @@
  bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
  breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=false]
  {hyperref}
-\usepackage{breakurl}
 
 \makeatletter
 
@@ -55,8 +54,8 @@ footskip=1.5\baselineskip,
 
 \begin{document}
 %% Fill in values of the arguments here, 
-%% If blanks are needed, must insert value " ~ "
-%% If comma needed inside value, wrap in {}.
+%% If blanks are needed, insert tilde " ~ " to make sure they are respected
+%% If comma needed inside a value, wrap in {}.
 %% Delete secondauthor and thirdauthor if not needed
 \guidesetup{%
   author={
@@ -65,14 +64,14 @@ footskip=1.5\baselineskip,
     affiliation=CRMDA,
     email=first@ku.edu},
   author={
-    lastname=Author, 
+    lastname=Author{, Jr.}, 
     firstname=Second, 
     affiliation=CRMDA, 
     email=second@ku.edu}, 
   author={
     lastname=Author,
     firstname=Third, 
-    affiliation=Some other Institute,
+    affiliation=Some~other~Institute,
     email=third@ku.edu},
   url={https://crmda.ku.edu/guides},
   keywords={single-authoring, just one},
@@ -83,46 +82,66 @@ footskip=1.5\baselineskip,
 }
 \guidehdr
 
-% tmpout directory must exist first
-<<tmpout, echo=FALSE, include=FALSE, results=hide>>=
-if(!dir.exists("tmpout")) dir.create("tmpout", showWarnings=FALSE)
-@
+% 1. If you have an address file, use it here:
+\input{addressFooter.tex}
+% 2. If you don't have an address file, remove % signs and fill in your information
+% This stanza must end with "\guideftr"
+% (after removing percent signs):
+%\urlstyle{tt}
+%\footersetup{
+%  leftside={
+%    lone={Address line 1}, 
+%    ltwo={Address line 2}, 
+%    lthree={City State Zipcode}},
+%  rightside={
+%    rone={Web: \url{https://crmda.ku.edu}},
+%    rtwo={Email: \href{mailto:you@where.edu}{\url{you@where.edu}}},
+%    rthree={Phone: 123-345-5678}}
+%}
+%\guideftr
+% 3. If you don't want an address footer, just delete this subsection.
 
-% In document Latex options:
-\fvset{listparameters={\setlength{\topsep}{0em}}}
-\SweaveOpts{prefix.string=tmpout/t, split=TRUE, ae=FALSE, height=3, width=5}
-
-<<Roptions, echo=FALSE, include=FALSE, results=hide>>=
+% Please leave this code
+<<ignoremeRsetup, echo=FALSE, include=FALSE, results=hide>>=
+tdir <- "tmpout"
+if(!dir.exists(tdir)) dir.create(tdir, showWarnings=FALSE)
+library(stationery)
 opts.orig <- options()
-options(width=100, prompt=" ", continue="  ")
+options(width=80, prompt=" ", continue="  ")
 options(useFancyQuotes = FALSE) 
 set.seed(12345)
+par.orig <- par(no.readonly=TRUE)
 options(SweaveHooks=list(fig=function() par(ps=10)))
 pdf.options(onefile=FALSE,family="Times",pointsize=10)
 @
+\fvset{listparameters={\setlength{\topsep}{0em}}}
+\SweaveOpts{prefix.string=tmpout/t, split=TRUE, ae=FALSE, height=4, width=6}
 
+% We need 2 image files for logos, top left (logoleft) and right
+% (logo-vert). 
+% You can manually copy your desired image files
+% "logoleft.pdf" and "logo-vert.pdf" into the theme folder. 
+% Or run this to retrieve or create them:
 <<texcopy, include=FALSE, echo=FALSE, results=hide>>=
-library(stationery)
-## If theme directory does not have required images or TeX files
-## we need to retrieve them and put them in "theme" directory. 
-logos <- c(logoleft = "logoleft.pdf", 
-           logoright = "logo-vert.pdf",
-           address = "addressFooter.tex")
-getFiles(logos, pkg = "stationery")
+## The logos we need are
+logos <- c("logoleft.pdf", "logo-vert.pdf")
+## This will retrieve logo files from a designated package:
+getFiles(logos, pkg = "stationery", overwrite = FALSE)
+## If you do not have a file after that, 
+## the following will manufacture a blank images for placeholders
+if(!file.exists("theme/logoleft.pdf")){
+  blankPDF(file = "theme/logoleft.pdf", height=1.2, width=1.2, messg = "")
+}
+if(!file.exists("theme/logo-vert.pdf")){
+  blankPDF(file = "theme/logo-vert.pdf", height=2, width=1.5, messg = "")
+}
 @
 
-%The listings class used here allows within-document style
-%changes. R input boxes are governed by 
-% "Rsize", "Rbackground" and "Rcolor", while R output boxes depend on
-% "Routsize", "Routbackground", and "Routcolor". Colors
-% can be specified in many ways, as shown here
+%The listings class used here allows within-document style.
+%See the instructions file for details and examples. One can alter R input and 
+%output, changing the size and color (foreground or background) 
+%with statements like this:
 %\def\Rsize{\huge\ttfamily}
-%\def\Routsize{\huge}
-%\def\Rbackground{\color[gray]{0.90}}
-%\def\Routbackground{\color[gray]{0.40}}
-%\def\Rcolor{\color[gray]{0.60}
-%\def\Routcolor{\color[rgb]{0.9, 0.1, 0.1}]}
-%\def\Rcommentcolor{\color{green}}
 \begin{abstract}
 \noindent This is an abstract. Please include a terse, yet descriptive
 statement here of less than 200 words. It should avoid colloquialisms
@@ -132,21 +151,16 @@ and polysyllabic profundities.
 
 \section{Nuts and Bolts}
 
-Please see the guide document in the same folder as this document.
-
-Do put your title \& name in the top block.
-
-Don't change the 5 code chunks above or the last chunk below.
-
-Don't change margins or geometry or hyperref with Lyx pull down menus. 
+Please see the intruction file in the same folder as this document.
 
 Please don't delete the last section \ref{sec:Session-Info} of this
-template. It is important. It is safe to delete anything between this
-section and that one, however. Be aware, however, that at least one
-item in the bibliography must be cited, or there will be a LaTeX compiler
-error, ``I found no \textbackslash{}citation commands-{}-{}-while
-reading file skeleton.aux''. To avoid that, we are citing the R software
-itself \citet{RCore}.
+template. It is important. 
+
+Be aware that at least one item in the bibliography must be cited,
+or there will be a LaTeX compiler error, ``I found no \textbackslash citation
+commands-{}-{}-while reading file skeleton.aux''. To avoid that,
+either delete the bibliography (at the end) or insert a citation.
+Here we cite R \citet{RCore}.
 
 \section{Write Sections \& Subsections here}
 
@@ -164,23 +178,25 @@ mean(x)
 @
 
 \bibliographystyle{apalike2}
-\phantomsection\addcontentsline{toc}{section}{\refname}\bibliography{theme/R}
+\phantomsection\addcontentsline{toc}{section}{\refname}\bibliography{R}
+
 
 \section*{Replication Information\label{sec:Session-Info}}
 
 Please leave this next code chunk if you are producing a guide document. 
 
-<<session, echo=F>>=
+<<sessioninfo, echo=F>>=
 sessionInfo()
 if(!is.null(warnings())){
     print("Warnings:")
     warnings()}
 @
 
-<<opts20, include=F>>=
+<<RoptionsRestore, include=F>>=
 ## Don't delete this. It puts the interactive session options
 ## back the way they were. If this is compiled within a session
 ## it is vital to do this.
 options(opts.orig)
+par(par.orig)
 @
 \end{document}

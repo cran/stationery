@@ -1,4 +1,4 @@
-%% LyX 2.2.3 created this file.  For more info, see http://www.lyx.org/.
+%% LyX 2.3.1 created this file.  For more info, see http://www.lyx.org/.
 %% Do not edit unless you really know what you are doing.
 \documentclass[11pt,letterpaper,english]{extarticle}
 \usepackage{lmodern}
@@ -13,7 +13,6 @@
  bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
  breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=false]
  {hyperref}
-\usepackage{breakurl}
 
 \makeatletter
 
@@ -45,6 +44,9 @@ footskip=1.5\baselineskip,
 
 \makeatother
 
+\usepackage{listings}
+\renewcommand{\lstlistingname}{\inputencoding{latin9}Listing}
+
 \begin{document}
 %% Fill in values of the arguments here, 
 %% If blanks are needed, must insert value " ~ "
@@ -71,22 +73,34 @@ footskip=1.5\baselineskip,
 }
 \reporthdr
 
-<<knitr10, include=FALSE, echo=FALSE>>=
-library(knitr)
-if(!dir.exists("tmpout"))dir.create("tmpout", recursive = TRUE)
-opts_chunk$set(fig.path='tmpout/t-', split=TRUE, ae=FALSE, comment=NA,
-               fig.height=5, fig.width=6)
-@
+% 1. If you have an address file, use it here:
+\input{addressFooter.tex}
+% 2. If you don't have an address file, remove % signs and fill in your information
+% This stanza must end with "\guideftr"
+% (after removing percent signs):
+%\urlstyle{tt}
+%\footersetup{
+%  leftside={
+%    lone={Address line 1}, 
+%    ltwo={Address line 2}, 
+%    lthree={City State Zipcode}},
+%  rightside={
+%    rone={Web: \url{https://crmda.ku.edu}},
+%    rtwo={Email: \href{mailto:you@where.edu}{\url{you@where.edu}}},
+%    rthree={Phone: 123-345-5678}}
+%}
+%\guideftr
+% 3. If you don't want an address footer, just delete this subsection.
 
-<<texcopy, include=FALSE, echo=FALSE>>=
+% Please leave this code
+<<ignoremeRoptions, echo=FALSE, include=FALSE>>=
+tdir <- "tmpout"
+if(!dir.exists(tdir)) dir.create(tdir, showWarnings=FALSE)
 library(stationery)
-## If theme directory does not have required logo files, retrieve them.
-logos <- c(logoright = "logo.pdf", 
-              address = "addressFooter.tex")
-getFiles(logos, pkg = "stationery")
-@
-
-<<Roptions, echo=FALSE, include=FALSE>>=
+library(knitr)
+## Chunk settings
+opts_chunk$set(fig.path='tmpout/t-', split=TRUE, ae=FALSE, comment=NA,
+               fig.height=4, fig.width=6)
 opts.orig <- options()
 par.orig <- par(no.readonly=TRUE)
 options(device = pdf)
@@ -94,6 +108,17 @@ options(width=70, prompt=" ", continue="  ")
 options(useFancyQuotes = FALSE) 
 set.seed(12345)
 pdf.options(onefile=FALSE, family="Times", pointsize=10)
+@
+
+<<texcopy, include=FALSE,echo=FALSE>>=
+## You can manually copy your desired "logo.pdf" into the theme folder. 
+## Or This will retrieve a logo.pdf file if you want. Note overwrite parameter
+getFiles("logo.pdf", pkg = "stationery", overwrite = FALSE)
+## If you do not have a file after that, 
+## the following will manufacture a blank image for a placeholder
+if(!file.exists("theme/logo.pdf")){
+  blankPDF(file = "theme/logo.pdf", height=1, width=3.5, messg = "")
+}
 @
 \begin{abstract}
 \noindent This is an abstract. Please include a terse, yet descriptive
@@ -103,22 +128,13 @@ and polysyllabic profundities.
 
 \section{Introduction}
 
-Please see the guide document that is included in the same folder
-as this skeleton.
-
-\subsection*{Make minimal changes to the top part}
-
-Do put your title \& name in the top block.
-
-Don't change the 4 code chunks above or the last chunk below.
-
-Write your content in here.
-
-Don't change document margins with LyX menus. You need to edit the
-preamble for that.
-
-We have separate instructions for the crmda package in vignettes if
-you want more detailed information about what to do.
+\inputencoding{latin9}\begin{lstlisting}
+library(stationery)
+initWriteup("rnw2pdf-report-knit")
+\end{lstlisting}
+\inputencoding{utf8}
+There is an ``instructions'' file in the same directory as this
+file, and there are also vignettes in the stationery package.
 
 \section{\protect\code{R} Code Chunks}
 

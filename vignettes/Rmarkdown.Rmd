@@ -11,9 +11,7 @@ output:
     latex_engine: pdflatex
     highlight: haddock
     citation_package: natbib
-    pandoc_args: [
-        --listings
-    ]
+    pandoc_args: [--listings]
     template: "theme/report-template.tex"
 fontsize: 12pt
 bibliography: "theme/R"
@@ -111,8 +109,7 @@ document classes.
 
 ## Reference Guides from the RStudio Corporation (and affiliates)
 
-1. [*R Markdown Reference
-   Guide*](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf).
+1. [*R Markdown Reference Guide*](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf).
    Keep a copy of this document available.
 2. An RStudio oriented guide, [*R Markdown Cheatsheet*](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)
 3. [*Markdown Basics*](http://rmarkdown.rstudio.com/authoring_basics.html). See
@@ -618,6 +615,7 @@ This equation is numbered, because the label macro is included within
 the equation:
 
 \begin{equation}
+\intop\beta\alpha\Psi\varXi
 \bar{x} = \frac{1}{n} \sum_{i=1}^{n}x_{i}.
 \label{eq:mean}
 \end{equation}

@@ -25,10 +25,10 @@ output:
     latex_engine: pdflatex
     citation_package: natbib
     template: "theme/report-template.tex"
-    pandoc_args: [
-      "--listings"
-    ]
-bibliography: "theme/R.bib"
+    pandoc_args: [--listings]
+    includes:
+      in_header: "theme/guidePreambleKnitr.tex"
+bibliography: "R.bib"
 table: true
 fontsize: 12pt
 header-includes:
@@ -43,14 +43,23 @@ knitr::opts_chunk$set(echo=TRUE, comment=NA, fig.path=paste0(tmpdir, "/p-"))
 options(width = 70)
 ```
 
-```{r themecopy, include = FALSE}
+```{r ignoremeTexcopy, echo=F, results='hide', warning=FALSE}
 library(stationery)
 ## If theme directory does not have required images or TeX files
 ## we need to retrieve them and put them in "theme" directory. 
-logos <- c("logo.pdf", "R.bib")
-themefiles <- c("report-template.tex")
-getFiles(logos, pkg = "stationery")
-getFiles(themefiles, pkg = "stationery")
+logos <- c("logo.pdf")
+try(getFiles(logos, pkg = "stationery", overwrite = FALSE))
+## These theme files should be available already, but if not
+themefiles <-c("report-template.tex")
+try(getFiles(themefiles, pkg = "stationery", overwrite = FALSE))
+## If you do not have a file after that, 
+## the following will manufacture a blank image for a placeholder
+if(!file.exists("theme/logoleft.pdf")){
+  blankPDF(file = "theme/logoleft.pdf", height=1, width=3.5, messg = "")
+}
+if(!file.exists("theme/logo-vert.pdf")){
+  blankPDF(file = "theme/logo-vert.pdf", height=1, width=3.5, messg = "")
+}
 ```
 
 # Introduction
@@ -301,8 +310,6 @@ On the other hand, if only the date is parenthesized, the
 But if we want to write names, we can get that with
 "\textbackslash{}citeyearpar", as in Hastie, Tibshirani, and 
 Friedman \citeyearpar{hastie_elements_2009}.
-
-The bibliographic format is using the apacite package for LaTeX.
 
 
 

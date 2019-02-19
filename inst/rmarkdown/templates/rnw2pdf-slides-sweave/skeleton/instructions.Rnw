@@ -1,4 +1,4 @@
-%% LyX 2.2.3 created this file.  For more info, see http://www.lyx.org/.
+%% LyX 2.3.1 created this file.  For more info, see http://www.lyx.org/.
 %% Do not edit unless you really know what you are doing.
 \documentclass[10pt,english,aspectratio=1609]{beamer}
 \usepackage{lmodern}
@@ -13,6 +13,17 @@
 
 \makeatletter
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+% this default might be overridden by plain title style
+\newcommand\makebeamertitle{\frame{\maketitle}}%
+% (ERT) argument for the TOC
+\AtBeginDocument{%
+  \let\origtableofcontents=\tableofcontents
+  \def\tableofcontents{\@ifnextchar[{\origtableofcontents}{\gobbletableofcontents}}
+  \def\gobbletableofcontents#1{\origtableofcontents}
+}
+<<echo=F>>=
+  if(exists(".orig.enc")) options(encoding = .orig.enc)
+@
 \usepackage[natbibapa]{apacite}
 \providecommand*{\code}[1]{\texttt{#1}}
 
@@ -24,8 +35,8 @@
 \usepackage{dcolumn}
 \usepackage{booktabs}
 \usepackage{longtable}
-\usepackage{graphicx}
-\newcommand\makebeamertitle{\frame{\maketitle}}%
+\usepackage{siunitx}
+%\usepackage{graphicx}
 
 % use 'handout' to produce handouts
 %\documentclass[handout]{beamer}
@@ -202,37 +213,10 @@
 \renewcommand{\lstlistingname}{\inputencoding{latin9}Listing}
 
 \begin{document}
-% In document Latex options:
-\fvset{listparameters={\setlength{\topsep}{0em}}}
-\SweaveOpts{prefix.string=tmpout/t,split=FALSE,ae=F,height=4.5,width=7}
-
-<<Roptions, echo=FALSE, include=FALSE, results=hide>>=
-opts.orig <- options()
-options(width=70, prompt = " ", continue = "  ")
-options(useFancyQuotes = FALSE)
-set.seed(12345)
-par.orig <- par(no.readonly=TRUE) 
-pjmar <- c(4.1, 4.1, 1.5, 2.1)
-par(mar=pjmar, ps=11)
-options(SweaveHooks=list(fig=function() par(mar=pjmar, ps=12, xpd=F)))
-pdf.options(onefile=F,family="Times",pointsize=12)
-if(!file.exists("tmpout")) dir.create("tmpout", showWarnings=F)
-@
-
-<<texcopy, include=FALSE, echo=FALSE, results=hide>>=
-library(stationery)
-## If theme directory does not have required logos, retrieve them. 
-logos <- c(logo = "logo.pdf",
-            logomini = "logomini.png")
-getFiles(logos, pkg = "stationery")
-@
-
+\mode<presentation>{
 \title[beamer]{Instructions for rmd2pdf-slides-sweave}
-
 \author{Paul Johnson\inst{1}}
-
 \institute[K.U.]{\inst{1}Center for Research Methods and Data Analysis }
-
 \date{2018}
 
 \makebeamertitle
@@ -245,6 +229,8 @@ getFiles(logos, pkg = "stationery")
   }
 }
 
+}%end mode presentation
+
 \begin{frame}[containsverbatim, allowframebreaks]
 \frametitle{Outline}
 
@@ -252,7 +238,45 @@ getFiles(logos, pkg = "stationery")
 
 \end{frame}
 
-\global\long\def\vb#1{\bm{\mathrm{#1}}}
+\global\long\def\vb#1{\bm{\mathrm{#1}}}%
+
+%Please leave this code block. OK to revise values inside.
+<<Roptions, echo=FALSE, include=FALSE, results=hide>>=
+tdir <- "tmpout"
+if(!dir.exists(tdir)) dir.create(tdir, showWarnings=FALSE)
+library(stationery)
+opts.orig <- options()
+options(width=70, prompt = " ", continue = "  ")
+options(useFancyQuotes = FALSE)
+set.seed(12345)
+par.orig <- par(no.readonly=TRUE) 
+pjmar <- c(4.1, 4.1, 1.5, 2.1)
+par(mar=pjmar, ps=11)
+options(SweaveHooks=list(fig=function() par(mar=pjmar, ps=12, xpd=F)))
+pdf.options(onefile=F,family="Times",pointsize=12)
+@
+% In document Latex options:
+\fvset{listparameters={\setlength{\topsep}{0em}}}
+\SweaveOpts{prefix.string=tmpout/t,split=FALSE,ae=F,height=4.5,width=7}
+
+% We need 2 image files for logos, front page (logo.pdf) and lower-right
+% decoration (logomini.pdf) that shows on all slides. 
+% You can manually copy your desired image files
+% "logo.pdf" and "logomini.pdf" into the theme folder. 
+% Or run this to retrieve or create them:
+<<texcopy, include=FALSE, echo=FALSE, results=hide>>=
+logos <- c("logo.pdf", "logomini.pdf")
+## This will retrieve logo files from a designated package:
+try(getFiles(logos, pkg = "stationery", overwrite = FALSE))
+## If you do not have a file after that, 
+## the following will manufacture a blank images for placeholders
+if(!file.exists("theme/logo.pdf")){
+  blankPDF(file = "theme/logo.pdf", height=1, width=2, messg = "")
+}
+if(!file.exists("theme/logomini.pdf")){
+  blankPDF(file = "theme/logomini.pdf", height=1, width=11, messg = "")
+}
+@
 
 \section{Launch with stationery}
 
@@ -309,7 +333,8 @@ types for the outer edges and inner content–we knew what to do: \textbf{CUSTOM
 \useinnertheme{rounded}
 \setbeamertemplate{blocks}[default]
 \end{lstlisting}
-\inputencoding{utf8}\end{exampleblock}
+\inputencoding{utf8}
+\end{exampleblock}
 \item The outer theme is a conservative use of screen real estate (narrow
 top boxes)
 \item The inner theme gives the jazzy 3-D bullets
@@ -343,7 +368,8 @@ in one of 3 ways:
 \inputencoding{latin9}\begin{lstlisting}
 \begin{frame}
 \end{lstlisting}
-\inputencoding{utf8}\item Allow for long output to spill onto successive slides:
+\inputencoding{utf8}
+\item Allow for long output to spill onto successive slides:
 
 \inputencoding{latin9}\begin{lstlisting}
 \begin{frame}[allowframebreaks]
@@ -392,36 +418,43 @@ have numbers by default to avoid this problem.
 \begin{equation}
 1\times1\label{eq:one}
 \end{equation}
+
 \item The second equation is not numbered
 
 \[
 2\times1
 \]
+
 \item But the author numbered the third equation, we are not sure why
 
 \begin{equation}
 3\times1\label{eq:three}
 \end{equation}
+
 \item The fourth equation is
 
 \[
 4\times1
 \]
+
 \item But equation five is numbered
 
 \begin{equation}
 5\times1\label{eq:five}
 \end{equation}
+
 \item Equation six
 
 \begin{equation}
 6\times1\label{eq:six}
 \end{equation}
+
 \item Equation seven
 
 \[
 7\times1
 \]
+
 \end{itemize}
 One can ask lyx to automatically number displayed equations by changing
 the shortcut key associated with C-S-m to have the same effect as
@@ -432,8 +465,8 @@ the pull down menu \code{Insert} -> \code{Math} -> \code{Numbered Formula}.
 \begin{frame}[allowframebreaks,containsverbatim]
 \frametitle{Using "allowframebreaks" and "containsverbatim"}
 \begin{itemize}
-\item I usually use both \textquotedbl{}\code{allowframebreaks}\textquotedbl{}
-and \textquotedbl{}\code{containsverbatim}\textquotedbl{} on most
+\item I usually use both \textquotedbl\code{allowframebreaks}\textquotedbl{}
+and \textquotedbl\code{containsverbatim}\textquotedbl{} on most
 slides.
 \item ``\code{allowframebreaks}'' is now harmless. If there is only enough
 content for one slide, the appearance of the one slide is not affected
@@ -500,7 +533,8 @@ as FALSE for variety.
  mean(x)
  @
 \end{lstlisting}
-\inputencoding{utf8}\end{itemize}
+\inputencoding{utf8}
+\end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -533,18 +567,18 @@ a gray box similar to the Rinput box for chunks.
 <<eval=F>>=
 lm(y ~ x, data = dat)
 @
-\item Raw LaTeX ``\textbackslash{}code'' environment
+\item Raw LaTeX ``\textbackslash code'' environment
 
 \texttt{\code{lm(y ~ x, data = dat)}}
 \end{itemize}
 \item Different fonts in each case (bad).
 \item The tilde symbol is displayed differently in the first two and not
 at all in the final one.
-\item 1st example: LyX text code object notices ``\textasciitilde{}''
-and inserts ``\textbackslash{}textasciitilde\{\}'' on our behalf. 
+\item 1st example: LyX text code object notices ``\textasciitilde ''
+and inserts ``\textbackslash textasciitilde\{\}'' on our behalf. 
 \item The second example use of the listings class. Our Rinput style as
-as symbol filter table. It converts keyboard tilde to ``\textasciitilde{}''
-to a math symbol, ``\$\textbackslash{}sim\$'', which implies $\sim$,
+as symbol filter table. It converts keyboard tilde to ``\textasciitilde ''
+to a math symbol, ``\$\textbackslash sim\$'', which implies $\sim$,
 in the output.
 \end{itemize}
 \end{frame}
@@ -591,7 +625,7 @@ style these days.
 \frametitle{References}
 
 \bibliographystyle{apalike2}
-\bibliography{theme/R}
+\bibliography{R}
 
 \end{frame}
 

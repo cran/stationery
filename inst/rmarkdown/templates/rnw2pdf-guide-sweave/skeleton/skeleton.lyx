@@ -1,5 +1,5 @@
-#LyX 2.2 created this file. For more info see http://www.lyx.org/
-\lyxformat 508
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
 \begin_document
 \begin_header
 \save_transient_properties true
@@ -48,6 +48,8 @@ sweave
 \font_osf false
 \font_sf_scale 100 100
 \font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
 \graphics default
 \default_output_format default
 \output_sync 0
@@ -86,6 +88,7 @@ sweave
 \suppress_date true
 \justification true
 \use_refstyle 0
+\use_minted 0
 \index Index
 \shortcut idx
 \color #008000
@@ -98,7 +101,10 @@ sweave
 \tocdepth 3
 \paragraph_separation skip
 \defskip medskip
-\quotes_language english
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
@@ -123,12 +129,12 @@ status open
 
 \begin_layout Plain Layout
 
-%% If blanks are needed, must insert value " ~ "
+%% If blanks are needed, insert tilde " ~ " to make sure they are respected
 \end_layout
 
 \begin_layout Plain Layout
 
-%% If comma needed inside value, wrap in {}.
+%% If comma needed inside a value, wrap in {}.
 \end_layout
 
 \begin_layout Plain Layout
@@ -175,7 +181,7 @@ guidesetup{%
 
 \begin_layout Plain Layout
 
-    lastname=Author, 
+    lastname=Author{, Jr.}, 
 \end_layout
 
 \begin_layout Plain Layout
@@ -210,7 +216,7 @@ guidesetup{%
 
 \begin_layout Plain Layout
 
-    affiliation=Some other Institute,
+    affiliation=Some~other~Institute,
 \end_layout
 
 \begin_layout Plain Layout
@@ -260,6 +266,131 @@ guidesetup{%
 guidehdr
 \end_layout
 
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+% 1.
+ If you have an address file, use it here:
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{addressFooter.tex}
+\end_layout
+
+\begin_layout Plain Layout
+
+% 2.
+ If you don't have an address file, remove % signs and fill in your information
+\end_layout
+
+\begin_layout Plain Layout
+
+% This stanza must end with 
+\begin_inset Quotes eld
+\end_inset
+
+
+\backslash
+guideftr
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+% (after removing percent signs):
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+urlstyle{tt}
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+footersetup{
+\end_layout
+
+\begin_layout Plain Layout
+
+%  leftside={
+\end_layout
+
+\begin_layout Plain Layout
+
+%    lone={Address line 1}, 
+\end_layout
+
+\begin_layout Plain Layout
+
+%    ltwo={Address line 2}, 
+\end_layout
+
+\begin_layout Plain Layout
+
+%    lthree={City State Zipcode}},
+\end_layout
+
+\begin_layout Plain Layout
+
+%  rightside={
+\end_layout
+
+\begin_layout Plain Layout
+
+%    rone={Web: 
+\backslash
+url{https://crmda.ku.edu}},
+\end_layout
+
+\begin_layout Plain Layout
+
+%    rtwo={Email: 
+\backslash
+href{mailto:you@where.edu}{
+\backslash
+url{you@where.edu}}},
+\end_layout
+
+\begin_layout Plain Layout
+
+%    rthree={Phone: 123-345-5678}}
+\end_layout
+
+\begin_layout Plain Layout
+
+%}
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+guideftr
+\end_layout
+
+\begin_layout Plain Layout
+
+% 3.
+ If you don't want an address footer, just delete this subsection.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
 \end_inset
 
 
@@ -271,68 +402,35 @@ status open
 
 \begin_layout Plain Layout
 
-% tmpout directory must exist first
+% Please leave this code
 \end_layout
 
 \begin_layout Plain Layout
 
-<<tmpout, echo=FALSE, include=FALSE, results=hide>>=
+<<ignoremeRsetup, echo=FALSE, include=FALSE, results=hide>>=
 \end_layout
 
 \begin_layout Plain Layout
 
-if(!dir.exists("tmpout")) dir.create("tmpout", showWarnings=FALSE)
-\end_layout
+tdir <- 
+\begin_inset Quotes eld
+\end_inset
 
-\begin_layout Plain Layout
-
-@
-\end_layout
-
+tmpout
+\begin_inset Quotes erd
 \end_inset
 
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset ERT
-status open
-
 \begin_layout Plain Layout
 
-% In document Latex options:
+if(!dir.exists(tdir)) dir.create(tdir, showWarnings=FALSE)
 \end_layout
 
 \begin_layout Plain Layout
 
-
-\backslash
-fvset{listparameters={
-\backslash
-setlength{
-\backslash
-topsep}{0em}}}
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-SweaveOpts{prefix.string=tmpout/t, split=TRUE, ae=FALSE, height=3, width=5}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-<<Roptions, echo=FALSE, include=FALSE, results=hide>>=
+library(stationery)
 \end_layout
 
 \begin_layout Plain Layout
@@ -342,7 +440,7 @@ opts.orig <- options()
 
 \begin_layout Plain Layout
 
-options(width=100, prompt=" ", continue="  ")
+options(width=80, prompt=" ", continue="  ")
 \end_layout
 
 \begin_layout Plain Layout
@@ -353,6 +451,11 @@ options(useFancyQuotes = FALSE)
 \begin_layout Plain Layout
 
 set.seed(12345)
+\end_layout
+
+\begin_layout Plain Layout
+
+par.orig <- par(no.readonly=TRUE)
 \end_layout
 
 \begin_layout Plain Layout
@@ -370,6 +473,24 @@ pdf.options(onefile=FALSE,family="Times",pointsize=10)
 @
 \end_layout
 
+\begin_layout Plain Layout
+
+
+\backslash
+fvset{listparameters={
+\backslash
+setlength{
+\backslash
+topsep}{0em}}}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+SweaveOpts{prefix.string=tmpout/t, split=TRUE, ae=FALSE, height=4, width=6}
+\end_layout
+
 \end_inset
 
 
@@ -381,43 +502,142 @@ status open
 
 \begin_layout Plain Layout
 
-<<texcopy, include=FALSE, echo=FALSE, results=hide>>=
+% We need 2 image files for logos, top left (logoleft) and right
 \end_layout
 
 \begin_layout Plain Layout
 
-library(stationery)
-\end_layout
-
-\begin_layout Plain Layout
-
-## If theme directory does not have required images or TeX files
-\end_layout
-
-\begin_layout Plain Layout
-
-## we need to retrieve them and put them in "theme" directory.
+% (logo-vert).
  
 \end_layout
 
 \begin_layout Plain Layout
 
-logos <- c(logoleft = "logoleft.pdf", 
+% You can manually copy your desired image files
 \end_layout
 
 \begin_layout Plain Layout
 
-           logoright = "logo-vert.pdf",
+% 
+\begin_inset Quotes eld
+\end_inset
+
+logoleft.pdf
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+logo-vert.pdf
+\begin_inset Quotes erd
+\end_inset
+
+ into the theme folder.
+ 
 \end_layout
 
 \begin_layout Plain Layout
 
-           address = "addressFooter.tex")
+% Or run this to retrieve or create them:
 \end_layout
 
 \begin_layout Plain Layout
 
-getFiles(logos, pkg = "stationery")
+<<texcopy, include=FALSE, echo=FALSE, results=hide>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+## The logos we need are
+\end_layout
+
+\begin_layout Plain Layout
+
+logos <- c("logoleft.pdf", "logo-vert.pdf")
+\end_layout
+
+\begin_layout Plain Layout
+
+## This will retrieve logo files from a designated package:
+\end_layout
+
+\begin_layout Plain Layout
+
+getFiles(logos, pkg = "stationery", overwrite = FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+## If you do not have a file after that, 
+\end_layout
+
+\begin_layout Plain Layout
+
+## the following will manufacture a blank images for placeholders
+\end_layout
+
+\begin_layout Plain Layout
+
+if(!file.exists(
+\begin_inset Quotes eld
+\end_inset
+
+theme/logoleft.pdf
+\begin_inset Quotes erd
+\end_inset
+
+)){
+\end_layout
+
+\begin_layout Plain Layout
+
+  blankPDF(file = "theme/logoleft.pdf", height=1.2, width=1.2, messg = 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+if(!file.exists(
+\begin_inset Quotes eld
+\end_inset
+
+theme/logo-vert.pdf
+\begin_inset Quotes erd
+\end_inset
+
+)){
+\end_layout
+
+\begin_layout Plain Layout
+
+  blankPDF(file = "theme/logo-vert.pdf", height=2, width=1.5, messg = 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+
+}
 \end_layout
 
 \begin_layout Plain Layout
@@ -436,29 +656,23 @@ status open
 
 \begin_layout Plain Layout
 
-%The listings class used here allows within-document style
+%The listings class used here allows within-document style.
 \end_layout
 
 \begin_layout Plain Layout
 
-%changes.
- R input boxes are governed by 
+%See the instructions file for details and examples.
+ One can alter R input and 
 \end_layout
 
 \begin_layout Plain Layout
 
-% "Rsize", "Rbackground" and "Rcolor", while R output boxes depend on
+%output, changing the size and color (foreground or background) 
 \end_layout
 
 \begin_layout Plain Layout
 
-% "Routsize", "Routbackground", and "Routcolor".
- Colors
-\end_layout
-
-\begin_layout Plain Layout
-
-% can be specified in many ways, as shown here
+%with statements like this:
 \end_layout
 
 \begin_layout Plain Layout
@@ -472,72 +686,6 @@ Rsize{
 huge
 \backslash
 ttfamily}
-\end_layout
-
-\begin_layout Plain Layout
-
-%
-\backslash
-def
-\backslash
-Routsize{
-\backslash
-huge}
-\end_layout
-
-\begin_layout Plain Layout
-
-%
-\backslash
-def
-\backslash
-Rbackground{
-\backslash
-color[gray]{0.90}}
-\end_layout
-
-\begin_layout Plain Layout
-
-%
-\backslash
-def
-\backslash
-Routbackground{
-\backslash
-color[gray]{0.40}}
-\end_layout
-
-\begin_layout Plain Layout
-
-%
-\backslash
-def
-\backslash
-Rcolor{
-\backslash
-color[gray]{0.60}
-\end_layout
-
-\begin_layout Plain Layout
-
-%
-\backslash
-def
-\backslash
-Routcolor{
-\backslash
-color[rgb]{0.9, 0.1, 0.1}]}
-\end_layout
-
-\begin_layout Plain Layout
-
-%
-\backslash
-def
-\backslash
-Rcommentcolor{
-\backslash
-color{green}}
 \end_layout
 
 \end_inset
@@ -567,20 +715,7 @@ Nuts and Bolts
 \end_layout
 
 \begin_layout Standard
-Please see the guide document in the same folder as this document.
-\end_layout
-
-\begin_layout Standard
-Do put your title & name in the top block.
-\end_layout
-
-\begin_layout Standard
-Don't change the 5 code chunks above or the last chunk below.
-\end_layout
-
-\begin_layout Standard
-Don't change margins or geometry or hyperref with Lyx pull down menus.
- 
+Please see the intruction file in the same folder as this document.
 \end_layout
 
 \begin_layout Standard
@@ -593,9 +728,12 @@ reference "sec:Session-Info"
 
  of this template.
  It is important.
- It is safe to delete anything between this section and that one, however.
- Be aware, however, that at least one item in the bibliography must be cited,
- or there will be a LaTeX compiler error, 
+ 
+\end_layout
+
+\begin_layout Standard
+Be aware that at least one item in the bibliography must be cited, or there
+ will be a LaTeX compiler error, 
 \begin_inset Quotes eld
 \end_inset
 
@@ -606,10 +744,13 @@ citation commands---while reading file skeleton.aux
 \end_inset
 
 .
- To avoid that, we are citing the R software itself 
+ To avoid that, either delete the bibliography (at the end) or insert a
+ citation.
+ Here we cite R 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "RCore"
+literal "true"
 
 \end_inset
 
@@ -667,7 +808,7 @@ mean(x)
 \begin_layout Standard
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
-bibfiles "theme/R"
+bibfiles "R"
 options "bibtotoc,apalike2"
 
 \end_inset
@@ -697,7 +838,7 @@ status open
 
 \begin_layout Plain Layout
 
-<<session, echo=F>>=
+<<sessioninfo, echo=F>>=
 \end_layout
 
 \begin_layout Plain Layout
@@ -736,7 +877,7 @@ status open
 
 \begin_layout Plain Layout
 
-<<opts20, include=F>>=
+<<RoptionsRestore, include=F>>=
 \end_layout
 
 \begin_layout Plain Layout
@@ -759,6 +900,11 @@ status open
 \begin_layout Plain Layout
 
 options(opts.orig)
+\end_layout
+
+\begin_layout Plain Layout
+
+par(par.orig)
 \end_layout
 
 \begin_layout Plain Layout

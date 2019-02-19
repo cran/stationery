@@ -1,0 +1,1077 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article-beamer
+\begin_preamble
+%\usepackage{Sweave}
+\mode<article>{
+\usepackage[includehead,includefoot]{geometry}
+\geometry{
+lmargin=1in,
+rmargin=1in,
+tmargin=0.75in,
+bmargin=1.0in,
+headheight=0pt,
+headsep=0pt,
+marginparwidth=0pt,
+footskip=1.5\baselineskip,
+}
+} %end mode article
+
+\usepackage{array}
+\usepackage{xparse}
+\usepackage{babel}
+\usepackage{datetime}
+%\usepackage{xcolor}
+\usepackage{colortbl}
+%\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{url}
+
+\definecolor{darkblue}{HTML}{1e2277}
+\definecolor{kublue81186}{RGB}{0,81,186}
+\newdateformat{monddyyyy}{\shortmonthname[\THEMONTH].~\THEDAY,~\THEYEAR}
+
+
+%% BEGIN custom header
+\ExplSyntaxOn
+\NewDocumentCommand \guidesetup { m }
+ {
+  \keys_set:nn { guide } { #1 }
+ }
+
+\int_new:N \g_guide_authors_int
+\prop_new:N \g_guide_authors_prop
+\tl_new:N \l__guide_authors_tl
+
+\keys_define:nn { guide }
+ {
+  author .code:n =
+   {
+    \int_gincr:N \g_guide_authors_int
+    \keys_set:nn { guide / author } { #1 }
+   },
+  author/firstname .code:n = { \guide_add_author:nn { firstname } { #1 } },
+  author/lastname .code:n = { \guide_add_author:nn { lastname } { #1 } },
+  author/affiliation .code:n = { \guide_add_author:nn { affiliation } { #1 } },
+  author/email .code:n = { \guide_add_author:nn { email } { #1 } },
+  leftlogo .tl_set:N = \l_guide_leftlogo_tl,
+  rightlogo .tl_set:N = \l_guide_rightlogo_tl,
+  number .tl_set:N = \l_guide_number_tl,
+  title .tl_set:N = \l_guide_title_tl,
+  subtitle .tl_set:N = \l_guide_subtitle_tl,
+  keywords .tl_set:N = \l_guide_keywords_tl,
+  url .tl_set:N = \l_guide_url_tl,
+  title .initial:n = {TITLE~NEEDED},
+}
+\NewDocumentCommand \guidehdr { +O{} }
+ {
+  \group_begin:
+  \keys_set:nn { guide } { #1 }
+  \guide_hdr:
+  \group_end:
+ }
+\cs_new_protected:Nn \guide_hdr:
+ {
+   \centering
+   \noindent\fcolorbox{kublue81186}{white}{
+  \begin{tabular}
+   {
+    @{}c
+    >{\centering}m{ \dim_eval:n { \textwidth - 2.5in - 6\tabcolsep - 2\arrayrulewidth } }
+    c@{}
+   }
+   &&\tabularnewline[-\dim_eval:n { -\normalbaselineskip + 3ex }]
+  \begin{tabular}{@{}>{\centering}p{1.25in}@{}}
+  \includegraphics[width=.75in]{\l_guide_leftlogo_tl}
+  \end{tabular}
+  &
+  \centering
+    {\textsc{\large{}\l_guide_title_tl}}
+    \tl_if_empty:NF \l_guide_subtitle_tl
+    {
+      {\\\textsc{\large{}\l_guide_subtitle_tl}}
+    }
+  \\
+  \textcolor{kublue81186}{\rule[0.5ex]{1\linewidth}{0.7pt}}\\
+  \guide_print_authors:
+  &
+  \begin{tabular}{@{}>{\centering}p{1.25in}@{}}
+  \includegraphics[width=1.25in]{\l_guide_rightlogo_tl}
+  \end{tabular}
+  \tabularnewline
+  \tl_if_empty:NTF \l_guide_number_tl
+   { \leavevmode\vphantom{G}}
+   {\small\bfseries { Guide~No: ~ \tl_use:N \l_guide_number_tl }} & 
+   \tl_if_empty:NF \l_guide_keywords_tl
+   {\centering
+    \textbf{Keywords}: ~ \l_guide_keywords_tl}
+   & 
+   \small\bfseries\monddyyyy\today \tabularnewline
+   \tl_if_empty:NF \l_guide_url_tl
+   {
+   \multicolumn{3}{c}{
+    See ~ \url{\l_guide_url_tl} ~ for ~ updates.}
+     }
+  \tabularnewline
+  \end{tabular}
+  }
+}
+
+\cs_new_protected:Nn \guide_add_author:nn
+ {
+  \prop_gput:Nxn \g_guide_authors_prop
+   { #1 \int_to_arabic:n { \g_guide_authors_int } }
+   { #2 }
+ }
+\cs_generate_variant:Nn \prop_gput:Nnn { Nx }
+\cs_new_protected:Nn \guide_print_authors:
+ {
+  \tl_clear:N \l__guide_authors_tl
+  \int_step_inline:nnnn { 1 } { 1 } { \g_guide_authors_int }
+   {
+    \tl_put_right:Nn \l__guide_authors_tl
+     {
+      \textbf
+       {
+        \prop_item:Nn \g_guide_authors_prop { firstname ##1 }~
+        \prop_item:Nn \g_guide_authors_prop { lastname ##1 },~
+       }
+       \prop_item:Nn \g_guide_authors_prop { affiliation##1 },~
+       \href{mailto:\prop_item:Nn \g_guide_authors_prop { email##1 } }
+       {\url{\prop_item:Nn \g_guide_authors_prop { email##1 }}}
+       \\
+     }
+   }
+   \tl_use:N \l__guide_authors_tl
+ }
+\ExplSyntaxOff
+%%END This ends the custom header
+
+
+
+
+
+%% $ nullify Emacs underscores
+%% BEGIN: Footer
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+
+\ExplSyntaxOn
+\NewDocumentCommand \footersetup { +m }
+{
+\keys_set:nn { footer } { #1 }
+}
+\keys_define:nn { footer }
+{	
+    leftside .code:n = {
+\keys_set:nn { footer / leftside } { #1 }
+},
+rightside .code:n = {
+\keys_set:nn { footer / rightside } { #1 }
+},
+    leftside / lone .tl_set:N = \l_footer_leftside_lone_tl,
+    leftside / ltwo .tl_set:N = \l_footer_leftside_ltwo_tl,
+    leftside / lthree .tl_set:N = \l_footer_leftside_lthree_tl,
+    rightside / rone .tl_set:N = \l_footer_rightside_rone_tl,
+    rightside / rtwo .tl_set:N = \l_footer_rightside_rtwo_tl,
+    rightside / rthree .tl_set:N = \l_footer_rightside_rthree_tl,
+    leftside .initial:n = {lone = , ltwo = ~, lthree = ~ },
+    rightside .initial:n = {rone = ~, rtwo = ~,  rthree = ~},
+    leftside .default:n = {lone = , ltwo = ~, lthree = ~ },
+    rightside .default:n = {rone = ~, rtwo = ~,  rthree = ~},
+}
+\NewDocumentCommand \guideftr { +o }
+{
+  \IfValueT { #1 } 
+  {
+    \keys_set:nn { footer } { #1 }
+  }
+  \guide_ftr:
+}
+\cs_new_protected:Nn \guide_ftr:
+{
+  % Now fancy header/footer settings
+  \lhead{}%
+  \chead{}%
+  \rhead{}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \lfoot{}%
+  \cfoot{{Page} ~ \thepage {} ~ { of } ~ {} \pageref{LastPage}}%
+  \rfoot{}%
+
+  \fancypagestyle{firststyle}%
+  {%
+    \lhead{}%
+    \chead{}%
+    \rhead{}%
+    \lfoot{}%
+    \cfoot{}%
+    \rfoot{}%
+    \renewcommand{\headrulewidth}{0pt}%
+    \fancyfoot[L]{\l_footer_leftside_lone_tl {} \\%
+      \l_footer_leftside_ltwo_tl {} \\%
+      \l_footer_leftside_lthree_tl {}}%
+    \fancyfoot[R]{\l_footer_rightside_rone_tl {} \\%
+      \l_footer_rightside_rtwo_tl {} \\%
+      \l_footer_rightside_rthree_tl {}}%
+      \renewcommand{\footrulewidth}{.2pt}%
+  }%
+  \thispagestyle{firststyle}
+}
+\ExplSyntaxOff
+%% End of fancy footer setup
+
+%% Specify fully the left and right sides of footer, 3 lines
+%% If blanks are needed, must insert value " ~ "
+%% If comma needed inside value, wrap in {}.
+
+\urlstyle{tt}
+\usepackage{menukeys}
+
+%\hypersetup{
+% unicode=true,pdfusetitle,bookmarks=true,
+% bookmarksnumbered=false, bookmarksopen=false,
+% breaklinks=true, pdfborder={0 0 0},
+% pdfborderstyle={}, backref=false,
+% colorlinks=true, linkcolor=darkblue,
+% urlcolor=darkblue, citecolor=darkblue}
+
+
+%% Copy/paste from skeleton.lyx's preamble
+
+%%\usepackage{Sweave}
+\usepackage{dcolumn}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{longtable}
+%%\usepackage{graphicx}
+\renewcommand{\doiprefix}{doi:\kern-1pt}
+\setlength{\bibsep}{10pt}
+
+% use 'handout' to produce handouts
+%\documentclass[handout]{beamer}
+\usepackage{wasysym}
+\usepackage{pgfpages}
+%for bold upright roman in math for matrix algebra
+\newcommand{\vn}[1]{\mbox{{\it #1}}}\newcommand{\vb}{\vspace{\baselineskip}}\newcommand{\vh}{\vspace{.5\baselineskip}}\newcommand{\vf}{\vspace{\fill}}\newcommand{\splus}{\textsf{S-PLUS}}\newcommand{\R}{\textsf{R}}
+
+
+%%paste in guidePreambleSweavel.tex
+%% This controls display of code chunks
+\usepackage{ae,fancyvrb,relsize,listings}
+
+\providecommand{\Sweavesize}{\normalsize}
+\providecommand{\Rsize}{}
+\renewcommand{\Rsize}{\normalsize}
+\providecommand{\Routsize}{\scriptsize}
+
+\providecommand{\Rcolor}{\color[rgb]{0.1, 0.1, 0.1}}
+\providecommand{\Routcolor}{\color[rgb]{0.2, 0.2, 0.2}}
+\providecommand{\Rcommentcolor}{\color[rgb]{0.101, 0.43, 0.432}}
+
+\providecommand{\Rbackground}{\color[gray]{0.91}}
+\providecommand{\Routbackground}{\color[gray]{0.935}}
+% Can specify \color[gray]{1} for white background or just \color{white}
+
+\lstdefinestyle{Rinput}{
+  language=R,
+  escapechar=`,
+  fancyvrb=false,%
+  tabsize=2,%
+  breaklines=true,
+  breakatwhitespace=true,%
+  captionpos=b,%
+  frame=single,%
+  framerule=0.2pt,%
+  framesep=1pt,%
+  showstringspaces=false,%
+  basicstyle=\Rsize\Rcolor\ttfamily,%
+  columns=fixed%,
+  \lst@ifdisplaystyle\scriptsize\fi,%,
+  commentstyle=\Rcommentcolor\ttfamily,%
+  identifierstyle=,%
+  keywords=\bfseries,%
+  keywordstyle=\color[rgb]{0, 0.5, 0.5},
+  escapeinside={(*}{*)},
+  literate={~}{{$\sim$}}1{==}{{=\,=}}2{--}{{-\,-}}2,
+  alsoother={$},
+  alsoletter={.<-},%
+  otherkeywords={!,!=,~,$$,*,\&,\%/\%,\%*\%,\%\%,<-,<<-,/},%
+  backgroundcolor=\Rbackground,%
+  numbers=left,%
+  %numberblanklines=false,%
+  stepnumber=5,
+  firstnumber=1,
+  numberstyle={\tiny}
+}%
+
+% Other options of interest:
+% frame=single,framerule=0.1pt,framesep=1pt,rulecolor=\color{blue},
+% numbers=left,numberstyle=\tiny,stepnumber=1,numbersep=7pt,
+% keywordstyle={\bf\Rcolor}
+
+\lstdefinestyle{Routput}{fancyvrb=false,
+  literate={~}{{$\sim$}}1{R^2}{{$R^{2}$}}2{^}{{$^{\scriptstyle\wedge}$}}1{R-squared}{{$R^{2}$}}2,%
+  basicstyle=\Routcolor\Routsize\ttfamily,%
+  backgroundcolor=\Routbackground,
+  language=R,
+  escapechar=`,
+  fancyvrb=false,%
+  tabsize=2,%
+  breaklines=true,
+  breakatwhitespace=true,%
+  captionpos=b,%
+  frame=single,%
+  framerule=0.2pt,%
+  framesep=1pt,%
+  showstringspaces=false,%
+  columns=fixed%,
+  \lst@ifdisplaystyle\scriptsize\fi,%
+  identifierstyle=,%
+  keywords=\bfseries,%
+  keywordstyle=\color[rgb]{0, 0.5, 0.5},
+  escapeinside={(*}{*)},
+  literate={~}{{$\sim$}}1 {==}{{=\,=}}2,
+  alsoother={$},
+  alsoletter={.<-},%
+  otherkeywords={!,!=,~,$,*,\&,\%/\%,\%*\%,\%\%,<-,<<-,/},
+  numbers=left,
+  %numberblanklines=false,%
+  stepnumber=5,
+  firstnumber=1,
+  numberstyle={\tiny}
+}
+
+\newenvironment{Schunk}{}{}
+\newenvironment{Sinput}{}{}
+\let\Sinput\relax
+\let\Scode\relax
+\let\Soutput\relax
+\lstnewenvironment{Sinput}{\lstset{style=Rinput}}{}
+\lstnewenvironment{Scode}{\lstset{style=Rinput}}{}
+\lstnewenvironment{Soutput}{\lstset{style=Routput}}{}
+
+\lstset{tabsize=2, breaklines=true, style=Rinput, breakatwhitespace=true}
+
+\fvset{listparameters={\setlength{\topsep}{0em}}}
+
+%%\usepackage{xcolor}
+\definecolor{light-gray}{gray}{0.90}
+%\usepackage{realboxes}
+%\providecommand*{\code}[1]{\texttt{#1}}
+%\renewcommand{\code}[1]{%
+%\Colorbox{light-gray}{#1}%
+%}%
+%%end paste in guidePreambleSweavel.tex
+
+\usepackage[natbibapa]{apacite}
+
+\definecolor{darkblue}{HTML}{1e2277}
+\end_preamble
+\options pdftex
+\use_default_options true
+\begin_modules
+natbibapa
+sweave
+logicalmkup
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding utf8
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures false
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style apacite
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip smallskip
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Itemize
+This is an accompanying document to the beamer example (see 
+\family sans
+Help\SpecialChar menuseparator
+Specific Manuals\SpecialChar menuseparator
+Beamer Presentation
+\family default
+).
+ It demonstrates how easy it is to generate a handout via the 
+\begin_inset Quotes eld
+\end_inset
+
+article
+\begin_inset Quotes erd
+\end_inset
+
+ mode.
+\end_layout
+
+\begin_layout Itemize
+Except for the document class, you probably want most of the same document
+ settings as the included document.
+ For example, if you have Natbib author-year in child, you should have it
+ here as well.
+ If you use a module in the child, include it here also.
+ You might not need to copy some parts of the preamble, for example 
+\backslash
+setbeamertemplate{...}.
+\end_layout
+
+\begin_layout Itemize
+If you get a warning message about different text classes when you view
+ PDF, you can safely click 
+\begin_inset Quotes eld
+\end_inset
+
+Do not show this warning again!
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+mode<article>{
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+urlstyle{tt}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+footersetup{
+\end_layout
+
+\begin_layout Plain Layout
+
+  leftside={
+\end_layout
+
+\begin_layout Plain Layout
+
+    lone={University~of~Kansas{,}~470 Watson~Library}
+\end_layout
+
+\begin_layout Plain Layout
+
+    },
+\end_layout
+
+\begin_layout Plain Layout
+
+  rightside={
+\end_layout
+
+\begin_layout Plain Layout
+
+    rone=
+\backslash
+url{https://crmda.ku.edu} (785)863-3353
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+guideftr
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+mode<article>{
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+thispagestyle{firststyle}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%% Fill in values of the arguments here, 
+\end_layout
+
+\begin_layout Plain Layout
+
+%% If blanks are needed, must insert value " ~ "
+\end_layout
+
+\begin_layout Plain Layout
+
+%% If comma needed inside value, wrap in {}.
+\end_layout
+
+\begin_layout Plain Layout
+
+%% Delete secondauthor and thirdauthor if not needed
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+guidesetup{%
+\end_layout
+
+\begin_layout Plain Layout
+
+  author={
+\end_layout
+
+\begin_layout Plain Layout
+
+    lastname=Johnson, 
+\end_layout
+
+\begin_layout Plain Layout
+
+    firstname=Paul, 
+\end_layout
+
+\begin_layout Plain Layout
+
+    affiliation=CRMDA, 
+\end_layout
+
+\begin_layout Plain Layout
+
+    email=pauljohn@ku.edu}, 
+\end_layout
+
+\begin_layout Plain Layout
+
+  author={
+\end_layout
+
+\begin_layout Plain Layout
+
+    lastname=Author, 
+\end_layout
+
+\begin_layout Plain Layout
+
+    firstname=Another, 
+\end_layout
+
+\begin_layout Plain Layout
+
+    affiliation=CRMDA,
+\end_layout
+
+\begin_layout Plain Layout
+
+    email=crmda@ku.edu},
+\end_layout
+
+\begin_layout Plain Layout
+
+  url={https://crmda.ku.edu/guides},
+\end_layout
+
+\begin_layout Plain Layout
+
+  keywords={Linux, Beamer},
+\end_layout
+
+\begin_layout Plain Layout
+
+  title={Skeleton for article representation of slide show},
+\end_layout
+
+\begin_layout Plain Layout
+
+  leftlogo={theme/logoleft.pdf},
+\end_layout
+
+\begin_layout Plain Layout
+
+  rightlogo={theme/logo-vert.pdf},
+\end_layout
+
+\begin_layout Plain Layout
+
+  number=00,
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+guidehdr
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% Please leave this code
+\end_layout
+
+\begin_layout Plain Layout
+
+<<ignoremeRsetup, echo=FALSE, include=FALSE, results=hide>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+##tdir <- 
+\begin_inset Quotes eld
+\end_inset
+
+tmpout
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+##if(!dir.exists(tdir)) dir.create(tdir, showWarnings=FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+##library(stationery)
+\end_layout
+
+\begin_layout Plain Layout
+
+## PJ asks: Do we need to set session options if they
+\end_layout
+
+\begin_layout Plain Layout
+
+## are also in slides?
+\end_layout
+
+\begin_layout Plain Layout
+
+## opts.orig <- options()
+\end_layout
+
+\begin_layout Plain Layout
+
+## options(width=80, prompt=" ", continue="  ")
+\end_layout
+
+\begin_layout Plain Layout
+
+## options(useFancyQuotes = FALSE) 
+\end_layout
+
+\begin_layout Plain Layout
+
+## set.seed(12345)
+\end_layout
+
+\begin_layout Plain Layout
+
+## par.orig <- par(no.readonly=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+## options(SweaveHooks=list(fig=function() par(ps=10)))
+\end_layout
+
+\begin_layout Plain Layout
+
+## pdf.options(onefile=FALSE,family="Times",pointsize=10)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+fvset{listparameters={
+\backslash
+setlength{
+\backslash
+topsep}{0em}}}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+SweaveOpts{prefix.string=tmpout/t, split=TRUE, ae=FALSE, height=4, width=6}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% This concerns images.
+ The guide format on which this is 
+\end_layout
+
+\begin_layout Plain Layout
+
+% based needs 
+\begin_inset Quotes eld
+\end_inset
+
+logoleft.pdf
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+logo-vert.pdf
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+% You can manually copy your desired image files
+\end_layout
+
+\begin_layout Plain Layout
+
+% 
+\begin_inset Quotes eld
+\end_inset
+
+logoleft.pdf
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+logo-vert.pdf
+\begin_inset Quotes erd
+\end_inset
+
+ into the theme folder.
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+% Or run this to retrieve or create them with this:
+\end_layout
+
+\begin_layout Plain Layout
+
+<<texcopy, include=FALSE, echo=FALSE, results=hide>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+## The logos we need are
+\end_layout
+
+\begin_layout Plain Layout
+
+library(stationery)
+\end_layout
+
+\begin_layout Plain Layout
+
+logos <- c("logoleft.pdf", "logo-vert.pdf")
+\end_layout
+
+\begin_layout Plain Layout
+
+## This will retrieve logo files from a designated package:
+\end_layout
+
+\begin_layout Plain Layout
+
+getFiles(logos, pkg = "stationery", overwrite = FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+## If you do not have a file after that, 
+\end_layout
+
+\begin_layout Plain Layout
+
+## the following will manufacture a blank images for placeholders
+\end_layout
+
+\begin_layout Plain Layout
+
+if(!file.exists(
+\begin_inset Quotes eld
+\end_inset
+
+theme/logoleft.pdf
+\begin_inset Quotes erd
+\end_inset
+
+)){
+\end_layout
+
+\begin_layout Plain Layout
+
+  blankPDF(file = "theme/logoleft.pdf", height=1.2, width=1.2, messg = 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+if(!file.exists(
+\begin_inset Quotes eld
+\end_inset
+
+theme/logo-vert.pdf
+\begin_inset Quotes erd
+\end_inset
+
+)){
+\end_layout
+
+\begin_layout Plain Layout
+
+  blankPDF(file = "theme/logo-vert.pdf", height=2, width=1.5, messg = 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Abstract
+This is an 
+\begin_inset Quotes eld
+\end_inset
+
+article
+\begin_inset Quotes erd
+\end_inset
+
+ formatted version of the slides, which are available in the same folder
+ as this article as 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset CommandInset href
+LatexCommand href
+name "47.mac_R_setup-slides.pdf"
+target "https://crmda.dept.ku.edu/guides/47.mac_R_setup/47.mac_R_setup-slides.pdf"
+literal "false"
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+ The content is exactly the same.
+ The only difference is that the result is reformatted and, possibly, more
+ convenient for inspection by users.
+ 
+\end_layout
+
+\begin_layout Abstract
+If we put
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
+filename "skeleton.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

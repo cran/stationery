@@ -1,4 +1,4 @@
-%% LyX 2.2.3 created this file.  For more info, see http://www.lyx.org/.
+%% LyX 2.3.1 created this file.  For more info, see http://www.lyx.org/.
 %% Do not edit unless you really know what you are doing.
 \documentclass[11pt,letterpaper,english]{article}
 \usepackage{lmodern}
@@ -14,7 +14,6 @@
  bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
  breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=false]
  {hyperref}
-\usepackage{breakurl}
 
 \makeatletter
 
@@ -84,28 +83,74 @@ footskip=1.5\baselineskip,
 }
 \guidehdr
 
-<<Roptions, echo=FALSE, include=FALSE, results=hide>>=
+% 1. If you have an address file, use it here:
+\input{addressFooter.tex}
+% 2. If you don't have an address file, remove % signs and fill in your information
+% This stanza must end with "\guideftr"
+% (after removing percent signs):
+%\urlstyle{tt}
+%\footersetup{
+%  leftside={
+%    lone={Address line 1}, 
+%    ltwo={Address line 2}, 
+%    lthree={City State Zipcode}},
+%  rightside={
+%    rone={Web: \url{https://crmda.ku.edu}},
+%    rtwo={Email: \href{mailto:you@where.edu}{\url{you@where.edu}}},
+%    rthree={Phone: 123-345-5678}}
+%}
+%\guideftr
+% 3. If you don't want an address footer, just delete this subsection.
+
+% Please leave this code
+<<ignoremeRsetup, echo=FALSE, include=FALSE, results=hide>>=
+tdir <- "tmpout"
+if(!dir.exists(tdir)) dir.create(tdir, showWarnings=FALSE)
+library(stationery)
 opts.orig <- options()
-options(width=100, prompt=" ", continue="  ")
+options(width=80, prompt=" ", continue="  ")
 options(useFancyQuotes = FALSE) 
 set.seed(12345)
+par.orig <- par(no.readonly=TRUE)
 options(SweaveHooks=list(fig=function() par(ps=10)))
 pdf.options(onefile=FALSE,family="Times",pointsize=10)
-if(!dir.exists("tmpout")) dir.create("tmpout", showWarnings=FALSE)
 @
-
 % In document Latex options:
 \fvset{listparameters={\setlength{\topsep}{0em}}}
-\SweaveOpts{prefix.string=tmpout/t, split=FALSE, ae=FALSE, height=3, width=5}
+\SweaveOpts{prefix.string=tmpout/t, split=TRUE, ae=FALSE, height=4, width=6}
 
-<<texcopy, include=FALSE, echo=FALSE, results=hide>>=
-library(stationery)
-## If theme directory does not have required images or TeX files
-## we need to retrieve them and put them in "theme" directory. 
-logos <- c(logoleft = "logoleft.pdf", 
-            logoright = "logo-vert.pdf")
-getFiles(logos, pkg = "stationery")
+% We need 2 image files for logos, top left (logoleft) and right
+% (logo-vert). 
+% You can manually copy your desired image files
+% "logoleft.pdf" and "logo-vert.pdf" into the theme folder. 
+% Or run this to retrieve or create them:
+<<ignoremeTexcopy, include=FALSE, echo=FALSE, results=hide>>=
+## The logos we need are
+logos <- c("logoleft.pdf", "logo-vert.pdf")
+## This will retrieve logo files from a designated package:
+try(getFiles(logos, pkg = "stationery", overwrite = FALSE))
+## If you do not have a file after that, 
+## the following will manufacture a blank images for placeholders
+if(!file.exists("theme/logoleft.pdf")){
+  blankPDF(file = "theme/logoleft.pdf", height=1.2, width=1.2, messg = "")
+}
+if(!file.exists("theme/logo-vert.pdf")){
+  blankPDF(file = "theme/logo-vert.pdf", height=2, width=1.5, messg = "")
+}
 @
+
+%The listings class used here allows within-document style
+%changes. R input boxes are governed by 
+%"Rsize", "Rbackground" and "Rcolor", while R output boxes depend on
+%"Routsize", "Routbackground", and "Routcolor". Colors
+%can be specified in many ways, as shown here
+%\def\Rsize{\huge\ttfamily}
+%\def\Routsize{\huge}
+%\def\Rbackground{\color[gray]{0.90}}
+%\def\Routbackground{\color[gray]{0.40}}
+%\def\Rcolor{\color[gray]{0.60}
+%\def\Routcolor{\color[rgb]{0.9, 0.1, 0.1}]}
+%\def\Rcommentcolor{\color{green}}
 \begin{abstract}
 \noindent This shows how we use R \citep{RCore} to make guide documents
 using the CRMDA style. This is a LaTeX ``noweb'' guide document
@@ -126,8 +171,17 @@ library(stationery)
 initWriteup("rnw2pdf-guide-sweave")
 @
 
-That will create a folder ``\code{rnw2pdf-guide-sweave}'' (unless
-you request otherwise by setting the \code{dir} argument). 
+That will create a folder \code{rnw2pdf-guide-sweave}. If you do
+not want a directory to be created, then instead run
+
+<<eval=F>>=
+library(stationery)
+initWriteup("rnw2pdf-guide-knit", dir = ".")
+@
+
+The \code{initWriteup} function will create several files, including
+\code{skeleton.\{lyx, Rnw\}}, \code{instructions.\{lyx, Rnw\}},
+as well as some auxiliary input files and a theme folder. 
 
 We suggest you
 \begin{enumerate}
@@ -138,72 +192,73 @@ has been broken.
 Don't make changes that you don't understand in the code chunks above
 or the last chunks below.
 
-\section{LyX: Cautions}
+\section{Proceed as follows}
 
-The document preamble has manual settings for margins (geometry) as
-well as hyperlinks (PDF hyperref). Don't use the LyX pull down menu
-to revise them. Edit preamble or config files for that. Repeat \textbf{CAUTION}:
-Don't change the page margins or settings for hyperlinks with pull
-down menus.
+If you allowed \code{initWriteup} to create a directory, rename that
+directory in a way that will be helpful to your project. For example,
+``homework-1-2019'' (anything that helps you remember what is in
+the write-up). 
 
-\section{What to edit}
+Decide whether you want to edit the LyX skeleton file (lyx) or the
+noweb skeleton (Rnw) file. 
+\begin{enumerate}
+\item Copy the skeleton file to a new name. Choose a name that helps you,
+possibly ``hw-1-2019.lyx'' or such.
+\item See the code chunk above named \code{ignoremeTexcopy}. That is used
+to retrieve image files for the header on page 1. If you don't have
+image logo files that you want to use, the last part of that chunk
+will manufacture empty ``blank'' pdf logo files. It is safe to delete
+the \code{ignoremeTexcopy} chunk after you have the logo files you
+want in the theme folder. 
+\item Compile the document without making other changes. For instructions
+on compiling, see Section \ref{sec:Compile}.
+\item Make revisions incrementally. Start by inserting your own title and
+address information. Re-compile often to make sure no errors have
+been made. 
+\end{enumerate}
+Don't make changes that you don't understand in the \code{ignoremeRoptions}
+code chunk above. For goodness sake, don't delete that one.
 
-\section*{Title and author information}
+\section{Check our instructions}
 
-The first block in the document has the title and author information.
+With every skeleton, we also provide an instructions file in the working
+directory.
 
-\subsection*{Footer information}
-
-The footer in this document uses data that is provided in a file named
-``addressFooter.tex''. After the document is compiled for the first
-time, that document should be available in the theme folder. 
-
-\subsection*{About the theme folder}
-
-The theme folder should be empty when the initProject() function is
-run. 
-
-There is an R code chunk above called ``texcopy''. It will copy
-configuration files from the package into the theme folder. After
-running this for the first time, those files will not be automatically
-replaced by the scripts. 
-
-That means authors are free to edit them to fit their needs.
-
-If the author makes an error in editing a theme file, it is safe to
-delete the erroneous file and run the compile script again. That will
-copy a fresh version of the theme file into the directory.
-
-\section{Check our documentation}
-
-There are several vignettes distributed with this package. Please
-review them.
+There are also several vignettes distributed with the stationery package.
+Please review them.
 \begin{enumerate}
 \item ``stationery'': the package framework overview
-\item ``code\_chunks'': discusses use and display of code
+\item ``code\_chunks'': discusses display of code in LaTeX documents with
+both Sweave and knitr chunks
+\item ``Rmarkdown'': about using Markdown with R, an alternative to LaTeX/Noweb.
+\item ``HTML Special Features'': In Markdown intended for HTML output,
+authors can exploit some features. 
 \end{enumerate}
 
-\section{Compile as usual with LyX, or with rnw2pdf}
+\section{Compile the document\label{sec:Compile}}
 
-The skeleton file is provided in 2 formats, LyX and Rnw. 
+The skeleton file is provided in 2 formats, LyX and Rnw. The stationery
+vignette has an overview of reasons why one might author with LyX,
+or with another program (with the \code{Rnw} file). It also explains
+the compilation process. 
 
-In either case, please understand that compiling is a two step process.
+Whether one writes the LyX file or the \code{Rnw} file, it is necessary
+to understand that compiling is a two step process.
 \begin{enumerate}
 \item knitting: Run R to do the calculations in the R code chunks and write
 out a LaTeX file
-\item compiling: Run a LaTeX program, such as pdflatex or xelatex to convert
-the LaTeX file to pdf. It is usually necessary to run the compiler
-two or more times, along with a separate bibliography program. If
-it is available, we suggest an aggregator named texi2pdf, which will
-handle this effort.
+\item compiling: Run a LaTeX program, such as \code{pdflatex} or \code{xelatex}
+or such. It is also necessary for a bibliography builder program to
+make a pass through the data. The aggregator program texi2pdf will
+this (if you have it).
 \end{enumerate}
 
 \subsection*{Compile a LyX file.}
-
-There are 4 methods, we hope one will suit your workflow.
 \begin{enumerate}
 \item Use the menus in the LyX editor. The file can be compiled to PDF in
-LyX, just like any other LyX file. 
+LyX, just like any other LyX file. A LyX module called ``sweave''
+can be activated, so that compiling to PDF with the pdflatex program
+runs the chunks and builds a PDF. 
 \item Run LyX from the command line:
 
 \inputencoding{latin9}\begin{lstlisting}
@@ -220,13 +275,15 @@ as the project writeup.
 \inputencoding{latin9}\begin{lstlisting}
 rnw2pdf("skeleton.lyx", engine = "Sweave")
 \end{lstlisting}
-\inputencoding{utf8}\item The shell script \code{rnw2pdf.sh} is provided in the same folder.
+\inputencoding{utf8}
+\item The shell script \code{rnw2pdf.sh} is provided in the same folder.
 It can be run in the shell as
 
 \inputencoding{latin9}\begin{lstlisting}
 $ ./rnw2pdf.sh --engine='"Sweave"' skeleton.lyx
 \end{lstlisting}
-\inputencoding{utf8}\item In case you want to track the steps of compiling one by one, open
+\inputencoding{utf8}
+\item In case you want to track the steps of compiling one by one, open
 the file in LyX. Use the pull down menu \code{File} $\rightarrow$
 \code{Export} $\rightarrow$ \code{Sweave}. That will create a file
 named ``skeleton.Rnw''. This is the equivalent of the command line
@@ -305,14 +362,17 @@ $ ./rnw2pdf --engine='"Sweave"' --wd='"project"' skeleton.Rnw
 \end{lstlisting}
 \inputencoding{utf8}
 Note the single quotes that are protecting the double quotes.
-\item Our shell script is not the only way to use command line tools to
-get this done. One can run shell commands such as:
+\item This is the old fashioned way (therefore most virtuous for senior
+R users). 
+\begin{enumerate}
+\item Step 1:
 
 \inputencoding{latin9}\begin{lstlisting}
-$ R CMD Sweave skeleton.Rnw
+$ R CMD knit skeleton.Rnw
 \end{lstlisting}
 \inputencoding{utf8}
-That will create \code{skeleton.tex}, which we compile with
+That will create \code{skeleton.tex}. 
+\item Step 2:
 
 \inputencoding{latin9}\begin{lstlisting}
 $ texi2pdf skeleton.tex
@@ -320,11 +380,58 @@ $ texi2pdf skeleton.tex
 \inputencoding{utf8}
 The major difference between running this and the script we provide
 is that our script will handle LyX files and it will, by default,
-will create a purled copy of the R code.
+create a purled copy of the R code. 
 \end{enumerate}
-If you are editing these files in LyX, it is sufficient to simply
-compile as usual. That will handle the chore of converting a sequence
-of document types to arrive at PDF.
+\end{enumerate}
+
+\section{Editor Cautions}
+
+\subsection*{Rstudio}
+
+While editing an Rnw file in Rstudio, there will be a button labeled
+knit and a small triangle by that item. It is very (VERY!) important
+to choose the correct output format. If you choose incorrectly, Rstudio
+may damage your document by trying to revise it.
+
+\subsection*{LyX}
+
+The document preamble has manual settings for margins (geometry) as
+well as hyperlinks (PDF hyperref). At the current time, these settings
+are not integrated with the LyX settings. As a result, using the LyX
+pull down menu to revise geometry and PDF hyperrefs may break the
+document entirely. To change those features, please edit the document
+preamble or config files. Repeat \textbf{CAUTION}: Don't change the
+page margins or settings for hyperlinks with pull down menus.
+
+\section{What to edit}
+
+\subsection*{Title and author information}
+
+The first block in the document has the title and author information. 
+
+\subsection*{Footer information}
+
+The footer in this document uses data that is provided in a file named
+``addressFooter.tex''. If you don't have an addressFooter.tex file,
+the address can be entered directly into this document.
+
+\subsection*{About the theme folder}
+
+The theme folder should will have copies of the theme files, but the
+logo files are not copied until the document is compiled for the first
+times. It is done that way to preserve the author's customizations.
+
+Authors are free to edit the theme files, to replace logo images.
+
+\section{Math Check}
+
+A linear regression is an estimate of this theoretical model, which
+is displayed as a numbered equation
+\begin{equation}
+y_{i}=\beta_{0}+\beta_{1}x1_{i}+\beta_{2}x2_{i}+\varepsilon_{i}\label{eq:linear}
+\end{equation}
+
+The equation can be referred to as equation (\ref{eq:linear}).
 
 \section{Code Chunk Check}
 
@@ -334,11 +441,85 @@ are displayed. Correctly formatted LaTeX code can be written by R
 functions and it can appear in the document. The vignette ``code\_chunks''
 has full details. This is a brief highlight.
 
-\subsection{The listings package}
+\subsection{Raw R input and output}
+
+Consider a regression.
+
+<<>>=
+dat <- data.frame(x = rnorm(100), y = rpois(100, lambda = 7))
+m1 <- glm(y ~ x, data = dat, family = "poisson")
+summary(m1)
+@
+
+\subsection{Controlling display of chunk input and output}
+
+The chunk option ``include'' can be used to regulate whether the
+input and output appear immediately in the document. When combined
+with ``echo'' and ``results'', we can have a great deal of control.
+
+In this chunk, we create a regression table object, but we hide everything:
+
+<<pois10, include=F, results=hide>>=
+library(rockchalk)
+or <- outreg(list("My Poisson"= m1), varLabels = c("x" = "A Normal Predictor"), tight = FALSE)
+@
+
+To display the object \code{or} to the reader, we have two options. 
+
+The standard Sweave approach is to include another chunk, and then
+cause the LaTeX markup for the object \code{or} to be woven directly
+into the document (depends on ``results=tex'').
+
+<<pois11, results=tex, echo=F>>=
+cat(or, file="tmpout/t-pois11.tex")
+cat(or)
+@
+
+That chunk might be placed in a LaTeX floating table object, of course,
+as we show next.
+
+A second option, which is more convenient, is to simply use LaTeX
+to input the saved file. When the code chunk ``pois11'' is executed,
+it creates a file named ``tmpout/t-pois11.tex''. In Table \ref{tab:A-Poisson-Regression}
+we demonstrate how that can be included in a numbered floating table.
+
+\begin{table}[b]
+\caption{A Poisson Regression\label{tab:A-Poisson-Regression}}
+
+\input{tmpout/t-pois11.tex}
+\end{table}
+The reader has not yet had a chance to see the code chunk that calculated
+the regression. The code chunk that ran the regression was marked
+``include=F, results=hide''. To show that code, there are (at least)
+2 ways. 
+\begin{enumerate}
+\item The chunk is named ``pois10''. Because we have the R Sweave argument
+split=T in the above, the code file is written separately and we can
+retrieve it with an input statement like so:
+
+\inputencoding{latin9}\begin{lstlisting}
+\input{tmpout/t-pois10}
+\end{lstlisting}
+\inputencoding{utf8}
+Because this note is included as an R vignette, and the R packaging
+policy prohibits the use of split=T in vignettes, this approach cannot
+be used in this document. 
+\item An standard approach using Sweave itself, without split, is to create
+another chunk and then display it inside double ``<\textcompwordmark <>\textcompwordmark >''
+brackets. Here we turn off evaluation (set eval=F) to prevent R from
+re-running the code chunk:
+
+<<pois15, echo=T, eval=F, include=T>>=
+<<pois10>>
+@
+\end{enumerate}
+Those two code displays should be identical in the document.
+
+\subsection{The listings package works well with Sweave}
 
 The document preamble includes settings for the LaTeX package listings,
 which is used to display code input and output. Inline references
-to \code{code} can be marked for highlighting (by LaTeX macro ``\textbackslash{}code'')
+to \code{code} can be marked for highlighting (by LaTeX macro ``\textbackslash code'')
 that will mimic the color styling of the code displays.
 
 One advantage of using our Sweave-based LaTeX documents is the listings
@@ -354,10 +535,10 @@ the indicated space, it may be necessary to fiddle with the font size,
 for example. Here are the highlights: 
 \begin{enumerate}
 \item The font size and colors of R input chunks are controlled by LaTeX
-settings \textquotedbl{}Rsize\textquotedbl{}, \textquotedbl{}Rbackground\textquotedbl{}
-and \textquotedbl{}Rcolor\textquotedbl{}. Output displays depend on
-\textquotedbl{}Routsize\textquotedbl{}, \textquotedbl{}Routbackground\textquotedbl{},
-and \textquotedbl{}Routcolor\textquotedbl{}. 
+settings \textquotedbl Rsize\textquotedbl , \textquotedbl Rbackground\textquotedbl{}
+and \textquotedbl Rcolor\textquotedbl . Output displays depend on
+\textquotedbl Routsize\textquotedbl , \textquotedbl Routbackground\textquotedbl ,
+and \textquotedbl Routcolor\textquotedbl . 
 \item The font can be adjusted by declarations like this
 
 \inputencoding{latin9}\begin{lstlisting}
@@ -377,7 +558,8 @@ chunk to adjust just that one chunk.
 \def\Routcolor{\color[rgb]{0.9, 0.1, 0.1}]}
 \def\Rcommentcolor{\color{green}}
 \end{lstlisting}
-\inputencoding{utf8}\end{enumerate}
+\inputencoding{utf8}
+\end{enumerate}
 To demonstrate this customization, compare these two chunks. The first
 uses the defaults:
 
@@ -415,83 +597,7 @@ beautifying impact of the change to the immediately following output.
 Otherwise, at least in this document type, the change applies to all
 following chunks.
 
-\subsection{Raw R input and output}
-
-Consider a regression.
-
-<<>>=
-dat <- data.frame(x = rnorm(100), y = rpois(100, lambda = 7))
-m1 <- glm(y ~ x, data = dat, family = "poisson")
-summary(m1)
-@
-
-\subsection{Controlling display of chunk input and output}
-
-The chunk option ``include'' can be used to regulate whether the
-input and output appear immediately in the document. When combined
-with ``echo'' and ``results'', we can have a great deal of control.
-
-In this chunk, we create a regression table object, but we hide everything:
-
-<<pois10, include=F, results=hide>>=
-library(rockchalk)
-or <- outreg(list("My Poisson"= m1), varLabels = c("x" = "A Normal Predictor"), tight = FALSE)
-@
-
-To display the object \code{or} to the reader, we have two options. 
-
-The standard Sweave approach is to include another chunk, and then
-cause the LaTeX markup for the object \code{or} to be woven directly
-into the document (depends on ``results=tex'').
-
-<<pois11, results=tex, echo=F>>=
-cat(or, file="tmpout/t-pois11.tex")
-cat(or)
-@
-\\
-
-That chunk might be placed in a LaTeX floating table object, of course,
-as we show next.
-
-A second option, which is more convenient, is to simply use LaTeX
-to input the saved file. When the code chunk ``pois11'' is executed,
-it creates a file named ``tmpout/t-pois11.tex''. In Table \ref{tab:A-Poisson-Regression}
-we demonstrate how that can be included in a numbered floating table.
-
-\begin{table}[b]
-\caption{A Poisson Regression\label{tab:A-Poisson-Regression}}
-
-\input{tmpout/t-pois11.tex}
-\end{table}
-
-The reader has not yet had a chance to see the code chunk that calculated
-the regression. The code chunk that ran the regression was marked
-``include=F, results=hide''. To show that code, there are (at least)
-2 ways. 
-\begin{enumerate}
-\item The chunk is named ``pois10''. Because we have the R Sweave argument
-split=T in the above, the code file is written separately and we can
-retrieve it with an input statement like so:
-
-\inputencoding{latin9}\begin{lstlisting}
-\input{tmpout/t-pois10}
-\end{lstlisting}
-\inputencoding{utf8}
-Because this note is included as an R vignette, and the R packaging
-policy prohibits the use of split=T in vignettes, this approach cannot
-be used in this document. 
-\item An standard approach using Sweave itself, without split, is to create
-another chunk and then display it inside double ``<\textcompwordmark{}<>\textcompwordmark{}>''
-brackets. Here we turn off evaluation (set eval=F) to prevent R from
-re-running the code chunk:
-
-<<pois15, echo=T, eval=F, include=T>>=
-<<pois10>>
-@
-\end{enumerate}
-Those two code displays should be identical in the document.
-
-\subsection{Line wrap}
+\subsection{listings can help with line wrap, if you let it.}
 
 This chunk shows what happens if the R input long. The line wrapping
 power of the listings class prevents code input from running into
@@ -504,7 +610,8 @@ dataFrame <- data.frame(x1 = rnorm(100, m = 13, s = 23), x2 = rnorm(100, m = 13,
 \section{References}
 
 \bibliographystyle{apalike2}
-\bibliography{theme/R}
+\bibliography{R}
+
 
 \section{Session Info\label{sec:Session-Info}}
 

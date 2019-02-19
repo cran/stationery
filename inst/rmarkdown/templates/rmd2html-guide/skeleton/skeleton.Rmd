@@ -26,12 +26,12 @@ output:
     css: theme/kutils.css
     template: theme/guide-template.html
 guide_number: 00
-bibliography: theme/R.bib
+bibliography: R.bib
 logoleft: theme/logoleft.png
 logoright: theme/logo-vert.png
 ---
 
-```{r setup, include=FALSE}
+```{r ignoremeRsetup, include=FALSE, results='hide'}
 ##This Invisible Chunk is required in all CRMDA documents
 outdir <- paste0("tmpout")
 if (!file.exists(outdir)) dir.create(outdir, recursive = TRUE)
@@ -41,24 +41,36 @@ par.orig <- par(no.readonly=TRUE)
 options(width = 70)
 ```
 
-```{r themecopy, include = FALSE}
+```{r ignoremeTexcopy, echo=F, results='hide'}
 library(stationery)
 ## If theme directory does not have required images or TeX files
 ## we need to retrieve them and put them in "theme" directory. 
-logos <- c("logoleft.png", "logo-vert.png", "R.bib")
-getFiles(logos, pkg = "stationery")
+logos <- c("logoleft.png", "logo-vert.png")
+try(getFiles(logos, pkg = "stationery", overwrite = FALSE))
 ## These theme files should be available already, but if not
 themefiles <- c("kutils.css", "guide-template.html")
-getFiles(themefiles, pkg = "stationery")
+try(getFiles(themefiles, pkg = "stationery", overwrite = FALSE))
+## If you do not have a file after that, 
+## the following will manufacture a blank image for a placeholder
+if(!file.exists("theme/logoleft.pdf")){
+  blankPNG(file = "theme/logoleft.png", height=200, width=200, messg = "")
+}
+if(!file.exists("theme/logo-vert.pdf")){
+  blankPNG(file = "theme/logo-vert.png", height=200, width=200, messg = "")
+}
 ```
 
 # Level 1 heading
 
-This is using R [@RCore] in a markdown document.
+This is the template file for Markdown documents prepared
+with R [@RCore] using the CRMDA template. It was probably created by
 
-## Level 2 heading 
+```
+library(stationery)
+initWriteup("rmd2html-guide")
+```
 
-# To compile
+# To edit and compile
 
 See the "instructions" file with this document.
 

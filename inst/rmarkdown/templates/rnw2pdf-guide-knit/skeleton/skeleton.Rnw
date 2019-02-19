@@ -1,4 +1,4 @@
-%% LyX 2.2.3 created this file.  For more info, see http://www.lyx.org/.
+%% LyX 2.3.1 created this file.  For more info, see http://www.lyx.org/.
 %% Do not edit unless you really know what you are doing.
 \documentclass[11pt,letterpaper,english]{extarticle}
 \usepackage{lmodern}
@@ -14,7 +14,6 @@
  bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
  breaklinks=true,pdfborder={0 0 0},pdfborderstyle={},backref=false,colorlinks=true]
  {hyperref}
-\usepackage{breakurl}
 
 \makeatletter
 
@@ -80,30 +79,62 @@ footskip=1.5\baselineskip,
 }
 \guidehdr
 
-<<knitropts, echo=FALSE>>=
-## Chunk output 
-library(knitr)
-if(!dir.exists("tmpout")) dir.create("tmpout", showWarnings=FALSE)
-opts_chunk$set(fig.path="tmpout/t-", split=TRUE, 
-               ae=FALSE, fig.height=3, fig.width=5, comment=NA)
-@
 
-<<texcopy, include=FALSE>>=
+% 1. If you have an address file, use it here:
+\input{addressFooter.tex}
+% 2. If you don't have an address file, remove % signs and fill in your information
+% This stanza must end with "\guideftr"
+% (after removing percent signs):
+%\urlstyle{tt}
+%\footersetup{
+%  leftside={
+%    lone={Address line 1}, 
+%    ltwo={Address line 2}, 
+%    lthree={City State Zipcode}},
+%  rightside={
+%    rone={Web: \url{https://crmda.ku.edu}},
+%    rtwo={Email: \href{mailto:you@where.edu}{\url{you@where.edu}}},
+%    rthree={Phone: 123-345-5678}}
+%}
+%\guideftr
+% 3. If you don't want an address footer, just delete this subsection.
+
+% Please leave this code
+<<ignoremeRsetup, echo=FALSE, include=FALSE>>=
+tdir <- "tmpout"
+if(!dir.exists(tdir)) dir.create(tdir, showWarnings=FALSE)
 library(stationery)
-## Retrieve theme files 
-logos <- c(logoleft = "logoleft.pdf", 
-           logoright = "logo-vert.pdf", 
-           "addressFooter.tex")
-getFiles(logos, pkg = "stationery")
-@
-
-<<Roptions, echo=FALSE>>=
 opts.orig <- options()
-par.orig <- par(no.readonly=TRUE)
-options(width=75, prompt=" ", continue="  ")
+options(width=80, prompt=" ", continue="  ")
 options(useFancyQuotes = FALSE) 
 set.seed(12345)
+par.orig <- par(no.readonly=TRUE)
 pdf.options(onefile=FALSE,family="Times",pointsize=10)
+## Chunk output, knit replaces Sweave 
+library(knitr)
+opts_chunk$set(fig.path="tmpout/t-", split=TRUE, 
+               ae=FALSE, fig.height=4, fig.width=6, comment=NA)
+@
+\fvset{listparameters={\setlength{\topsep}{0em}}}
+
+% We need 2 image files for logos, top left (logoleft) and right
+% (logo-vert). 
+% You can manually copy your desired image files
+% "logoleft.pdf" and "logo-vert.pdf" into the theme folder. 
+% Or run this to retrieve or create them:
+<<texcopy, include=FALSE, echo=FALSE>>=
+## The logos we need are
+logos <- c("logoleft.pdf", "logo-vert.pdf")
+## This will retrieve logo files from a designated package:
+getFiles(logos, pkg = "stationery", overwrite = FALSE)
+## If you do not have a file after that, 
+## the following will manufacture a blank images for placeholders
+if(!file.exists("theme/logoleft.pdf")){
+  blankPDF(file = "theme/logoleft.pdf", height=1.2, width=1.2, messg = "")
+}
+if(!file.exists("theme/logo-vert.pdf")){
+  blankPDF(file = "theme/logo-vert.pdf", height=2, width=1.5, messg = "")
+}
 @
 \begin{abstract}
 \noindent This is an abstract. Please include a terse, yet descriptive
@@ -142,7 +173,7 @@ what they want.
 Listing objects differ in output from R\citep{RCore} code chunks.
 Here is listing output.
 
-\inputencoding{latin9}\begin{lstlisting}
+\inputencoding{latin9}\begin{lstlisting}[style=Rinput]
 $ ./rnw2pdf --engine='"knitr"' skeleton.lyx
 \end{lstlisting}
 \inputencoding{utf8}
@@ -151,10 +182,30 @@ of input or output cells. What you see is what they insist on, at
 least until we figure how to change it.
 
 <<norm10>>=
+set.seed(1234)
 x <- rnorm(100)
 head(x)
 mean(x)
 @
+
+That's the knitr output.
+
+I wish instead the input and output would display in separately decorated
+areas with the style I prefer, 
+
+\inputencoding{latin9}\begin{lstlisting}[style=Rinput]
+set.seed(1234)
+x <- rnorm(100)
+head(x)
+mean(x)
+\end{lstlisting}
+\inputencoding{utf8}
+\inputencoding{latin9}\begin{lstlisting}[style=Routput]
+mean(x)
+[1] -0.1567617
+\end{lstlisting}
+\inputencoding{utf8}
+but knitr makes this difficult at the moment.
 
 \section{Session Info\label{sec:Session-Info}}
 
@@ -177,6 +228,6 @@ par(par.orig)
 @
 
 \bibliographystyle{apacitex}
-\bibliography{theme/R}
+\bibliography{R}
 
 \end{document}

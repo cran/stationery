@@ -19,9 +19,12 @@ output:
     highlight: haddock
     keep_tex: false
     latex_engine: pdflatex
-    pandoc_args: --listings
+    pandoc_args: [--listings]
     template: "theme/report-template.tex"
+    includes:
+      in_header: "theme/guidePreambleKnitr.tex"
 logo: theme/logo.pdf
+bibliography: R.bib
 header-includes:
 - \usepackage{xcolor}
 addr:
@@ -33,7 +36,7 @@ addr:
   r3: 'Phone: 123-345-5678'
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, results='hide'}
 ##This Invisible Chunk is required in all CRMDA documents
 opts.orig <- options()
 par.orig <- par(no.readonly = TRUE)
@@ -44,14 +47,23 @@ options(width = 70)
 ```
 
 
-```{r themecopy, include = FALSE}
+```{r ignoremeTexcopy, echo=F, results='hide', warning=FALSE}
 library(stationery)
 ## If theme directory does not have required images or TeX files
 ## we need to retrieve them and put them in "theme" directory. 
-logos <- c("logo.pdf", "R.bib")
-getFiles(logos, pkg = "stationery")
-themefiles <- c("report-template.tex")
-getFiles(themefiles, pkg = "stationery")
+logos <- c("logo.pdf")
+try(getFiles(logos, pkg = "stationery", overwrite = FALSE))
+## These theme files should be available already, but if not
+themefiles <-c("report-template.tex")
+try(getFiles(themefiles, pkg = "stationery", overwrite = FALSE))
+## If you do not have a file after that, 
+## the following will manufacture a blank image for a placeholder
+if(!file.exists("theme/logoleft.pdf")){
+  blankPDF(file = "theme/logoleft.pdf", height=1, width=3.5, messg = "")
+}
+if(!file.exists("theme/logo-vert.pdf")){
+  blankPDF(file = "theme/logo-vert.pdf", height=1, width=3.5, messg = "")
+}
 ```
 
 \begin{abstract}
@@ -72,6 +84,8 @@ Fill in your name, title, email, tags.
 
 Please do use sections and subsections wish brief titles
 that are well crafted to guide the reader's eye.
+
+Citation with [@Rcore]
 
 One equation to test
 

@@ -1,4 +1,4 @@
-%% LyX 2.2.3 created this file.  For more info, see http://www.lyx.org/.
+%% LyX 2.3.1 created this file.  For more info, see http://www.lyx.org/.
 %% Do not edit unless you really know what you are doing.
 \documentclass[11pt,letterpaper,english]{extarticle}
 \usepackage{lmodern}
@@ -14,7 +14,6 @@
  bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
  breaklinks=true,pdfborder={0 0 0},pdfborderstyle={},backref=false,colorlinks=true]
  {hyperref}
-\usepackage{breakurl}
 
 \makeatletter
 
@@ -53,6 +52,9 @@ footskip=1.5\baselineskip,
 % be a numbered section within document
 \usepackage[numbib,notlof,notlot,nottoc]{tocbibind}
 
+\definecolor{shadecolor}{rgb}{0.61, 0.61, 0.61}
+\definecolor{fg}{rgb}{0, 0, 0}
+
 \makeatother
 
 \usepackage{listings}
@@ -78,30 +80,58 @@ footskip=1.5\baselineskip,
 }
 \guidehdr
 
-<<Roptions, echo=FALSE>>=
+% 1. If you have an address file, use it here:
+\input{addressFooter.tex}
+% 2. If you don't have an address file, remove % signs and fill in your information
+% This stanza must end with "\guideftr"
+% (after removing percent signs):
+%\urlstyle{tt}
+%\footersetup{
+%  leftside={
+%    lone={Address line 1}, 
+%    ltwo={Address line 2}, 
+%    lthree={City State Zipcode}},
+%  rightside={
+%    rone={Web: \url{https://crmda.ku.edu}},
+%    rtwo={Email: \href{mailto:you@where.edu}{\url{you@where.edu}}},
+%    rthree={Phone: 123-345-5678}}
+%}
+%\guideftr
+% 3. If you don't want an address footer, just delete this subsection.
+
+<<ignoremeRoptions, echo=FALSE>>=
+tdir <- "tmpout"
+if(!dir.exists(tdir)) dir.create(tdir, showWarnings=FALSE)
 opts.orig <- options()
 options(width=75, prompt=" ", continue="  ")
 options(useFancyQuotes = FALSE) 
 set.seed(12345)
 pdf.options(onefile=FALSE,family="Times",pointsize=10)
-if(!dir.exists("tmpout")) dir.create("tmpout", showWarnings=FALSE)
-@
-
-<<knitropts, echo=FALSE>>=
+library(stationery)
 ## Chunk output 
 library(knitr)
 opts_chunk$set(fig.path="tmpout/t-", split=FALSE, 
                ae=FALSE, fig.height=3, fig.width=5, comment=NA)
 @
 
-<<texcopy, include=FALSE>>=
-library(stationery)
-## If theme directory does not have required images or TeX files
-## we need to retrieve them and put them in "theme" directory. 
-logos <- c(logoleft = "logoleft.pdf", 
-           logoright = "logo-vert.pdf",
-           "addressFooter.tex")
-getFiles(logos, pkg = "stationery")
+% We need 2 image files for logos, top left (logoleft) and right
+% (logo-vert). 
+% You can manually copy your desired image files
+% "logoleft.pdf" and "logo-vert.pdf" into the theme folder. 
+% Or run this to retrieve or create them:
+<<ignormeTexcopy, include=FALSE, echo=FALSE>>=
+## The logos we need are
+logos <- c("logoleft.pdf", "logo-vert.pdf")
+## This will retrieve logo files from a designated package:
+try(getFiles(logos, pkg = "stationery", overwrite = FALSE))
+## If you do not have a file after that, 
+## the following will manufacture a blank images for placeholders
+if(!file.exists("theme/logoleft.pdf")){
+  blankPDF(file = "theme/logoleft.pdf", height=1.2, width=1.2, messg = "")
+}
+if(!file.exists("theme/logo-vert.pdf")){
+  blankPDF(file = "theme/logo-vert.pdf", height=2, width=1.5, messg = "")
+}
 @
 \begin{abstract}
 \noindent This shows how we use R \citep{RCore} to make guide documents
@@ -112,118 +142,116 @@ using the CRMDA style.
 
 \section{Introduction}
 
-Create a skeleton document by opening R and running
+Create a template (skeleton) document by opening R and running
 
-<<eval=F>>=
+\inputencoding{latin9}\begin{lstlisting}
 library(stationery)
 initWriteup("rnw2pdf-guide-knit")
-@
+\end{lstlisting}
+\inputencoding{utf8}
+That will create a folder \code{rnw2pdf-guide-knit}. If you do not
+want a directory to be created, then instead run
 
-That will create a folder ``rnw2pdf-guide-knit'' (unless you request
-otherwise by setting the dir argument). 
+\inputencoding{latin9}\begin{lstlisting}
+library(stationery)
+initWriteup("rnw2pdf-guide-knit", dir = ".")
+\end{lstlisting}
+\inputencoding{utf8}
+The \code{initWriteup} function will create several files, including
+\code{skeleton.\{lyx, Rnw\}}, \code{instructions.\{lyx, Rnw\}},
+as well as some auxiliary input files and a theme folder. 
 
-We suggest you
+\section{Proceed as follows}
+
+If you allowed \code{initWriteup} to create a directory, rename that
+directory in a way that will be helpful to your project. For example,
+``homework-1-2019'' (anything that helps you remember what is in
+the write-up). 
+
+Decide whether you want to edit the LyX skeleton file (lyx) or the
+noweb skeleton (Rnw) file. 
 \begin{enumerate}
-\item Compile the skeleton document \emph{as is }to test your setup
-\item Make revisions incrementally, and re-compile often to make sure nothing
-has been broken.
+\item Copy the skeleton file to a new name. Choose a name that helps you,
+possibly ``hw-1-2019.lyx'' or such.
+\item See the code chunk above named \code{ignoremeTexcopy}. That is used
+to retrieve image files for the header on page 1. If you don't have
+image logo files that you want to use, the last part of that chunk
+will manufacture empty ``blank'' pdf logo files. It is safe to delete
+the \code{ignoremeTexcopy} chunk after you have the logo files you
+want in the theme folder. 
+\item Compile the document without making other changes. For instructions
+on compiling, see Section \ref{sec:Compile}.
+\item Make revisions incrementally. Start by inserting your own title and
+address information. Re-compile often to make sure no errors have
+been made. 
 \end{enumerate}
-Don't make changes that you don't understand in the code chunks above
-or the last chunks below.
+Don't make changes that you don't understand in the \code{ignoremeRoptions}
+code chunk above. For goodness sake, don't delete that one.
 
-\section{LyX: Cautions}
+\section{Check our instructions}
 
-The document preamble has manual settings for margins (geometry) as
-well as hyperlinks (PDF hyperref). Don't use the LyX pull down menu
-to revise them. Edit preamble or config files for that. Repeat \textbf{CAUTION}:
-Don't change the page margins or settings for hyperlinks with pull
-down menus.
+With every skeleton, we also provide an instructions file in the working
+directory.
 
-\section{What to edit}
-
-\subsection*{Title and author information}
-
-The first block in the document has the title and author information. 
-
-\subsection*{Footer information}
-
-The footer in this document uses data that is provided in a file named
-``addressFooter.tex''. After the document is compiled for the first
-time, that document should be available in the theme folder.
-
-\subsection*{About the theme folder}
-
-The theme folder should will have copies of the theme files, but the
-logo files are not copied until the document is compiled for the first
-times. It is done that way to preserve the author's customizations.
-
-There is an R code chunk above called ``texcopy''. In previous versions,
-it copied the configuration It will copy configuration files from
-the package into the theme folder. After running this for the first
-time, those files will not be automatically replaced by the scripts. 
-
-Authors are free to edit the theme files, to replace logo images and,
-of course, to insert their addresses. 
-
-If the author makes an error in editing a theme file, it is safe to
-delete the erroneous file and run the compile script again. That will
-copy a fresh version of the theme file into the directory.
-
-\section{Check our documentation}
-
-There are several vignettes distributed with this package. Please
-review them.
+There are also several vignettes distributed with the stationery package.
+Please review them.
 \begin{enumerate}
 \item ``stationery'': the package framework overview
-\item ``code\_chunks'': discusses display of code in LaTeX documents
+\item ``code\_chunks'': discusses display of code in LaTeX documents with
+both Sweave and knitr chunks
+\item ``Rmarkdown'': about using Markdown with R, an alternative to LaTeX/Noweb.
+\item ``HTML Special Features'': In Markdown intended for HTML output,
+authors can exploit some features. 
 \end{enumerate}
 
-\section{Compile the PDF document}
+\section{Compile the document\label{sec:Compile}}
 
 The skeleton file is provided in 2 formats, LyX and Rnw. The stationery
 vignette has an overview of reasons why one might author with LyX,
-or with another program (with the Rnw file). It also explains the
-compilation process. 
+or with another program (with the \code{Rnw} file). It also explains
+the compilation process. 
 
-Whether one writes the LyX file or the Rnw file, it is necessary to
-understand that compiling is a two step process.
+Whether one writes the LyX file or the \code{Rnw} file, it is necessary
+to understand that compiling is a two step process.
 \begin{enumerate}
 \item knitting: Run R to do the calculations in the R code chunks and write
 out a LaTeX file
-\item compiling: Run a LaTeX program, such as pdflatex or xelatex or such.
-It is also necessary for a bibliography builder program to make a
-pass through the data. The aggregator program texi2pdf will this (if
-you have it).
+\item compiling: Run a LaTeX program, such as \code{pdflatex} or \code{xelatex}
+or such. It is also necessary for a bibliography builder program to
+make a pass through the data. The aggregator program texi2pdf will
+this (if you have it).
 \end{enumerate}
 
-\subsection*{Edit the LyX file.}
-
-There are 4 methods, we hope one will suit your workflow.
+\subsection{Working with the LyX file.}
 \begin{enumerate}
-\item Use the LyX editor. A LyX module called ``sweave'' can be activated,
-so that compiling to PDF with the pdflatex program runs the chunks
-and builds a PDF. 
-
-This has the same effect as using LyX from the command line:
+\item Use the LyX editor. Use the menus in the LyX editor. The file can
+be compiled to PDF in LyX, just like any other LyX file. A LyX module
+called ``sweave'' can be activated, so that compiling to PDF with
+the pdflatex program runs the chunks and builds a PDF. 
+\item Run LyX from the command line:
 
 \inputencoding{latin9}\begin{lstlisting}
 $ lyx -e pdf2 skeleton.lyx
 \end{lstlisting}
-\inputencoding{utf8}\item Open an R session, run
+\inputencoding{utf8}
+\item Open an R session, run
 
 \inputencoding{latin9}\begin{lstlisting}
 > library(stationery)
 > rnw2pdf("skeleton.lyx") # or .Rnw
 \end{lstlisting}
-\inputencoding{utf8}\item The shell script \code{rnw2pdf.sh} is provided with the skeleton.
+\inputencoding{utf8}
+\item The shell script \code{rnw2pdf.sh} is provided with the skeleton.
 Run:
 
 \inputencoding{latin9}\begin{lstlisting}
 $ ./rnw2pdf.sh skeleton.lyx
 \end{lstlisting}
-\inputencoding{utf8}\item In case you want to track the steps of compiling one by one, open
+\inputencoding{utf8}
+\item In case you want to track the steps of compiling one by one, open
 the file in LyX. Use the pull down menu \code{File} $\rightarrow$
-\code{Export} $\rightarrow$ \code{Rnw (knitr)}, which creates ``skeleton.Rnw''. 
+\code{Export} $\rightarrow$ \code{Rnw (knitr)}. That will create
+a file named ``skeleton.Rnw''. 
 
 This is the equivalent of the command line statement
 
@@ -231,13 +259,17 @@ This is the equivalent of the command line statement
 $ lyx -e knitr skeleton.lyx
 \end{lstlisting}
 \inputencoding{utf8}
-After that Rnw file is created, proceed as described in the next subsection.
+After that Rnw file is created, proceed as described in the next subsection. 
+
+This two-step process is valuable for debugging. It makes it easier
+to spot trouble by focusing on the separate transitions.
 \end{enumerate}
 
-\subsection*{Edit the Rnw file}
+\subsection{Working with the Rnw file}
 
-The Rnw file we provide is produced by LyX, it is an intermediate
-step in the document production sequence. 
+The Rnw file we provide is produced by LyX. It is the traditional
+way that the R team developed Sweave and how most vignettes are made
+for packages.
 
 The work flow here will vary, depending on your experience and the
 editor you choose to use. Here are some possibilities:
@@ -281,14 +313,17 @@ $ ./rnw2pdf --engine='"knitr"' --purl=FALSE --clean=FALSE --keep_tex=TRUE --verb
 The only difference in usage arises when a quoted string must be passed
 through, such as ``knitr'', which must be protected in the command
 line by single quotes.
-\item This is the old fashioned (therefore most virtuous and least likely
-to be used) way. Step 1:
+\item This is the old fashioned way (therefore most virtuous for senior
+R users). 
+\begin{enumerate}
+\item Step 1:
 
 \inputencoding{latin9}\begin{lstlisting}
 $ R CMD knit skeleton.Rnw
 \end{lstlisting}
 \inputencoding{utf8}
-That will create \code{skeleton.tex}. Step 2:
+That will create \code{skeleton.tex}. 
+\item Step 2:
 
 \inputencoding{latin9}\begin{lstlisting}
 $ texi2pdf skeleton.tex
@@ -298,41 +333,65 @@ The major difference between running this and the script we provide
 is that our script will handle LyX files and it will, by default,
 create a purled copy of the R code. 
 \end{enumerate}
+\end{enumerate}
+
+\section{Editor Cautions}
+
+\subsection*{Rstudio}
+
+While editing an Rnw file in Rstudio, there will be a button labeled
+knit and a small triangle by that item. It is very (VERY!) important
+to choose the correct output format. If you choose incorrectly, Rstudio
+may damage your document by trying to revise it.
+
+\subsection*{LyX}
+
+The document preamble has manual settings for margins (geometry) as
+well as hyperlinks (PDF hyperref). At the current time, these settings
+are not integrated with the LyX settings. As a result, using the LyX
+pull down menu to revise geometry and PDF hyperrefs may break the
+document entirely. To change those features, please edit the document
+preamble or config files. Repeat \textbf{CAUTION}: Don't change the
+page margins or settings for hyperlinks with pull down menus.
+
+\section{What to edit}
+
+\subsection*{Title and author information}
+
+The first block in the document has the title and author information. 
+
+\subsection*{Footer information}
+
+The footer in this document uses data that is provided in a file named
+``addressFooter.tex''. If you don't have an addressFooter.tex file,
+the address can be entered directly into this document.
+
+\subsection*{About the theme folder}
+
+The theme folder should will have copies of the theme files, but the
+logo files are not copied until the document is compiled for the first
+times. It is done that way to preserve the author's customizations.
+
+Authors are free to edit the theme files, to replace logo images.
+
+\section{Math Check}
+
+A linear regression is an estimate of this theoretical model, which
+is displayed as a numbered equation
+\begin{equation}
+y_{i}=\beta_{0}+\beta_{1}x1_{i}+\beta_{2}x2_{i}+\varepsilon_{i}\label{eq:linear}
+\end{equation}
+
+The equation can be referred to as equation (\ref{eq:linear}).
 
 \section{Code Chunk Check}
 
-\subsection{knitr issues/features}
+\subsection*{Raw Code Chunks}
 
-The original R \citep{RCore} used the word ``Sweave'' to refer
-to the integration of R input \& output within a document. The term
-``knit'' has the same meaning in the knitr package.
-
-Styling of knitr code chunks is different than Sweave. It appears
-we lose line-wrap entirely. This is what we get:
-
-<<eval=F>>=
-library(stationery)
-initWriteup("rnw2pdf-guide-knit")
-@
-
-This is what we would rather have, what we can get with Sweave:
-
-\inputencoding{latin9}\begin{lstlisting}[language=R,style=Rinput]
-library(stationery)
-initWriteup("rnw2pdf-guide-knit")
-\end{lstlisting}
-\inputencoding{utf8}
-In the Sweave documents, I (eventually) came to understand how to
-customize the LaTeX listings environment for input and output from
-R. The knitr package is more difficult to adjust. I have not yet learned
-how to control the coloring of knitr code chunks, so I prefer Sweave.
-
-\subsection{Code Chunks}
-
-If you choose to use knitr rather than Sweave as the chunk-processor–and
-by using this template that is what you did decide–you should study
-the knitr chunk options. These are discussed in some detail in the
-vignette on code chunks.
+This is a document prepared with knitr code chunks. Generally speaking,
+the set of ``chunk options'' for knitr document includes all of
+the settings possible for Sweave, plus 30 or so additional settings.
+These are discussed in some detail in the vignette on code chunks.
 
 Here is an example of a data frame being created and a glm is estimated:
 
@@ -343,10 +402,12 @@ m1 <- glm(y ~ x, data = dat, family = "poisson")
 summary(m1)
 @
 
-Some code that might be used to create a regression table using outreg
-from the rockchalk package is the following. As you see, the output
-``splats'' into the document, it is not in a floating figure or
-table.
+\subsection*{Pleasant Output Tables}
+
+Some code that might be used to create a regression table using \code{outreg}
+from the \code{rockchalk} package is the following. As you see, the
+output ``splats'' into the document, it is not in a floating figure
+or table.
 
 <<pois10, eval=FALSE>>=
 library(rockchalk)
@@ -371,23 +432,81 @@ particular point.
 
 \input{tmpout/t-pois15.tex}
 \end{table}
+Some examples of nearly-good-enough tables are now presented. The
+regression result presented in Table \ref{tab:A-Regression-Table}
+may not be perfect by APA standards, but it is certainly good enough
+for intermediate versions. This is produced by the \code{outreg()}
+function in the rockchalk package. There are, of course, many other
+packages designed to generate the same sort of LaTeX markup.
+
+\begin{table}
+\caption{A Regression Table\label{tab:A-Regression-Table}}
+
+<<outreg1, echo=F, results='asis'>>=
+library(rockchalk)
+vl <- c("x" = "Excellent Predictor")
+or <- outreg(list("First Model" = m1), varLabels = vl, tight = FALSE, centering = "siunitx")
+@
+\end{table}
+In the kutils package, we made a function \code{semTable()} that
+presents structural equation models. The result in Table \ref{tab:A-Confirmatory-Factor}
+is an example. 
+
+<<include=F>>=
+library(kutils)
+require(lavaan)
+@
+
+<<cfa1, echo=F, include=F>>=
+HS.model <- 'visual  =~ x1 + x2 + x3
+textual =~ x4 + x5 + x6
+speed   =~ x7 + x8 + x9'
+output1 <- cfa(HS.model, data = HolzingerSwineford1939, std.lv = TRUE)
+@
+
+<<cfa3, echo=F, include=F, results='asis'>>=
+cfa1 <- semTable(output1, fits = "rmsea", paramSets = c("loadings", "latentvariances"), type = "latex")
+cat(cfa1, file="tmpout/t-cfa3.tex")
+@
+
+\begin{table}
+\caption{A Confirmatory Factor Analysis Table\label{tab:A-Confirmatory-Factor}}
+
+\input{tmpout/t-cfa3.tex}
+\end{table}
+In the perfect world, the tables that come from software would be
+perfectly presentable. This is the idea of the fully reproducible
+research document. At the current time, that is unrealistic. Authors
+need to leave a back door though which they can answer the very demanding
+requirements of journals and colleagues who insist on tables aligned
+``just so'' with labels that have particular styles. The software
+will more closely approach that ideal, of course. But, for now, we
+make due. 
+
+In R, literate documents (using either knitr or Sweave) can be created
+with the document option ``split'' set as TRUE. If this is done,
+then an output file is generated for each and every the individual
+code chunk. In the CRMDA, our custom is to save these in a directory
+called ``tmpout''. The split option is not allowed in documents
+prepared as R vignettes, but it is still possible to get the work
+done. R has functions, mainly \code{cat}, that can be used to save
+output tables.
 
 \bibliographystyle{apacitex}
-\bibliography{theme/R}
+\bibliography{R}
+
 
 \section{Replication Information\label{sec:Session-Info}}
 
-Please leave this section for guide documents. It is important for
-replication. 
-
 <<session10, echo=F>>=
+## Please don't delete this.
 sessionInfo()
 if(!is.null(warnings())){
     print("Warnings:")
     warnings()}
 @
 
-<<session20, include=F>>=
+<<session20, echo=F, results="hide">>=
 ## Don't delete this. It puts the interactive session options
 ## back the way they were. If this is compiled within a session
 ## it is vital to do this.

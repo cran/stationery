@@ -23,20 +23,19 @@ addr:
     r3: "Phone: 123-345-5678"
 logoleft: theme/logoleft.pdf
 logoright: theme/logo-vert.pdf
-output: 
+output:
   pdf_document:
     toc: true
     toc_depth: 1
+    number_sections: true
     citation_package: natbib
-    fig_caption: yes
+    fig_caption: true
     latex_engine: pdflatex
     highlight: haddock
-    pandoc_args: [
-        --listings
-    ]
-    template:  theme/guide-template.tex
+    pandoc_args: [--listings]
+    template:  "theme/guide-template.tex"
 fontsize: 11pt
-bibliography: theme/R.bib
+bibliography: R.bib
 header-includes:
 - \usepackage{xcolor}
 ---
@@ -51,27 +50,38 @@ par.orig <- par(no.readonly = TRUE)
 options(width = 70)
 ```
 
-```{r themecopy, include = FALSE}
+
+```{r ignoremeTexcopy, echo=F, results='hide'}
 library(stationery)
-## If theme directory does not have required images, retrieve them.
-logos <- c("logoleft.pdf", "logo-vert.pdf", "R.bib")
-getFiles(logos, pkg = "stationery")
-## Theme folder should already have theme files, but in case it does not:
+## If theme directory does not have required images or TeX files
+## we need to retrieve them and put them in "theme" directory. 
+logos <- c("logoleft.pdf", "logo-vert.pdf")
+try(getFiles(logos, pkg = "stationery", overwrite = FALSE))
+## These theme files should be available already, but if not
 themefiles <- c("guide-template.tex")
-getFiles(themefiles, pkg = "stationery")
+try(getFiles(themefiles, pkg = "stationery", overwrite = FALSE))
+## If you do not have a file after that, 
+## the following will manufacture a blank image for a placeholder
+if(!file.exists("theme/logoleft.pdf")){
+  blankPDF(file = "theme/logoleft.pdf", height=1, width=3.5, messg = "")
+}
+if(!file.exists("theme/logo-vert.pdf")){
+  blankPDF(file = "theme/logo-vert.pdf", height=1, width=3.5, messg = "")
+}
 ```
+
 
 \begin{abstract}
 \noindent
-This is an abstract. Please include a terse, yet descriptive 
-statement here of less than 200 words. It should avoid 
+This is an abstract. Please include a terse, yet descriptive
+statement here of less than 200 words. It should avoid
 colloquialisms and polysyllabic profundities.
 \end{abstract}
 
 # Header Level 1 with a number
 
 At the last minute, we changed the template to use APA6 style
-citations and it is important to see if that works on your system. 
+citations and it is important to see if that works on your system.
 
 *Lets test citations*. This citation uses the markdown method
 [@RCore]. It inserts parentheses, name and date. Can use natbib
@@ -80,7 +90,7 @@ format citations as well, please see the instructions file.
 
 # Header Level 1 without number {-}
 
-If you DO NOT want section numbers, insert {-} to prevent the 
+If you DO NOT want section numbers, insert {-} to prevent the
 compiler from inserting them.
 
 ## Make minimal changes to the top part. {-}

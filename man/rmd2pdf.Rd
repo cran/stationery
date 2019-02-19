@@ -10,9 +10,8 @@ rmd2pdf(fn = NULL, wd = NULL, ..., verbose = FALSE, purl = TRUE,
 \arguments{
 \item{fn}{One or more filenames ending in "*.Rmd".}
 
-\item{wd}{A working directory name of the Rmd file. If not
-specified, then the current working directory from R will be
-used.}
+\item{wd}{A working directory in which the Rmd file exists. Leave
+as NULL if file is in current working directory,}
 
 \item{...}{Arguments that will be passed to \code{rmarkdown::render} and
 \code{rmarkdown::pdf_document}. Our defaults set a LaTeX template, toc =
@@ -40,7 +39,7 @@ commentary and pandoc command. Can be informative!}
 A vector of output file names
 }
 \description{
-It makes sure that the style sheet we want to use is applied to the data.
+Convert an Rmd file to PDF by Sweaveing or knitting and then compiling.
 }
 \details{
 Running this will be the same as running the rmd2pdf.sh script

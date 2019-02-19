@@ -36,12 +36,14 @@
   keywords=\bfseries,%
   keywordstyle=\color[rgb]{0, 0.5, 0.5},
   escapeinside={(*}{*)},
-  literate={~}{{$\sim$}}1 {==}{{=\,=}}2,
+  literate={~}{{$\sim$}}1{==}{{=\,=}}2{--}{{-\,-}}2,
   alsoother={$},
   alsoletter={.<-},%
   otherkeywords={!,!=,~,$$,*,\&,\%/\%,\%*\%,\%\%,<-,<<-,/},%
   backgroundcolor=\Rbackground,%
   numbers=left,%
+  stepnumber=5,
+  firstnumber=1,
   numberstyle={\tiny}
 }%
 
@@ -79,16 +81,22 @@
   numberstyle={\tiny}
 }
 
+\let\Schunk\relax
+\let\Sinput\relax
 \newenvironment{Schunk}{}{}
+\let\Scode\relax
+\let\Soutput\relax
 \lstnewenvironment{Sinput}{\lstset{style=Rinput}}{}
 \lstnewenvironment{Scode}{\lstset{style=Rinput}}{}
 \lstnewenvironment{Soutput}{\lstset{style=Routput}}{}
 
+\lstset{tabsize=2, breaklines=true, style=Rinput, breakatwhitespace=true}
+
 
 \usepackage{xcolor}
-\definecolor{light-gray}{gray}{0.90}
-\usepackage{realboxes}
-\providecommand*{\code}[1]{\texttt{#1}}
+\definecolor{light-gray}{gray}{0.90}%
+\usepackage{realboxes}%
+\providecommand*{\code}[1]{\texttt{#1}}%
 \renewcommand{\code}[1]{%
 \Colorbox{light-gray}{#1}%
-}
+}%

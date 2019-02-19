@@ -1,5 +1,5 @@
-#LyX 2.2 created this file. For more info see http://www.lyx.org/
-\lyxformat 508
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
 \begin_document
 \begin_header
 \save_transient_properties true
@@ -49,6 +49,8 @@ sweave
 \font_osf false
 \font_sf_scale 100 100
 \font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures false
 \graphics default
 \default_output_format default
 \output_sync 0
@@ -87,6 +89,7 @@ sweave
 \suppress_date true
 \justification true
 \use_refstyle 0
+\use_minted 0
 \index Index
 \shortcut idx
 \color #008000
@@ -99,7 +102,10 @@ sweave
 \tocdepth 3
 \paragraph_separation skip
 \defskip medskip
-\quotes_language english
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
@@ -241,6 +247,127 @@ guidesetup{%
 guidehdr
 \end_layout
 
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+% 1.
+ If you have an address file, use it here:
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{addressFooter.tex}
+\end_layout
+
+\begin_layout Plain Layout
+
+% 2.
+ If you don't have an address file, remove % signs and fill in your information
+\end_layout
+
+\begin_layout Plain Layout
+
+% This stanza must end with 
+\begin_inset Quotes eld
+\end_inset
+
+
+\backslash
+guideftr
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+% (after removing percent signs):
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+urlstyle{tt}
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+footersetup{
+\end_layout
+
+\begin_layout Plain Layout
+
+%  leftside={
+\end_layout
+
+\begin_layout Plain Layout
+
+%    lone={Address line 1}, 
+\end_layout
+
+\begin_layout Plain Layout
+
+%    ltwo={Address line 2}, 
+\end_layout
+
+\begin_layout Plain Layout
+
+%    lthree={City State Zipcode}},
+\end_layout
+
+\begin_layout Plain Layout
+
+%  rightside={
+\end_layout
+
+\begin_layout Plain Layout
+
+%    rone={Web: 
+\backslash
+url{https://crmda.ku.edu}},
+\end_layout
+
+\begin_layout Plain Layout
+
+%    rtwo={Email: 
+\backslash
+href{mailto:you@where.edu}{
+\backslash
+url{you@where.edu}}},
+\end_layout
+
+\begin_layout Plain Layout
+
+%    rthree={Phone: 123-345-5678}}
+\end_layout
+
+\begin_layout Plain Layout
+
+%}
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+guideftr
+\end_layout
+
+\begin_layout Plain Layout
+
+% 3.
+ If you don't want an address footer, just delete this subsection.
+\end_layout
+
 \end_inset
 
 
@@ -252,7 +379,35 @@ status open
 
 \begin_layout Plain Layout
 
-<<Roptions, echo=FALSE, include=FALSE, results=hide>>=
+% Please leave this code
+\end_layout
+
+\begin_layout Plain Layout
+
+<<ignoremeRsetup, echo=FALSE, include=FALSE, results=hide>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+tdir <- 
+\begin_inset Quotes eld
+\end_inset
+
+tmpout
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+if(!dir.exists(tdir)) dir.create(tdir, showWarnings=FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+library(stationery)
 \end_layout
 
 \begin_layout Plain Layout
@@ -262,7 +417,7 @@ opts.orig <- options()
 
 \begin_layout Plain Layout
 
-options(width=100, prompt=" ", continue="  ")
+options(width=80, prompt=" ", continue="  ")
 \end_layout
 
 \begin_layout Plain Layout
@@ -277,6 +432,11 @@ set.seed(12345)
 
 \begin_layout Plain Layout
 
+par.orig <- par(no.readonly=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
 options(SweaveHooks=list(fig=function() par(ps=10)))
 \end_layout
 
@@ -287,22 +447,8 @@ pdf.options(onefile=FALSE,family="Times",pointsize=10)
 
 \begin_layout Plain Layout
 
-if(!dir.exists("tmpout")) dir.create("tmpout", showWarnings=FALSE)
-\end_layout
-
-\begin_layout Plain Layout
-
 @
 \end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
 
 \begin_layout Plain Layout
 
@@ -324,7 +470,7 @@ topsep}{0em}}}
 
 
 \backslash
-SweaveOpts{prefix.string=tmpout/t, split=FALSE, ae=FALSE, height=3, width=5}
+SweaveOpts{prefix.string=tmpout/t, split=TRUE, ae=FALSE, height=4, width=6}
 \end_layout
 
 \end_inset
@@ -338,43 +484,262 @@ status open
 
 \begin_layout Plain Layout
 
-<<texcopy, include=FALSE, echo=FALSE, results=hide>>=
+% We need 2 image files for logos, top left (logoleft) and right
 \end_layout
 
 \begin_layout Plain Layout
 
-library(stationery)
-\end_layout
-
-\begin_layout Plain Layout
-
-## If theme directory does not have required images or TeX files
-\end_layout
-
-\begin_layout Plain Layout
-
-## we need to retrieve them and put them in "theme" directory.
+% (logo-vert).
  
 \end_layout
 
 \begin_layout Plain Layout
 
-logos <- c(logoleft = "logoleft.pdf", 
+% You can manually copy your desired image files
 \end_layout
 
 \begin_layout Plain Layout
 
-            logoright = "logo-vert.pdf")
+% 
+\begin_inset Quotes eld
+\end_inset
+
+logoleft.pdf
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+logo-vert.pdf
+\begin_inset Quotes erd
+\end_inset
+
+ into the theme folder.
+ 
 \end_layout
 
 \begin_layout Plain Layout
 
-getFiles(logos, pkg = "stationery")
+% Or run this to retrieve or create them:
+\end_layout
+
+\begin_layout Plain Layout
+
+<<ignoremeTexcopy, include=FALSE, echo=FALSE, results=hide>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+## The logos we need are
+\end_layout
+
+\begin_layout Plain Layout
+
+logos <- c("logoleft.pdf", "logo-vert.pdf")
+\end_layout
+
+\begin_layout Plain Layout
+
+## This will retrieve logo files from a designated package:
+\end_layout
+
+\begin_layout Plain Layout
+
+try(getFiles(logos, pkg = "stationery", overwrite = FALSE))
+\end_layout
+
+\begin_layout Plain Layout
+
+## If you do not have a file after that, 
+\end_layout
+
+\begin_layout Plain Layout
+
+## the following will manufacture a blank images for placeholders
+\end_layout
+
+\begin_layout Plain Layout
+
+if(!file.exists(
+\begin_inset Quotes eld
+\end_inset
+
+theme/logoleft.pdf
+\begin_inset Quotes erd
+\end_inset
+
+)){
+\end_layout
+
+\begin_layout Plain Layout
+
+  blankPDF(file = "theme/logoleft.pdf", height=1.2, width=1.2, messg = 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+if(!file.exists(
+\begin_inset Quotes eld
+\end_inset
+
+theme/logo-vert.pdf
+\begin_inset Quotes erd
+\end_inset
+
+)){
+\end_layout
+
+\begin_layout Plain Layout
+
+  blankPDF(file = "theme/logo-vert.pdf", height=2, width=1.5, messg = 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+
+}
 \end_layout
 
 \begin_layout Plain Layout
 
 @
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%The listings class used here allows within-document style
+\end_layout
+
+\begin_layout Plain Layout
+
+%changes.
+ R input boxes are governed by 
+\end_layout
+
+\begin_layout Plain Layout
+
+%"Rsize", "Rbackground" and "Rcolor", while R output boxes depend on
+\end_layout
+
+\begin_layout Plain Layout
+
+%"Routsize", "Routbackground", and "Routcolor".
+ Colors
+\end_layout
+
+\begin_layout Plain Layout
+
+%can be specified in many ways, as shown here
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+def
+\backslash
+Rsize{
+\backslash
+huge
+\backslash
+ttfamily}
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+def
+\backslash
+Routsize{
+\backslash
+huge}
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+def
+\backslash
+Rbackground{
+\backslash
+color[gray]{0.90}}
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+def
+\backslash
+Routbackground{
+\backslash
+color[gray]{0.40}}
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+def
+\backslash
+Rcolor{
+\backslash
+color[gray]{0.60}
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+def
+\backslash
+Routcolor{
+\backslash
+color[rgb]{0.9, 0.1, 0.1}]}
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+def
+\backslash
+Rcommentcolor{
+\backslash
+color{green}}
 \end_layout
 
 \end_inset
@@ -388,6 +753,7 @@ This shows how we use R
 \begin_inset CommandInset citation
 LatexCommand citep
 key "RCore"
+literal "true"
 
 \end_inset
 
@@ -421,6 +787,7 @@ This shows how we use R
 \begin_inset CommandInset citation
 LatexCommand citep
 key "RCore"
+literal "true"
 
 \end_inset
 
@@ -463,10 +830,6 @@ initWriteup("rnw2pdf-guide-sweave")
 
 \begin_layout Standard
 That will create a folder 
-\begin_inset Quotes eld
-\end_inset
-
-
 \begin_inset Flex Code
 status open
 
@@ -476,21 +839,79 @@ rnw2pdf-guide-sweave
 
 \end_inset
 
+.
+ If you do not want a directory to be created, then instead run
+\end_layout
 
-\begin_inset Quotes erd
-\end_inset
-
- (unless you request otherwise by setting the 
-\begin_inset Flex Code
+\begin_layout Standard
+\begin_inset ERT
 status open
 
 \begin_layout Plain Layout
-dir
+
+<<eval=F>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+library(stationery)
+\end_layout
+
+\begin_layout Plain Layout
+
+initWriteup("rnw2pdf-guide-knit", dir = 
+\begin_inset Quotes eld
+\end_inset
+
+.
+\begin_inset Quotes erd
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
 \end_layout
 
 \end_inset
 
- argument).
+
+\end_layout
+
+\begin_layout Standard
+The 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+initWriteup
+\end_layout
+
+\end_inset
+
+ function will create several files, including 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+skeleton.{lyx, Rnw}
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+instructions.{lyx, Rnw}
+\end_layout
+
+\end_inset
+
+, as well as some auxiliary input files and a theme folder.
  
 \end_layout
 
@@ -517,94 +938,138 @@ Don't make changes that you don't understand in the code chunks above or
 \end_layout
 
 \begin_layout Section
-LyX: Cautions
+Proceed as follows
 \end_layout
 
 \begin_layout Standard
-The document preamble has manual settings for margins (geometry) as well
- as hyperlinks (PDF hyperref).
- Don't use the LyX pull down menu to revise them.
- Edit preamble or config files for that.
- Repeat 
-\series bold
-CAUTION
-\series default
-: Don't change the page margins or settings for hyperlinks with pull down
- menus.
+If you allowed 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+initWriteup
 \end_layout
 
-\begin_layout Section
-What to edit
-\end_layout
+\end_inset
 
-\begin_layout Section*
-Title and author information
-\end_layout
-
-\begin_layout Standard
-The first block in the document has the title and author information.
-\end_layout
-
-\begin_layout Subsection*
-Footer information
-\end_layout
-
-\begin_layout Standard
-The footer in this document uses data that is provided in a file named 
+ to create a directory, rename that directory in a way that will be helpful
+ to your project.
+ For example, 
 \begin_inset Quotes eld
 \end_inset
 
-addressFooter.tex
+homework-1-2019
 \begin_inset Quotes erd
 \end_inset
 
-.
- After the document is compiled for the first time, that document should
- be available in the theme folder.
- 
-\end_layout
-
-\begin_layout Subsection*
-About the theme folder
-\end_layout
-
-\begin_layout Standard
-The theme folder should be empty when the initProject() function is run.
+ (anything that helps you remember what is in the write-up).
  
 \end_layout
 
 \begin_layout Standard
-There is an R code chunk above called 
+Decide whether you want to edit the LyX skeleton file (lyx) or the noweb
+ skeleton (Rnw) file.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Copy the skeleton file to a new name.
+ Choose a name that helps you, possibly 
 \begin_inset Quotes eld
 \end_inset
 
-texcopy
+hw-1-2019.lyx
 \begin_inset Quotes erd
 \end_inset
 
+ or such.
+\end_layout
+
+\begin_layout Enumerate
+See the code chunk above named 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+ignoremeTexcopy
+\end_layout
+
+\end_inset
+
 .
- It will copy configuration files from the package into the theme folder.
- After running this for the first time, those files will not be automatically
- replaced by the scripts.
+ That is used to retrieve image files for the header on page 1.
+ If you don't have image logo files that you want to use, the last part
+ of that chunk will manufacture empty 
+\begin_inset Quotes eld
+\end_inset
+
+blank
+\begin_inset Quotes erd
+\end_inset
+
+ pdf logo files.
+ It is safe to delete the 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+ignoremeTexcopy
+\end_layout
+
+\end_inset
+
+ chunk after you have the logo files you want in the theme folder.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Compile the document without making other changes.
+ For instructions on compiling, see Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Compile"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Make revisions incrementally.
+ Start by inserting your own title and address information.
+ Re-compile often to make sure no errors have been made.
  
 \end_layout
 
 \begin_layout Standard
-That means authors are free to edit them to fit their needs.
+Don't make changes that you don't understand in the 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+ignoremeRoptions
 \end_layout
 
-\begin_layout Standard
-If the author makes an error in editing a theme file, it is safe to delete
- the erroneous file and run the compile script again.
- That will copy a fresh version of the theme file into the directory.
+\end_inset
+
+ code chunk above.
+ For goodness sake, don't delete that one.
 \end_layout
 
 \begin_layout Section
-Check our documentation
+Check our instructions
 \end_layout
 
 \begin_layout Standard
-There are several vignettes distributed with this package.
+With every skeleton, we also provide an instructions file in the working
+ directory.
+\end_layout
+
+\begin_layout Standard
+There are also several vignettes distributed with the stationery package.
  Please review them.
 \end_layout
 
@@ -627,20 +1092,74 @@ code_chunks
 \begin_inset Quotes erd
 \end_inset
 
-: discusses use and display of code
+: discusses display of code in LaTeX documents with both Sweave and knitr
+ chunks
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Quotes eld
+\end_inset
+
+Rmarkdown
+\begin_inset Quotes erd
+\end_inset
+
+: about using Markdown with R, an alternative to LaTeX/Noweb.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Quotes eld
+\end_inset
+
+HTML Special Features
+\begin_inset Quotes erd
+\end_inset
+
+: In Markdown intended for HTML output, authors can exploit some features.
+ 
 \end_layout
 
 \begin_layout Section
-Compile as usual with LyX, or with rnw2pdf
+Compile the document
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Compile"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
 The skeleton file is provided in 2 formats, LyX and Rnw.
+ The stationery vignette has an overview of reasons why one might author
+ with LyX, or with another program (with the 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+Rnw
+\end_layout
+
+\end_inset
+
+ file).
+ It also explains the compilation process.
  
 \end_layout
 
 \begin_layout Standard
-In either case, please understand that compiling is a two step process.
+Whether one writes the LyX file or the 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+Rnw
+\end_layout
+
+\end_inset
+
+ file, it is necessary to understand that compiling is a two step process.
 \end_layout
 
 \begin_layout Enumerate
@@ -649,25 +1168,49 @@ knitting: Run R to do the calculations in the R code chunks and write out
 \end_layout
 
 \begin_layout Enumerate
-compiling: Run a LaTeX program, such as pdflatex or xelatex to convert the
- LaTeX file to pdf.
- It is usually necessary to run the compiler two or more times, along with
- a separate bibliography program.
- If it is available, we suggest an aggregator named texi2pdf, which will
- handle this effort.
+compiling: Run a LaTeX program, such as 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+pdflatex
+\end_layout
+
+\end_inset
+
+ or 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+xelatex
+\end_layout
+
+\end_inset
+
+ or such.
+ It is also necessary for a bibliography builder program to make a pass
+ through the data.
+ The aggregator program texi2pdf will this (if you have it).
 \end_layout
 
 \begin_layout Subsection*
 Compile a LyX file.
 \end_layout
 
-\begin_layout Standard
-There are 4 methods, we hope one will suit your workflow.
-\end_layout
-
 \begin_layout Enumerate
 Use the menus in the LyX editor.
  The file can be compiled to PDF in LyX, just like any other LyX file.
+ A LyX module called 
+\begin_inset Quotes eld
+\end_inset
+
+sweave
+\begin_inset Quotes erd
+\end_inset
+
+ can be activated, so that compiling to PDF with the pdflatex program runs
+ the chunks and builds a PDF.
  
 \end_layout
 
@@ -1060,9 +1603,13 @@ Note the single quotes that are protecting the double quotes.
 
 \end_deeper
 \begin_layout Enumerate
-Our shell script is not the only way to use command line tools to get this
- done.
- One can run shell commands such as:
+This is the old fashioned way (therefore most virtuous for senior R users).
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Step 1:
 \end_layout
 
 \begin_deeper
@@ -1073,7 +1620,7 @@ status open
 
 \begin_layout Plain Layout
 
-$ R CMD Sweave skeleton.Rnw
+$ R CMD knit skeleton.Rnw
 \end_layout
 
 \end_inset
@@ -1092,9 +1639,16 @@ skeleton.tex
 
 \end_inset
 
-, which we compile with
+.
+ 
 \end_layout
 
+\end_deeper
+\begin_layout Enumerate
+Step 2:
+\end_layout
+
+\begin_deeper
 \begin_layout Standard
 \begin_inset listings
 inline false
@@ -1112,16 +1666,122 @@ $ texi2pdf skeleton.tex
 
 \begin_layout Standard
 The major difference between running this and the script we provide is that
- our script will handle LyX files and it will, by default, will create a
- purled copy of the R code.
+ our script will handle LyX files and it will, by default, create a purled
+ copy of the R code.
+ 
 \end_layout
 
 \end_deeper
+\end_deeper
+\begin_layout Section
+Editor Cautions
+\end_layout
+
+\begin_layout Subsection*
+Rstudio
+\end_layout
+
 \begin_layout Standard
-If you are editing these files in LyX, it is sufficient to simply compile
- as usual.
- That will handle the chore of converting a sequence of document types to
- arrive at PDF.
+While editing an Rnw file in Rstudio, there will be a button labeled knit
+ and a small triangle by that item.
+ It is very (VERY!) important to choose the correct output format.
+ If you choose incorrectly, Rstudio may damage your document by trying to
+ revise it.
+\end_layout
+
+\begin_layout Subsection*
+LyX
+\end_layout
+
+\begin_layout Standard
+The document preamble has manual settings for margins (geometry) as well
+ as hyperlinks (PDF hyperref).
+ At the current time, these settings are not integrated with the LyX settings.
+ As a result, using the LyX pull down menu to revise geometry and PDF hyperrefs
+ may break the document entirely.
+ To change those features, please edit the document preamble or config files.
+ Repeat 
+\series bold
+CAUTION
+\series default
+: Don't change the page margins or settings for hyperlinks with pull down
+ menus.
+\end_layout
+
+\begin_layout Section
+What to edit
+\end_layout
+
+\begin_layout Subsection*
+Title and author information
+\end_layout
+
+\begin_layout Standard
+The first block in the document has the title and author information.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Footer information
+\end_layout
+
+\begin_layout Standard
+The footer in this document uses data that is provided in a file named 
+\begin_inset Quotes eld
+\end_inset
+
+addressFooter.tex
+\begin_inset Quotes erd
+\end_inset
+
+.
+ If you don't have an addressFooter.tex file, the address can be entered
+ directly into this document.
+\end_layout
+
+\begin_layout Subsection*
+About the theme folder
+\end_layout
+
+\begin_layout Standard
+The theme folder should will have copies of the theme files, but the logo
+ files are not copied until the document is compiled for the first times.
+ It is done that way to preserve the author's customizations.
+\end_layout
+
+\begin_layout Standard
+Authors are free to edit the theme files, to replace logo images.
+\end_layout
+
+\begin_layout Section
+Math Check
+\end_layout
+
+\begin_layout Standard
+A linear regression is an estimate of this theoretical model, which is displayed
+ as a numbered equation
+\begin_inset Formula 
+\begin{equation}
+y_{i}=\beta_{0}+\beta_{1}x1_{i}+\beta_{2}x2_{i}+\varepsilon_{i}\label{eq:linear}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The equation can be referred to as equation (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:linear"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
 \end_layout
 
 \begin_layout Section
@@ -1147,7 +1807,375 @@ code_chunks
 \end_layout
 
 \begin_layout Subsection
-The listings package
+Raw R input and output
+\end_layout
+
+\begin_layout Standard
+Consider a regression.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+dat <- data.frame(x = rnorm(100), y = rpois(100, lambda = 7))
+\end_layout
+
+\begin_layout Plain Layout
+
+m1 <- glm(y ~ x, data = dat, family = "poisson")
+\end_layout
+
+\begin_layout Plain Layout
+
+summary(m1)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Controlling display of chunk input and output
+\end_layout
+
+\begin_layout Standard
+The chunk option 
+\begin_inset Quotes eld
+\end_inset
+
+include
+\begin_inset Quotes erd
+\end_inset
+
+ can be used to regulate whether the input and output appear immediately
+ in the document.
+ When combined with 
+\begin_inset Quotes eld
+\end_inset
+
+echo
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+results
+\begin_inset Quotes erd
+\end_inset
+
+, we can have a great deal of control.
+\end_layout
+
+\begin_layout Standard
+In this chunk, we create a regression table object, but we hide everything:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<pois10, include=F, results=hide>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+library(rockchalk)
+\end_layout
+
+\begin_layout Plain Layout
+
+or <- outreg(list("My Poisson"= m1), varLabels = c("x" = "A Normal Predictor"),
+ tight = FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To display the object 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+code{or}
+\end_layout
+
+\end_inset
+
+ to the reader, we have two options.
+ 
+\end_layout
+
+\begin_layout Standard
+The standard Sweave approach is to include another chunk, and then cause
+ the LaTeX markup for the object 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+code{or}
+\end_layout
+
+\end_inset
+
+ to be woven directly into the document (depends on 
+\begin_inset Quotes eld
+\end_inset
+
+results=tex
+\begin_inset Quotes erd
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<pois11, results=tex, echo=F>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+cat(or, file="tmpout/t-pois11.tex")
+\end_layout
+
+\begin_layout Plain Layout
+
+cat(or)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+That chunk might be placed in a LaTeX floating table object, of course,
+ as we show next.
+\end_layout
+
+\begin_layout Standard
+A second option, which is more convenient, is to simply use LaTeX to input
+ the saved file.
+ When the code chunk 
+\begin_inset Quotes eld
+\end_inset
+
+pois11
+\begin_inset Quotes erd
+\end_inset
+
+ is executed, it creates a file named 
+\begin_inset Quotes eld
+\end_inset
+
+tmpout/t-pois11.tex
+\begin_inset Quotes erd
+\end_inset
+
+.
+ In Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:A-Poisson-Regression"
+
+\end_inset
+
+ we demonstrate how that can be included in a numbered floating table.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement b
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+A Poisson Regression
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:A-Poisson-Regression"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{tmpout/t-pois11.tex}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The reader has not yet had a chance to see the code chunk that calculated
+ the regression.
+ The code chunk that ran the regression was marked 
+\begin_inset Quotes eld
+\end_inset
+
+include=F, results=hide
+\begin_inset Quotes erd
+\end_inset
+
+.
+ To show that code, there are (at least) 2 ways.
+ 
+\end_layout
+
+\begin_layout Enumerate
+The chunk is named 
+\begin_inset Quotes eld
+\end_inset
+
+pois10
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Because we have the R Sweave argument split=T in the above, the code file
+ is written separately and we can retrieve it with an input statement like
+ so:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{tmpout/t-pois10}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Because this note is included as an R vignette, and the R packaging policy
+ prohibits the use of split=T in vignettes, this approach cannot be used
+ in this document.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+An standard approach using Sweave itself, without split, is to create another
+ chunk and then display it inside double 
+\begin_inset Quotes eld
+\end_inset
+
+<<>>
+\begin_inset Quotes erd
+\end_inset
+
+ brackets.
+ Here we turn off evaluation (set eval=F) to prevent R from re-running the
+ code chunk:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<pois15, echo=T, eval=F, include=T>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+<<pois10>>
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Those two code displays should be identical in the document.
+\end_layout
+
+\begin_layout Subsection
+The listings package works well with Sweave
 \end_layout
 
 \begin_layout Standard
@@ -1525,384 +2553,7 @@ Otherwise, at least in this document type, the change applies to all following
 \end_layout
 
 \begin_layout Subsection
-Raw R input and output
-\end_layout
-
-\begin_layout Standard
-Consider a regression.
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-<<>>=
-\end_layout
-
-\begin_layout Plain Layout
-
-dat <- data.frame(x = rnorm(100), y = rpois(100, lambda = 7))
-\end_layout
-
-\begin_layout Plain Layout
-
-m1 <- glm(y ~ x, data = dat, family = "poisson")
-\end_layout
-
-\begin_layout Plain Layout
-
-summary(m1)
-\end_layout
-
-\begin_layout Plain Layout
-
-@
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsection
-Controlling display of chunk input and output
-\end_layout
-
-\begin_layout Standard
-The chunk option 
-\begin_inset Quotes eld
-\end_inset
-
-include
-\begin_inset Quotes erd
-\end_inset
-
- can be used to regulate whether the input and output appear immediately
- in the document.
- When combined with 
-\begin_inset Quotes eld
-\end_inset
-
-echo
-\begin_inset Quotes erd
-\end_inset
-
- and 
-\begin_inset Quotes eld
-\end_inset
-
-results
-\begin_inset Quotes erd
-\end_inset
-
-, we can have a great deal of control.
-\end_layout
-
-\begin_layout Standard
-In this chunk, we create a regression table object, but we hide everything:
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-<<pois10, include=F, results=hide>>=
-\end_layout
-
-\begin_layout Plain Layout
-
-library(rockchalk)
-\end_layout
-
-\begin_layout Plain Layout
-
-or <- outreg(list("My Poisson"= m1), varLabels = c("x" = "A Normal Predictor"),
- tight = FALSE)
-\end_layout
-
-\begin_layout Plain Layout
-
-@
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-To display the object 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-code{or}
-\end_layout
-
-\end_inset
-
- to the reader, we have two options.
- 
-\end_layout
-
-\begin_layout Standard
-The standard Sweave approach is to include another chunk, and then cause
- the LaTeX markup for the object 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-code{or}
-\end_layout
-
-\end_inset
-
- to be woven directly into the document (depends on 
-\begin_inset Quotes eld
-\end_inset
-
-results=tex
-\begin_inset Quotes erd
-\end_inset
-
-).
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-<<pois11, results=tex, echo=F>>=
-\end_layout
-
-\begin_layout Plain Layout
-
-cat(or, file="tmpout/t-pois11.tex")
-\end_layout
-
-\begin_layout Plain Layout
-
-cat(or)
-\end_layout
-
-\begin_layout Plain Layout
-
-@
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-
-\backslash
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\noindent
-That chunk might be placed in a LaTeX floating table object, of course,
- as we show next.
-\end_layout
-
-\begin_layout Standard
-A second option, which is more convenient, is to simply use LaTeX to input
- the saved file.
- When the code chunk 
-\begin_inset Quotes eld
-\end_inset
-
-pois11
-\begin_inset Quotes erd
-\end_inset
-
- is executed, it creates a file named 
-\begin_inset Quotes eld
-\end_inset
-
-tmpout/t-pois11.tex
-\begin_inset Quotes erd
-\end_inset
-
-.
- In Table 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:A-Poisson-Regression"
-
-\end_inset
-
- we demonstrate how that can be included in a numbered floating table.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float table
-placement b
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-A Poisson Regression
-\begin_inset CommandInset label
-LatexCommand label
-name "tab:A-Poisson-Regression"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-input{tmpout/t-pois11.tex}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-The reader has not yet had a chance to see the code chunk that calculated
- the regression.
- The code chunk that ran the regression was marked 
-\begin_inset Quotes eld
-\end_inset
-
-include=F, results=hide
-\begin_inset Quotes erd
-\end_inset
-
-.
- To show that code, there are (at least) 2 ways.
- 
-\end_layout
-
-\begin_layout Enumerate
-The chunk is named 
-\begin_inset Quotes eld
-\end_inset
-
-pois10
-\begin_inset Quotes erd
-\end_inset
-
-.
- Because we have the R Sweave argument split=T in the above, the code file
- is written separately and we can retrieve it with an input statement like
- so:
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset listings
-inline false
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-input{tmpout/t-pois10}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Because this note is included as an R vignette, and the R packaging policy
- prohibits the use of split=T in vignettes, this approach cannot be used
- in this document.
- 
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-An standard approach using Sweave itself, without split, is to create another
- chunk and then display it inside double 
-\begin_inset Quotes eld
-\end_inset
-
-<<>>
-\begin_inset Quotes erd
-\end_inset
-
- brackets.
- Here we turn off evaluation (set eval=F) to prevent R from re-running the
- code chunk:
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-<<pois15, echo=T, eval=F, include=T>>=
-\end_layout
-
-\begin_layout Plain Layout
-
-<<pois10>>
-\end_layout
-
-\begin_layout Plain Layout
-
-@
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_deeper
-\begin_layout Standard
-Those two code displays should be identical in the document.
-\end_layout
-
-\begin_layout Subsection
-Line wrap
+listings can help with line wrap, if you let it.
 \end_layout
 
 \begin_layout Standard
@@ -1943,7 +2594,7 @@ References
 \begin_layout Standard
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
-bibfiles "theme/R"
+bibfiles "R"
 options "apalike2"
 
 \end_inset
