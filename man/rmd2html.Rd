@@ -5,7 +5,7 @@
 \title{Convert an Rmd file into an HTML file}
 \usage{
 rmd2html(fn = NULL, wd = NULL, ..., verbose = FALSE, purl = TRUE,
-  tangle = purl)
+  tangle = purl, backup = TRUE)
 }
 \arguments{
 \item{fn}{One or more filenames ending in "*.Rmd".}
@@ -38,6 +38,9 @@ commentary and pandoc command. Can be informative!}
 set both same, result is same.}
 
 \item{tangle}{Default TRUE, synonym for purl}
+
+\item{backup}{Default TRUE. Will create backup copies of pdf, R, Rnw
+files before replacing them. Uses \code{kutils::file.backup}}
 }
 \value{
 A vector of output file names

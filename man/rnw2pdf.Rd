@@ -5,8 +5,9 @@
 \title{Convert (Sweave & compile) an Rnw or lyx file to PDF}
 \usage{
 rnw2pdf(fn = NULL, wd = NULL, ..., engine = "knitr", purl = TRUE,
-  tangle = purl, clean = TRUE, quiet = TRUE, verbose = !quiet,
-  envir = parent.frame(), encoding = getOption("encoding"))
+  tangle = purl, backup = TRUE, clean = TRUE, quiet = TRUE,
+  verbose = !quiet, envir = parent.frame(),
+  encoding = getOption("encoding"))
 }
 \arguments{
 \item{fn}{One or more file names, should end in either ".Rnw" or
@@ -22,6 +23,9 @@ exists. Leave NULL default if is in current working directory.}
 \item{purl}{Default TRUE. Synonym of tangle: extract R code chunks}
 
 \item{tangle}{Same as purl, both parameters have same result}
+
+\item{backup}{Default TRUE. Will create backup copies of pdf, R, Rnw
+files before replacing them. Uses \code{kutils::file.backup}}
 
 \item{clean}{Default TRUE. Remove intermediate LaTeX files when
 using texi2pdf}
@@ -39,6 +43,9 @@ documents, defaults to parent.frame().}
 
 \item{encoding}{character encoding, defaults from user options}
 }
+\value{
+names of pdf output files
+}
 \description{
 Documents saved with suffix ".lyx" or ".Rnw" will be converted.
 Note it is very important to specify the engine for the code
@@ -51,7 +58,7 @@ fmt <- "rnw2pdf-guide-sweave"
 dirout <- initWriteup(fmt, dir = file.path(tdir, fmt))
 print(dirout)
 list.files(dirout)
-of1 <- try(rnw2pdf("skeleton.Rnw", engine = "Sweave", wd = dirout))
+of1 <- try(rnw2pdf("skeleton.Rnw", engine = "Sweave", wd = dirout, backup = TRUE))
 if(inherits(of1, "try-error")){
     MESSG <- paste("Compiling the markdown file failed, perhaps",
                    "there is an R or LaTeX error.", 

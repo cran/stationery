@@ -32,7 +32,10 @@ bibliography: "R.bib"
 table: true
 fontsize: 12pt
 header-includes:
-- \usepackage{xcolor}
+- |
+  ```{=latex}
+  \usepackage{xcolor}
+  ```
 ---
 
 ```{r setup, include=FALSE}

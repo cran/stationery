@@ -10,12 +10,14 @@ VERBOSE=0
 declare -A parms
 ## parms[toc]=TRUE
 ## parms[toc_depth]=2
-##  parms[purl]=TRUE
+## parms[purl]=TRUE
 ## parms[clean]=TRUE
 ## parms[quiet]=TRUE 
 ## parms[keep_md]=FALSE
-## parms[template]=\"theme/guide-template.tex\"
-## parms[output_dir]=\"$pwd\"
+## parms[template]='"theme/report-template.tex"'
+## or
+## parms[template]='"theme/guide-template.tex"'
+## parms[output_dir]='"$pwd"'
 
 scriptname=`basename $0 .sh`
 ## DEBUG if for author of this script, for fixing arg parsing. Not for users
@@ -101,10 +103,10 @@ usage() {
     echo "Any arguments described in documentation for $scriptname R function are allowed."
     echo "CAUTION"
     echo "Arguments that are quoted strings, such as"
-    echo "or --template=\"guide-template.tex\" need special care when entered from command line."
+    echo "or --template=\"report-template.tex\" need special care when entered from command line."
     echo "It is necessary to 'protect' (escape) the quotation marks."
     echo "We suggest this style:"
-    echo "--template='\"guide-template.tex\"'"
+    echo "--template='\"report-template.tex\"'"
 }
 
 

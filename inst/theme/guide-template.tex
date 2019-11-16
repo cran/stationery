@@ -17,9 +17,11 @@ $endif$
 \usepackage{graphicx}
 \usepackage{multicol}
 \usepackage{xcolor}
+\usepackage{textcomp}
 \usepackage{colortbl}
 \usepackage[yyyymmdd,hhmmss]{datetime}
 \usepackage{lastpage}
+\usepackage{fancybox}
 \usepackage{babel}
 \providecommand{\tabularnewline}{\\}
 \newcommand{\PreserveBackslash}[1]{\let\temp=\\#1\let\\=\temp}
@@ -188,40 +190,6 @@ $endif$
 \definecolor{kublue81186}{RGB}{0,81,186}
 \newdateformat{monddyyy}{\small{}\textbf{\shortmonthname[\THEMONTH].~\THEDAY,~\THEYEAR}}
 
-%% 20180817: remove old code from Brent's days
-% \def\Sweavesize{\scriptsize} 
-% \def\Rcolor{\color{black}} 
-% \def\Rbackground{\color[gray]{0.95}}
-
-% \lstdefinestyle{Rstylecrmda}{
-%   language=R,
-%   escapechar=`,
-%   fancyvrb=false,%
-%   tabsize=2,%
-%   breaklines=true,
-%   breakatwhitespace=true,%
-%   captionpos=b,%
-%   frame=single,%
-%   framerule=0.2pt,%
-%   framesep=1pt,%
-%   showstringspaces=false,%
-%   basicstyle=\normalsize\ttfamily,%
-%   columns=fixed%,
-%   \lst@ifdisplaystyle\scriptsize\fi,%
-%   identifierstyle=,%
-%   keywords=\bfseries,%
-%   keywordstyle=\color[rgb]{0, 0.5, 0.5},
-%   escapeinside={(*}{*)},
-%   literate={~}{{$$\sim$$}}1 {==}{{=\,=}}2,
-%   alsoother={$$},
-%   alsoletter={.<-},%
-%   otherkeywords={!,!=,~,$$,*,\&,\%/\%,\%*\%,\%\%,<-,<<-,/},
-%   backgroundcolor=\Rbackground
-% }%
-
-% \lstset{style=Rstylecrmda}
-% \fvset{listparameters={\setlength{\topsep}{0em}}}
-
 %% 20180817 Paste in guidePreambleSweavel.tex
 
 %%% From beamer slide:
@@ -327,6 +295,7 @@ $endif$
 
 \fvset{listparameters={\setlength{\topsep}{0em}}}
 
+\usepackage{subfig}
 \usepackage{xcolor}
 \definecolor{light-gray}{gray}{0.90}
 \usepackage{realboxes}

@@ -1,5 +1,5 @@
-#LyX 2.2 created this file. For more info see http://www.lyx.org/
-\lyxformat 508
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
 \begin_document
 \begin_header
 \save_transient_properties true
@@ -61,6 +61,8 @@ natbibapa
 \font_osf false
 \font_sf_scale 100 100
 \font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures false
 \graphics default
 \default_output_format default
 \output_sync 0
@@ -102,6 +104,7 @@ natbibapa
 \suppress_date true
 \justification true
 \use_refstyle 0
+\use_minted 0
 \branch R
 \selected 0
 \filename_suffix 0
@@ -119,7 +122,10 @@ natbibapa
 \tocdepth 3
 \paragraph_separation skip
 \defskip medskip
-\quotes_language english
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
@@ -455,6 +461,7 @@ reproducible research documents
 \begin_inset CommandInset citation
 LatexCommand citealp
 key "leisch2002"
+literal "true"
 
 \end_inset
 
@@ -462,6 +469,7 @@ key "leisch2002"
 \begin_inset CommandInset citation
 LatexCommand citealp
 key "stodden_implementing_2014"
+literal "true"
 
 \end_inset
 
@@ -469,6 +477,7 @@ key "stodden_implementing_2014"
 \begin_inset CommandInset citation
 LatexCommand citealp
 key "xie_dynamic_2015"
+literal "true"
 
 \end_inset
 
@@ -476,6 +485,7 @@ key "xie_dynamic_2015"
 \begin_inset CommandInset citation
 LatexCommand citeyear
 key "xie_bookdown:_2016"
+literal "true"
 
 \end_inset
 
@@ -532,6 +542,7 @@ literate programming
 \begin_inset CommandInset citation
 LatexCommand citeyear
 key "knuth_literate_1984"
+literal "true"
 
 \end_inset
 
@@ -539,6 +550,7 @@ key "knuth_literate_1984"
 \begin_inset CommandInset citation
 LatexCommand citeyear
 key "knuth_texbook_1984"
+literal "true"
 
 \end_inset
 
@@ -547,6 +559,7 @@ key "knuth_texbook_1984"
 \begin_inset CommandInset citation
 LatexCommand citep
 key "RCore"
+literal "true"
 
 \end_inset
 
@@ -571,6 +584,7 @@ tangling
 \begin_inset CommandInset citation
 LatexCommand citep
 key "leisch2002"
+literal "true"
 
 \end_inset
 
@@ -689,6 +703,7 @@ pandoc
 \begin_inset CommandInset citation
 LatexCommand citep
 key "MacFarlane"
+literal "true"
 
 \end_inset
 
@@ -1916,6 +1931,7 @@ Sweaving
 \begin_inset CommandInset citation
 LatexCommand citet
 key "leisch2002"
+literal "true"
 
 \end_inset
 
@@ -1934,6 +1950,7 @@ knitr
 \begin_inset CommandInset citation
 LatexCommand citep
 key "xie_knitr"
+literal "true"
 
 \end_inset
 
@@ -2228,6 +2245,7 @@ rmarkdown
 \begin_inset CommandInset citation
 LatexCommand citealp
 key "Allaire_rmarkdown"
+literal "true"
 
 \end_inset
 
@@ -3385,6 +3403,7 @@ The slide format is based on LaTeX Beamer
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Tantau2016"
+literal "true"
 
 \end_inset
 
@@ -3662,7 +3681,7 @@ guidenum: 00
 
 \begin_layout Plain Layout
 
-guideurl: https://crmda.ku.edu/guides
+guideurl: https://crmda.dept.ku.edu/guides
 \end_layout
 
 \begin_layout Plain Layout
@@ -3727,7 +3746,7 @@ addr:
 
 \begin_layout Plain Layout
 
-    r1: "Web: http://crmda.ku.edu"
+    r1: "Web: http://crmda.dept.ku.edu"
 \end_layout
 
 \begin_layout Plain Layout
@@ -3974,7 +3993,7 @@ guidesetup{
 
 \begin_layout Plain Layout
 
-  url={https://crmda.ku.edu/guides},
+  url={https://crmda.dept.ku.edu/guides},
 \end_layout
 
 \begin_layout Plain Layout
@@ -4055,7 +4074,7 @@ footersetup{
 
     rone=Web: 
 \backslash
-url{https://crmda.ku.edu},
+url{https://crmda.dept.ku.edu},
 \end_layout
 
 \begin_layout Plain Layout
@@ -4394,6 +4413,7 @@ rmarkdown
 \begin_inset CommandInset citation
 LatexCommand citep
 key "bootstrap"
+literal "true"
 
 \end_inset
 

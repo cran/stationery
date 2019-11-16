@@ -263,7 +263,7 @@ reporthdr
 
 \begin_layout Plain Layout
 
-% 
+
 \backslash
 input{addressFooter.tex}
 \end_layout
@@ -271,7 +271,13 @@ input{addressFooter.tex}
 \begin_layout Plain Layout
 
 % 2.
- If you don't have an address file, remove % signs and fill in your information
+ If you don't have an address file, comment out previous, then fill in 
+\end_layout
+
+\begin_layout Plain Layout
+
+% following.
+ Remove % signs,  insert your information
 \end_layout
 
 \begin_layout Plain Layout

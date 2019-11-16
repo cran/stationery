@@ -1,4 +1,4 @@
-%% LyX 2.2.3 created this file.  For more info, see http://www.lyx.org/.
+%% LyX 2.3.3 created this file.  For more info, see http://www.lyx.org/.
 %% Do not edit unless you really know what you are doing.
 \documentclass[11pt,letterpaper,english]{extarticle}
 \usepackage{lmodern}
@@ -20,7 +20,6 @@
 \hypersetup{pdftitle={stationery},
  pdfauthor={Paul E. Johnson},
  pdfsubject={reproducible documents}}
-\usepackage{breakurl}
 
 \makeatletter
 
@@ -31,6 +30,9 @@
 \providecommand{\tabularnewline}{\\}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+<<echo=F>>=
+  if(exists(".orig.enc")) options(encoding = .orig.enc)
+@
 \usepackage[natbibapa]{apacite}
 \providecommand*{\code}[1]{\texttt{#1}}
 
@@ -192,7 +194,7 @@ Markdown document formats are, at least superficially, simpler. Their
 content may seem less obscured by formatting code. For example, in
 LaTeX to insert a bold font, one would write
 
-\code{\textbackslash{}textbf\{this is bold\}}, but in most dialects
+\code{\textbackslash textbf\{this is bold\}}, but in most dialects
 of markdown, a simpler \code{{*}{*}this is bold{*}{*}} would get
 the job done. Markdown is a reasonably legible format \emph{as is},
 and yet it can be compiled into more professional output formats.
@@ -442,6 +444,7 @@ skeleton, for example, specifies a template file in the document preamble:
 template: "theme/report-template.tex"
 \end{lstlisting}
 \inputencoding{utf8}
+
 \subsection{How to Compile a Document\label{subsec:How-to-Compile}}
 
 While editing a document, authors are well advised to heed the advice:
@@ -509,7 +512,7 @@ rmd2pdf(c("crmda1.Rmd", "crmda2.Rmd", "crmda3.Rmd"), toc = TRUE, toc_depth = 1)
 @
 
 Similarly, a template can be substituted by employing the template
-argument, such as \code{template = \textquotedbl{}theme/report-newtemplate.tex\textquotedbl{}}.
+argument, such as \code{template = \textquotedbl theme/report-newtemplate.tex\textquotedbl}.
 
 There are differences in format between the values in the markdown
 document preamble and the R function call. R uses \code{TRUE} , \code{FALSE}
@@ -624,7 +627,7 @@ a header and a footer with organizational address information (see
 Figure \ref{fig:Latex-Report}). The header and footer appear only
 on the first page. It is more is suitable for preparation of a report
 to clients or a draft of a journal article. A report typically has
-less (maybe no) code and almost never will it include \textquotedbl{}raw
+less (maybe no) code and almost never will it include \textquotedbl raw
 output\textquotedbl{} from a computer program. A report includes tables
 and figures that are in a (nearly) publishable format. This document
 is prepared with the report template, but we do have some ``raw''
@@ -677,7 +680,7 @@ are presented in Figure \ref{fig:Markdown-Output}.
 title: "A Title for Template"
 subtitle: "rmd2pdf-guide"
 guidenum: 00
-guideurl: https://crmda.ku.edu/guides
+guideurl: https://crmda.dept.ku.edu/guides
 keywords: R markdown, R, documents
 author:
 - name: First Author
@@ -690,7 +693,7 @@ addr:
     l1: address row 1
     l2: address row 2
     l3: City State Zipcode
-    r1: "Web: http://crmda.ku.edu"
+    r1: "Web: http://crmda.dept.ku.edu"
     r2: "Email: author@ku.edu"
     r3: "Phone: 123-345-5678"
 logoleft: theme/logoleft.pdf
@@ -741,7 +744,7 @@ does not allow that).
     firstname=Second, 
     affiliation=CRMDA, 
     email=second@ku.edu}, 
-  url={https://crmda.ku.edu/guides},
+  url={https://crmda.dept.ku.edu/guides},
   keywords={single-authoring, just one},
   title={A Title for Skeleton Template: rnw2pdf-guide-sweave},
   leftlogo={theme/logoleft.pdf},
@@ -756,7 +759,7 @@ does not allow that).
     ltwo={Address line 2}, 
     lthree={City State Zipcode}},
   rightside={
-    rone=Web: \url{https://crmda.ku.edu},
+    rone=Web: \url{https://crmda.dept.ku.edu},
     rtwo=Email: \href{mailto:you@where.edu}{\url{you@where.edu}},
     rthree=Phone: 123-345-5678}
 }
@@ -773,6 +776,7 @@ does not allow that).
 
 \includegraphics[width=0.8\textwidth]{importfigs/rnw2pdf-guide-footer}}
 \end{figure}
+
 
 \subsection{Customization}
 
@@ -805,7 +809,7 @@ If authors expect to create many documents, it is possible to automate
 this process. One can create an R package to hold the logo information
 (we can supply a working example of a package named ``\code{crmda}'').
 To pull logo information from the user's package, one will replace
-our \code{pkg = \textquotedbl{}stationery\textquotedbl{}} with \code{pkg = \textquotedbl{}your\_pkg\_name\textquotedbl{}}. 
+our \code{pkg = \textquotedbl stationery\textquotedbl} with \code{pkg = \textquotedbl your\_pkg\_name\textquotedbl}. 
 
 \subsection{HTML themes and the file size problem}
 
@@ -864,6 +868,7 @@ or, from the command line,
 $ ./rmd2html.sh --theme='"spacelab"' crmda.Rmd
 \end{lstlisting}
 \inputencoding{utf8}
+
 \subsection{Troubleshooting}
 
 Documents often fail to compile. There are many failure points and
@@ -922,9 +927,9 @@ the end. After we figure out the end, we can concentrate on the beginning.
 \subsection{Which back end?}
 
 Should I end up with HTML or PDF? The answer depends on the intended
-audience/client. If a \textquotedbl{}paper\textquotedbl{} must be
+audience/client. If a \textquotedbl paper\textquotedbl{} must be
 submitted, choose PDF. If the document needs numbered equations, cross
-references, and \textquotedbl{}floating\textquotedbl{} tables and
+references, and \textquotedbl floating\textquotedbl{} tables and
 figures, choose PDF. If the document is intended for a Webpage, then
 choose HTML (although we prefer to PDF document via the Web in many
 cases). 
@@ -1024,7 +1029,7 @@ in the document front end. If one writes a markdown document, using
 special features intended for the back end, then it is generally not
 possible to, at the last minute, change the output format. HTML output
 has advantages in Web style features, while PDF documents have advantages
-in \textquotedbl{}on paper\textquotedbl{} presentations.
+in \textquotedbl on paper\textquotedbl{} presentations.
 
 \subsection{Where does my editor fit into this?}
 
@@ -1186,6 +1191,7 @@ places the LaTeX learning curve as an obstacle at the outset.
 
 \bibliographystyle{apacitex}
 \bibliography{theme/R}
+
 
 \subsection*{}
 

@@ -5,7 +5,7 @@
 \title{Convert Rmd to PDF}
 \usage{
 rmd2pdf(fn = NULL, wd = NULL, ..., verbose = FALSE, purl = TRUE,
-  tangle = purl)
+  tangle = purl, backup = TRUE)
 }
 \arguments{
 \item{fn}{One or more filenames ending in "*.Rmd".}
@@ -34,6 +34,9 @@ commentary and pandoc command. Can be informative!}
 \item{purl}{Default TRUE}
 
 \item{tangle}{Default TRUE, synonym for purl}
+
+\item{backup}{Default TRUE. Will create backup copies of pdf, R, Rnw
+files before replacing them. Uses \code{kutils::file.backup}}
 }
 \value{
 A vector of output file names

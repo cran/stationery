@@ -19,7 +19,7 @@ output:
     toc_depth: 2
     number_sections: true
 checked_by: Paul Johnson
-advertise: "Please  visit  [http://crmda.ku.edu/guides](http://crmda.ku.edu/guides)
+advertise: "Please  visit  [http://crmda.dept.ku.edu/guides](http://crmda.dept.ku.edu/guides)
   \n"
 fontsize: 12pt
 keywords: guides, rmarkdown, rmd2html

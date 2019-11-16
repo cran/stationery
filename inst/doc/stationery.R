@@ -1,14 +1,19 @@
 ### R code from vignette source 'stationery.Rnw'
-### Encoding: UTF-8
 
 ###################################################
-### code chunk number 1: stationery.Rnw:93-94
+### code chunk number 1: stationery.Rnw:33-34
+###################################################
+  if(exists(".orig.enc")) options(encoding = .orig.enc)
+
+
+###################################################
+### code chunk number 2: stationery.Rnw:95-96
 ###################################################
 if(!dir.exists("tmpout"))dir.create("tmpout", recursive = TRUE)
 
 
 ###################################################
-### code chunk number 2: texcopy
+### code chunk number 3: texcopy
 ###################################################
 library(stationery)
 ## If theme directory does not have required images or TeX files
@@ -21,7 +26,7 @@ getFiles(texfiles, pkg = "stationery")
 
 
 ###################################################
-### code chunk number 3: Roptions
+### code chunk number 4: Roptions
 ###################################################
 if(!dir.exists("tmpout"))dir.create("tmpout", recursive = TRUE)
 opts.orig <- options()
@@ -35,25 +40,25 @@ options(SweaveHooks=list(fig=function() par(mar=pjmar, ps=10)))
 
 
 ###################################################
-### code chunk number 4: usage110 (eval = FALSE)
+### code chunk number 5: usage110 (eval = FALSE)
 ###################################################
 ## rmd2pdf(c("crmda1.Rmd", "crmda2.Rmd", "crmda3.Rmd"), toc = TRUE, toc_depth = 1)
 
 
 ###################################################
-### code chunk number 5: stationery.Rnw:832-833 (eval = FALSE)
+### code chunk number 6: stationery.Rnw:836-837 (eval = FALSE)
 ###################################################
 ## rmd2html("crmda.Rmd", theme=NULL)
 
 
 ###################################################
-### code chunk number 6: stationery.Rnw:857-858 (eval = FALSE)
+### code chunk number 7: stationery.Rnw:861-862 (eval = FALSE)
 ###################################################
 ## rmd2html("crmda.Rmd", theme = "spacelab")
 
 
 ###################################################
-### code chunk number 7: sessioninfo
+### code chunk number 8: sessioninfo
 ###################################################
 zz <- "stationery.Rout"
 capture.output(sessionInfo(), file = zz, append = FALSE)
@@ -63,7 +68,7 @@ if (!is.null(warnings())){
 
 
 ###################################################
-### code chunk number 8: RoptionsRestore
+### code chunk number 9: RoptionsRestore
 ###################################################
 ## Don't delete this. It puts the interactive session options
 ## back the way they were. If this is compiled within a session

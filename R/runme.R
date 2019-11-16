@@ -10,11 +10,6 @@
 ##' @param wd A working directory name of the Rmd file. If not
 ##'     specified, then the current working directory from R will be
 ##'     used.
-##' @param verbose The opposite of render(quiet = TRUE). Shows compile
-##'     commentary and pandoc command. Can be informative!
-##' @param purl Default TRUE, synonym for tangle. Set either one, or
-##'     set both same, result is same.
-##' @param tangle Default TRUE, synonym for purl
 ##' @param ... Arguments that will be passed to \code{rmarkdown::render} and
 ##'     \code{rmarkdown::html_document}. We usually have customizations
 ##'     via parameters \code{css} and \code{template},
@@ -31,6 +26,14 @@
 ##'     "output_options", "intermediates_dir", "knit_root_dir",
 ##'     "runtime", "clean", "params", "knit_meta", "envir",
 ##'     "run_pandoc", "quiet", "encoding")}.
+##' @param verbose The opposite of render(quiet = TRUE). Shows compile
+##'     commentary and pandoc command. Can be informative!
+##' @param purl Default TRUE, synonym for tangle. Set either one, or
+##'     set both same, result is same.
+##' @param tangle Default TRUE, synonym for purl
+##' @param backup Default TRUE. Will create backup copies of pdf, R, Rnw
+##'     files before replacing them. Uses \code{kutils::file.backup}
+
 ##' @importFrom rmarkdown render
 ##' @importFrom rmarkdown html_document
 ##' @importFrom utils modifyList
@@ -62,7 +65,7 @@
 ##' unlink(dirout)
 ##' }
 rmd2html <- function(fn = NULL, wd = NULL, ..., verbose = FALSE,
-                     purl = TRUE, tangle = purl) {
+                     purl = TRUE, tangle = purl, backup = TRUE) {
     if (!missing(tangle) && is.logical(tangle)) purl <- tangle
     
     if (!is.null(wd)){
@@ -72,6 +75,7 @@ rmd2html <- function(fn = NULL, wd = NULL, ..., verbose = FALSE,
     }
     dots <- list(...)
 
+    ## Use recursion if several files
     if (length(fn) > 1){
         cl <- match.call()
         res <- c()
@@ -81,6 +85,11 @@ rmd2html <- function(fn = NULL, wd = NULL, ..., verbose = FALSE,
         }
         return(res)
     }
+
+    Rfn <- gsub("(.*\\.).*$", "\\1R", fn, ignore.case = TRUE)
+    htmlfn <- gsub("(.*\\.).*$", "\\1html", fn, ignore.case = TRUE)
+
+    if(backup) kutils::file.backup(htmlfn, verbose = FALSE, keep.old=TRUE)
     
     formals_render <- c("output_file", "output_dir", "output_options",
                         "intermediates_dir", "knit_root_dir",
@@ -89,19 +98,7 @@ rmd2html <- function(fn = NULL, wd = NULL, ..., verbose = FALSE,
     
     dots_for_render <- dots[formals_render[formals_render %in% names(dots)]]
 
-    ## 20180729: change design to reclaim all unused arguments
-    ## formals_html_document <- c("toc", "toc_depth", "toc_float",
-    ##                            "number_sections", "section_divs",
-    ##                            "fig_width", "fig_height",
-    ##                            "fig_retina", "fig_caption", "dev",
-    ##                            "df_print", "code_folding",
-    ##                            "code_download", "smart",
-    ##                            "self_contained", "theme", "highlight",
-    ##                            "mathjax", "template",
-    ##                            "extra_dependencies", "css",
-    ##                            "includes", "keep_md", "lib_dir",
-    ##                            "md_extensions", "pandoc_args")
-    ## dots_for_html_document <- dots[formals_html_document[formals_html_document %in% names(dots)]]
+  
     dots_for_html_document <- dots[setdiff(names(dots), names(dots_for_render))]
     html_args <- list(toc = TRUE,
                       mathjax = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML")
@@ -113,7 +110,10 @@ rmd2html <- function(fn = NULL, wd = NULL, ..., verbose = FALSE,
     render_args <- list(input = fn, output_format = htmldoc, quiet = !verbose,
                             envir = globalenv())
     render_argz <- utils::modifyList(render_args, dots_for_render, keep.null = TRUE)
-    if(purl) knitr::purl(fn)
+    if(purl){
+        if(backup) kutils::file.backup(Rfn, verbose = FALSE, keep.old=TRUE)
+        knitr::purl(fn, quiet = !verbose)
+    }
     if(verbose) {print(paste("dots_for_render"));  lapply(dots_for_render, print)}
     res <- do.call(rmarkdown::render, render_argz)
     res
@@ -172,6 +172,8 @@ crmda_html_document <- function(template = "theme/guide-template.html", ...) {
 ##'     commentary and pandoc command. Can be informative!
 ##' @param purl Default TRUE
 ##' @param tangle Default TRUE, synonym for purl
+##' @param backup Default TRUE. Will create backup copies of pdf, R, Rnw
+##'     files before replacing them. Uses \code{kutils::file.backup}
 ##' @param ... Arguments that will be passed to \code{rmarkdown::render} and
 ##'     \code{rmarkdown::pdf_document}. Our defaults set a LaTeX template, toc =
 ##'     TRUE, and the pandoc_args includes use of the listings class.
@@ -186,6 +188,7 @@ crmda_html_document <- function(template = "theme/guide-template.html", ...) {
 ##'     "template", "keep_tex", "latex_engine", "citation_package",
 ##'     "includes", "md_extensions", "pandoc_args",
 ##'     "extra_dependencies")}.
+##' @importFrom kutils file.backup
 ##' @importFrom rmarkdown render
 ##' @importFrom rmarkdown pdf_document
 ##' @importFrom utils modifyList
@@ -217,7 +220,7 @@ crmda_html_document <- function(template = "theme/guide-template.html", ...) {
 ##' }
 ##' unlink(dirout)
 rmd2pdf <- function(fn = NULL, wd = NULL, ..., verbose = FALSE,
-                    purl = TRUE, tangle = purl){
+                    purl = TRUE, tangle = purl, backup = TRUE){
     if(!missing(tangle) && is.logical(tangle)) purl <- tangle
     
     if (!is.null(wd)){
@@ -226,7 +229,17 @@ rmd2pdf <- function(fn = NULL, wd = NULL, ..., verbose = FALSE,
         on.exit(setwd(wd.orig))
     }    
     dots <- list(...)
-    
+
+    Rfn <- gsub("(.*\\.).*$", "\\1R", fn, ignore.case = TRUE)
+    Rnwfn <- gsub("(.*\\.).*$", "\\1Rnw", fn, ignore.case = TRUE)
+    texfn <- gsub("(.*\\.).*$", "\\1tex", fn, ignore.case = TRUE)
+    pdffn <- gsub("(.*\\.).*$", "\\1pdf", fn, ignore.case = TRUE)
+
+    if(backup){
+        kutils::file.backup(pdffn, verbose = FALSE, keep.old=TRUE)
+        kutils::file.backup(Rnwfn, verbose = FALSE, keep.old=TRUE)
+        kutils::file.backup(Rfn, verbose = FALSE, keep.old=TRUE)
+    }    
     if (length(fn) > 1){
         cl <- match.call()
         res <- c()
@@ -291,6 +304,8 @@ rmd2pdf <- function(fn = NULL, wd = NULL, ..., verbose = FALSE,
 ##' @param engine "knitr" or "Sweave"
 ##' @param purl Default TRUE. Synonym of tangle: extract R code chunks
 ##' @param tangle Same as purl, both parameters have same result
+##' @param backup Default TRUE. Will create backup copies of pdf, R, Rnw
+##'     files before replacing them. Uses \code{kutils::file.backup}
 ##' @param clean Default TRUE. Remove intermediate LaTeX files when
 ##'     using texi2pdf
 ##' @param quiet Default = TRUE.  No output unless an error occurs.
@@ -302,7 +317,8 @@ rmd2pdf <- function(fn = NULL, wd = NULL, ..., verbose = FALSE,
 ##' @param envir environment for evaluation, see \code{knitr}
 ##'     documents, defaults to parent.frame().
 ##' @param encoding character encoding, defaults from user options
-##' @return NULL
+##' @return names of pdf output files
+##' @importFrom kutils file.backup
 ##' @export
 ##' @author Paul Johnson <pauljohn@@ku.edu>
 ##' @importFrom knitr knit2pdf
@@ -317,7 +333,7 @@ rmd2pdf <- function(fn = NULL, wd = NULL, ..., verbose = FALSE,
 ##' dirout <- initWriteup(fmt, dir = file.path(tdir, fmt))
 ##' print(dirout)
 ##' list.files(dirout)
-##' of1 <- try(rnw2pdf("skeleton.Rnw", engine = "Sweave", wd = dirout))
+##' of1 <- try(rnw2pdf("skeleton.Rnw", engine = "Sweave", wd = dirout, backup = TRUE))
 ##' if(inherits(of1, "try-error")){
 ##'     MESSG <- paste("Compiling the markdown file failed, perhaps",
 ##'                    "there is an R or LaTeX error.", 
@@ -336,9 +352,10 @@ rmd2pdf <- function(fn = NULL, wd = NULL, ..., verbose = FALSE,
 ##' unlink(dirout)
 ##' }
 rnw2pdf <- function(fn = NULL, wd = NULL, ..., engine = "knitr", purl = TRUE,
-                    tangle = purl, clean = TRUE, quiet = TRUE, verbose = !quiet,
+                    tangle = purl, backup = TRUE,  clean = TRUE, quiet = TRUE, verbose = !quiet,
                     envir = parent.frame(), encoding = getOption("encoding"))
 {
+    engine <- tolower(engine)
     if(!missing(tangle) && is.logical(tangle)) purl <- tangle
     if(tangle != purl) {
         MESSG <- "rnw2pdf: tangle and purl have the same effect. Just set 1 of them"
@@ -364,6 +381,24 @@ rnw2pdf <- function(fn = NULL, wd = NULL, ..., engine = "knitr", purl = TRUE,
         }
         res
     }
+    
+    ## Use recursion if several files
+    if (length(fn) > 1){
+        cl <- match.call()
+        res <- c()
+        for (x in fn){
+            cl[["fn"]] <- x
+            res <- c(res, eval(cl, parent.frame()))
+        }
+        return(res)
+    }
+    
+    rptdate <- format(Sys.time(), "%Y%m%d%H%M")
+    bakstrng <- paste0("-uniquebackupstring", rptdate)
+
+    run <- function(cmd){
+        if (isWindoze) shell(cmd) else system(cmd)
+    }
 
     ## tangle an Rnw file that has split=TRUE in SweaveOpts
     ##
@@ -374,8 +409,7 @@ rnw2pdf <- function(fn = NULL, wd = NULL, ..., engine = "knitr", purl = TRUE,
     ## @return Text with name of R file that was created
     ## @author Paul Johnson <pauljohn@@ku.edu>
     tangleSplit <- function(x){
-        bak <- "-tanglebackupstring"
-        fnbackup <- gsub("(.*)(\\..*$)", paste0("\\1", bak, "\\2"), x)
+        fnbackup <- gsub("(.*)(\\..*$)", paste0("\\1", bakstrng, "\\2"), x)
         file.copy(x, fnbackup, overwrite = TRUE)
         rnwfile <- readLines(fnbackup)
         rnwfile[grep("SweaveOpts", rnwfile)] <-
@@ -385,14 +419,17 @@ rnw2pdf <- function(fn = NULL, wd = NULL, ..., engine = "knitr", purl = TRUE,
         rnwfile[grep("prompt", rnwfile)] <- gsub("prompt\\s*=.*\"", "prompt=\"> \"",
                                                  rnwfile[grep("prompt", rnwfile)])
         writeLines(rnwfile, con = fnbackup)
-        utils::Stangle(fnbackup)
+        
+        utils::Stangle(fnbackup, quiet=quiet)
+
         fnbackupR <- gsub("\\.Rnw", ".R", fnbackup)
-        fnR <- gsub(bak, "", fnbackupR)
+        fnR <- gsub(bakstrng, "", fnbackupR)
         MESSG <- paste("tangleSplit(", x, "failed creation of R tangle file")
         if(file.exists(fnbackupR)){
+            if (backup) kutils::file.backup(fnR, keep.old=TRUE)
             fnRrename <- file.copy(fnbackupR, fnR, overwrite = TRUE)
             if (!fnRrename) warning(MESSG)
-            unlink(paste0("*", bak, "*"))
+            unlink(paste0("*", bakstrng, "*"))
         } else {
             warning(MESSG)
         }
@@ -401,80 +438,65 @@ rnw2pdf <- function(fn = NULL, wd = NULL, ..., engine = "knitr", purl = TRUE,
     }
 
     compileme <- function(x) {
+        Rfn <- gsub("(.*\\.).*$", "\\1R", fn, ignore.case = TRUE)
+        Rnwfn <- gsub("(.*\\.).*$", "\\1Rnw", fn, ignore.case = TRUE)
+        texfn <- gsub("(.*\\.).*$", "\\1tex", fn, ignore.case = TRUE)
+        pdffn <- gsub("(.*\\.).*$", "\\1pdf", fn, ignore.case = TRUE)
+
+        if(backup){
+            kutils::file.backup(pdffn, verbose = FALSE, keep.old=TRUE)
+            kutils::file.backup(Rnwfn, verbose = FALSE, keep.old=TRUE)
+            kutils::file.backup(Rfn, verbose = FALSE, keep.old=TRUE)
+        }
+        
         if (length(grep("\\.lyx$", tolower(x)))){
             ## Let lyx compile to pdf
-            cmd <- paste("lyx -e pdf2 ", x, if(!verbose) sysnull)
-            if (isWindoze) shell(cmd) else system(cmd)
-            fnpdf <- gsub("\\.lyx$", ".pdf", x, ignore.case = TRUE)
+
+            cmd <- paste("lyx -f all -e pdf2 ", x, if(!verbose) sysnull)
+            run(cmd)
+            ## Create Rnw file
+            cmd <- paste("lyx -f all -e", engine, x, if(!verbose) sysnull)
+            run(cmd)
+                
             if(tangle){
                 ## Remove previous R file, avoid confusion
-                unlink(gsub("\\..*$", ".R", x))
+                if(backup) kutils::file.backup(Rfn, keep.old=TRUE)
+                unlink(Rfn)
                 ## lyx can directly export r code from knitr engine file 
-                if (tolower(engine) == "knitr"){
-                    cmd <- paste("lyx -e r ", x, if(!verbose) sysnull)
-                    if (isWindoze) shell(cmd) else system(cmd)
+                if (engine == "knitr"){
+                    cmd <- paste("lyx -f all -e r ", x, if(!verbose) sysnull)
+                    run(cmd)
                 } else {
-                    ## will fail if split=TRUE, so must make copy of file, change to split=FALSE
-                    ## Need to turn split to FALSE in order to Tangle the lyx file.
-                    bak <- "-uniquebackupstring"
-                    fnbackup <- gsub("(.*)(\\..*$)", paste0("\\1", bak, "\\2"), x)
-                    file.copy(x, fnbackup, overwrite = TRUE)
-                    rnwfile <- readLines(fnbackup)
-                    ## Find SweaveOpts line, change split to FALSE
-                    rnwfile[grep("SweaveOpts", rnwfile)] <- gsub("(split\\s*=)\\s*.*,", "\\1FALSE,",
-                                                                 rnwfile[grep("SweaveOpts", rnwfile)])
-                    ## sets the prompt at ">"
-                    rnwfile[grep("prompt", rnwfile)] <- gsub("prompt\\s*=.*\"", "prompt=\"> \"",
-                                                             rnwfile[grep("prompt", rnwfile)])
-                    writeLines(rnwfile, con = fnbackup)
-                    cmd <- paste("lyx -e r", fnbackup, if(!verbose) sysnull)
-                    if (isWindoze) shell(cmd) else system(cmd)
-                    gg <- file.copy(gsub("\\..*$", ".R", fnbackup),
-                                    gsub(bak, "", gsub("\\..*$", ".R", fnbackup)),
-                                    overwrite=TRUE)
-                    if (file.exists(gsub("\\..*$", ".R", x))){
-                        unlink(paste0("*", bak, "*"))
-                    }
+                    rfile <- tangleSplit(Rnwfn)
                 }
-            }
-            if(verbose){
-                if (tolower(engine) == "knitr"){
-                    cmd <- paste("lyx -e knitr ", x, if(!verbose) sysnull)
-                    if (isWindoze) shell(cmd) else system(cmd)
-                } else {
-                    cmd <- paste("lyx -e sweave ", x, if(!verbose) sysnull)
-                    if (isWindoze) shell(cmd) else system(cmd)
-                }
-            }
+            }   
+            
         } else if (length(grep("\\.rnw$", tolower(x)))) {
-            if (tolower(engine) == "knitr"){
-                if(tangle) knitr::knit(x, quiet = !verbose, tangle = tangle, envir = envir,
-                            encoding = encoding)
-                fnpdf <- knitr::knit2pdf(x, quiet = !verbose, envir = envir,
-                            encoding = encoding)
+            if (engine == "knitr"){
+                if(tangle){
+                    kutils::file.backup(Rfn, keep.old=TRUE)
+                    knitr::knit(x, quiet = !verbose, tangle = tangle, envir = envir,
+                                encoding = encoding)
+                }
+                pdffn <- knitr::knit2pdf(x, quiet = !verbose, envir = envir)
             } else {
                 utils::Sweave(x, quiet = !verbose)
                 if (tangle) {
                     rfile <- tangleSplit(x)
                 }
-                fnbase <- gsub("\\.Rnw$", "", x, ignore.case = TRUE)
-                fntex <- gsub("\\.Rnw$", ".tex", x, ignore.case = TRUE)
                 ## 20180731: Try built-in texi2pdf again, instead of home-made method
-                tools::texi2pdf(fntex, clean = clean, quiet = quiet)
-                fnpdf <- gsub("\\.Rnw$", ".pdf", x, ignore.case = TRUE)
+                tools::texi2pdf(texfn, clean = clean, quiet = quiet)
             }
         }
         
-        if (file.exists(fnpdf)){
-            return(fnpdf)
+        if (file.exists(pdffn)) {
+            return(pdffn)
         } else {
-            return("Failed")
+            MESSG <- paste("PDF creation failed:", x)
+            warning(MESSG)
+            return(MESSG)
         }
     }
-    res <- character(length = length(fn))
-    for (i in seq_along(fn)) {
-        newfn <- compileme(fn[i])
-        res[i] <- file.path(wd.orig, newfn)
-    }
+    res  <- compileme(fn)
     res
 }

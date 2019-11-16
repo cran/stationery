@@ -4,7 +4,7 @@ outdir <- paste0("tmpout")
 if (!file.exists(outdir)) dir.create(outdir, recursive = TRUE)
 knitr::opts_chunk$set(echo=TRUE,
           comment=NA, fig.path=paste0(outdir, "/p-"))
-options(width = 70)
+options(width = 70, useFancyQuotes = FALSE, tinytex.verbose = TRUE)
 
 ## ----themecopy, include = FALSE-------------------------------------
 ## not needed b/c this vignette has custom files in theme folder

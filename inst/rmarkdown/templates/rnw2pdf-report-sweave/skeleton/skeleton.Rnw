@@ -80,8 +80,9 @@ footskip=1.5\baselineskip,
 \reporthdr
 
 % 1. If you have an address file, use it here:
-% \input{addressFooter.tex}
-% 2. If you don't have an address file, remove % signs and fill in your information
+\input{addressFooter.tex}
+% 2. If you don't have an address file, comment out previous, then fill in 
+% following. Remove % signs,  insert your information
 % This stanza must end with "\guideftr"
 % (after removing percent signs):
 %\urlstyle{tt}
