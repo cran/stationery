@@ -4,8 +4,15 @@
 \alias{rmd2pdf}
 \title{Convert Rmd to PDF}
 \usage{
-rmd2pdf(fn = NULL, wd = NULL, ..., verbose = FALSE, purl = TRUE,
-  tangle = purl, backup = TRUE)
+rmd2pdf(
+  fn = NULL,
+  wd = NULL,
+  ...,
+  verbose = FALSE,
+  purl = TRUE,
+  tangle = purl,
+  backup = TRUE
+)
 }
 \arguments{
 \item{fn}{One or more filenames ending in "*.Rmd".}

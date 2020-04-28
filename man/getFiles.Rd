@@ -4,8 +4,14 @@
 \alias{getFiles}
 \title{Retrieve theme files}
 \usage{
-getFiles(fn, pkg = "stationery", overwrite = FALSE,
-  backup = overwrite, pkgdir = "theme", outputdir = "theme")
+getFiles(
+  fn,
+  pkg = "stationery",
+  overwrite = FALSE,
+  backup = overwrite,
+  pkgdir = "theme",
+  outputdir = "theme"
+)
 }
 \arguments{
 \item{fn}{A file name vector. In \code{stationery}, this is

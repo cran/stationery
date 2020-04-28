@@ -94,7 +94,7 @@ We may have slide templates as well, at some point in future.
 
 \examples{
 tdir <- tempdir()
-cat("Will Create All Doc Types in Temp Dir:\\n ", tdir, "\\n")
+cat("Will Create All Doc Types in Temp Dir:\n ", tdir, "\n")
 
 doctype <- c("rmd2html-guide", "rmd2pdf-report",
           "rnw2pdf-guide-knit", "rnw2pdf-guide-sweave",

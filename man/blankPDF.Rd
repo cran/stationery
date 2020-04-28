@@ -4,8 +4,14 @@
 \alias{blankPDF}
 \title{create white background empty PDF}
 \usage{
-blankPDF(file, height = 1, width = 3.5,
-  messg = "Your Logo Could Be Here", pointsize = 12, col = "gray50")
+blankPDF(
+  file,
+  height = 1,
+  width = 3.5,
+  messg = "Your Logo Could Be Here",
+  pointsize = 12,
+  col = "gray50"
+)
 }
 \arguments{
 \item{file}{A file name for output}

@@ -4,8 +4,15 @@
 \alias{rmd2html}
 \title{Convert an Rmd file into an HTML file}
 \usage{
-rmd2html(fn = NULL, wd = NULL, ..., verbose = FALSE, purl = TRUE,
-  tangle = purl, backup = TRUE)
+rmd2html(
+  fn = NULL,
+  wd = NULL,
+  ...,
+  verbose = FALSE,
+  purl = TRUE,
+  tangle = purl,
+  backup = TRUE
+)
 }
 \arguments{
 \item{fn}{One or more filenames ending in "*.Rmd".}

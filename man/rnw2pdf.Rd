@@ -4,10 +4,20 @@
 \alias{rnw2pdf}
 \title{Convert (Sweave & compile) an Rnw or lyx file to PDF}
 \usage{
-rnw2pdf(fn = NULL, wd = NULL, ..., engine = "knitr", purl = TRUE,
-  tangle = purl, backup = TRUE, clean = TRUE, quiet = TRUE,
-  verbose = !quiet, envir = parent.frame(),
-  encoding = getOption("encoding"))
+rnw2pdf(
+  fn = NULL,
+  wd = NULL,
+  ...,
+  engine = "knitr",
+  purl = TRUE,
+  tangle = purl,
+  backup = TRUE,
+  clean = TRUE,
+  quiet = TRUE,
+  verbose = !quiet,
+  envir = parent.frame(),
+  encoding = getOption("encoding")
+)
 }
 \arguments{
 \item{fn}{One or more file names, should end in either ".Rnw" or

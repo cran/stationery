@@ -4,8 +4,14 @@
 \alias{blankPNG}
 \title{create white background empty PNG}
 \usage{
-blankPNG(file, height = 250, width = 250,
-  messg = "Your Logo Could Be Here", pointsize = 12, col = "gray50")
+blankPNG(
+  file,
+  height = 250,
+  width = 250,
+  messg = "Your Logo Could Be Here",
+  pointsize = 12,
+  col = "gray50"
+)
 }
 \arguments{
 \item{file}{A file name for output}
