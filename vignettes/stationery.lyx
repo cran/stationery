@@ -3681,7 +3681,7 @@ guidenum: 00
 
 \begin_layout Plain Layout
 
-guideurl: https://crmda.dept.ku.edu/guides
+guideurl: https://crmda.dept.ku.edu/guides/
 \end_layout
 
 \begin_layout Plain Layout
@@ -3993,7 +3993,7 @@ guidesetup{
 
 \begin_layout Plain Layout
 
-  url={https://crmda.dept.ku.edu/guides},
+  url={https://crmda.dept.ku.edu/guides/},
 \end_layout
 
 \begin_layout Plain Layout

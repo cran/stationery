@@ -750,7 +750,7 @@ Here we test the `outreg` function in the rockchalk package. `outreg`
 can generate output in either LaTeX or HTML, and the former is needed
 for a document that is compiled into a PDF document.
  
- ```{r outreg, results='asis'}
+```{r outreg, results='asis'}
 set.seed(234234)
 dat <- data.frame(x1 = rnorm(100), x2 = rnorm(100), y = rnorm(100))
 library(rockchalk)

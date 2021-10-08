@@ -1,4 +1,4 @@
-%% LyX 2.3.3 created this file.  For more info, see http://www.lyx.org/.
+%% LyX 2.3.6 created this file.  For more info, see http://www.lyx.org/.
 %% Do not edit unless you really know what you are doing.
 \documentclass[11pt,letterpaper,english]{extarticle}
 \usepackage{lmodern}
@@ -384,7 +384,7 @@ the shading, line numbering, or other characteristics.
 
 \section{Quick Start}
 
-\subsection{Create a starter ``skeleton'' document}
+\subsection{Create a starter \textquotedblleft skeleton\textquotedblright{} document}
 
 The stationery package provides \code{initWriteup}, a function to
 create simple ready-to-compile examples. Here we will illustrate creation
@@ -680,7 +680,7 @@ are presented in Figure \ref{fig:Markdown-Output}.
 title: "A Title for Template"
 subtitle: "rmd2pdf-guide"
 guidenum: 00
-guideurl: https://crmda.dept.ku.edu/guides
+guideurl: https://crmda.dept.ku.edu/guides/
 keywords: R markdown, R, documents
 author:
 - name: First Author
@@ -744,7 +744,7 @@ does not allow that).
     firstname=Second, 
     affiliation=CRMDA, 
     email=second@ku.edu}, 
-  url={https://crmda.dept.ku.edu/guides},
+  url={https://crmda.dept.ku.edu/guides/},
   keywords={single-authoring, just one},
   title={A Title for Skeleton Template: rnw2pdf-guide-sweave},
   leftlogo={theme/logoleft.pdf},

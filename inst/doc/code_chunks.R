@@ -115,7 +115,7 @@ m1 <- lm(y ~ x1, data = dat)
 m2 <- lm(y ~ x1 + x2, data = dat)
 vl <- c("x1" = "Excellent Predictor", "x2" = "Adequate Predictor")
 outreg(list("First Model" = m1, "Second Model" = m2), varLabels = vl,
-      tight = FALSE, type = "latex")
+       tight = FALSE, type = "latex")
 
 ## ----sessionInfo, echo = FALSE--------------------------------------
 sessionInfo()

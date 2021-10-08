@@ -19,7 +19,7 @@ output:
     toc_depth: 2
     number_sections: true
 checked_by: Paul Johnson
-advertise: "Please  visit  [http://crmda.dept.ku.edu/guides](http://crmda.dept.ku.edu/guides)
+advertise: "Please  visit  [https://pj.freefaculty.org/guides/](https://pj.freefaculty.org/guides/)
   \n"
 fontsize: 12pt
 keywords: guides, rmarkdown, rmd2html
@@ -326,9 +326,9 @@ Authors who need to use graphics saved in other formats will need to
 convert to png, jpg, or svg. The Gold standard of format converters is
 the `convert` function of the ImageMagick suite of tools. It is also
 possible to open a PDF in some editors, such as
-the [GNU Image Manipulation program (GIMP)](http://www.gimp.org), and
+the [GNU Image Manipulation program (GIMP)](https://www.gimp.org), and
 save as an image format.  There are some websites that might be useful
-for this purpose, such as http://pdf2png.com.
+for this purpose, such as https://pdf2png.com.
 
 
 ## International characters
@@ -669,7 +669,7 @@ if(!is.null(warnings())) {
 
 
 Available under
-[Created Commons license 3.0 <img src="http://crmda.dept.ku.edu/images/cc-3.0.png" alt="CC BY"
-style="width: 75px;height: 20px;"/>](http://creativecommons.org/licenses/by/3.0/)
+[Created Commons license 3.0 <img src="https://mirrors.creativecommons.org/presskit/icons/cc.png" alt="CC BY"
+style="width: 75px;height: 20px;"/>](https://creativecommons.org/licenses/by/3.0/)
 
 # References

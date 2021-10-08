@@ -987,6 +987,6 @@ sessionInfo()
 
 
 Available under
-[Created Commons license 3.0 <img src="http://crmda.dept.ku.edu/images/cc-3.0.png" alt="CC BY" style="width: 75px;height: 20px;"/>](http://creativecommons.org/licenses/by/3.0/)
+[Created Commons license 3.0 <img src="https://mirrors.creativecommons.org/presskit/icons/cc.png" alt="CC BY" style="width: 75px;height: 20px;"/>](https://creativecommons.org/licenses/by/3.0/)
 
 
