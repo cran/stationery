@@ -127,7 +127,7 @@ Books and Technical Documents with R Markdown*](https://bookdown.org/yihui/bookd
 	
 In my experience, there are several document features that can be
 produced with `R markdown`, but just about as many `LaTeX` features
-are no available via pure markdown. That puts us in a "gray area," 
+are not available via pure markdown. That puts us in a "gray area,"
 where we are either forced to change our writing style or code 
 the document differently. This is discussed in the section \ref{sec:mdplus}.
 
@@ -203,7 +203,7 @@ intended output format.  The `key: value` pairs in the header are
 meaningful if the document processing software takes them into
 account. The correct keys are specified in the document template, so
 they vary from one document template to another. Otherwise, they are
-just decorations that on which authors waste their time. To test that
+just decorations on which authors waste their time. To test that
 idea, authors might insert this in the header of the current document
      
     christmaslist: "pandora account", "gold watch"
@@ -266,7 +266,7 @@ read the source code of an R package like `rmarkdown` to understand
 all of the details. However, usually, there is some relief in the fact
 that there is one example working document to exemplify the settings
 for a particular back end and authors can adjust and modify those
-values.  The `key:value` pairs may may a difference at several
+values.  The `key:value` pairs may make a difference at several
 stages in the compilation process. 
 
 Users should be aware that a moderately complex `R markdown` document
@@ -371,7 +371,7 @@ backgrounds? How do you want keywords to be highlighted? Do you want
 figures to float freely in the document? If so, what algorithm is to
 be used. 
 
-All of these features are in play and most of us--authors--don't want
+All of these features are in play and most of us---authors---don't want
 to know all of the details about how the `R markdown` document is
 turned into the eventual result.  The authors of the `rmarkdown`
 document are the ones who know the ins-and-outs and they created an elaborate
@@ -479,7 +479,7 @@ the `markdown` document into either \LaTeX\ or HTML.
     *  `##` is level 2 subheading
     *  levels below are used differently in HTML and PDF.  The ability of
    html documents to include specialized subsections is one of the
-   advantages of that backend. In R markdown,6 levels
+   advantages of that backend. In R markdown, 6 levels
    of headings are allowed.
    
    There is a problem to be aware of. A section header may not have a linebreak in it. 
@@ -561,8 +561,8 @@ tool chain for HTML documents, to which we shall return.
 
 Here are the highlights.
 
-1. In-line math markup is dollar-sign bracketed, just as in \LaTeX
-   itself. We write `$f_{ij} x_{i} \times y_{j}^2$` for
+1. In-line math markup is dollar-sign bracketed, just as in
+   \LaTeX\ itself. We write `$f_{ij} x_{i} \times y_{j}^2$` for
    $f_{ij} x_{i} \times y_{j}^2$. Using the usual \LaTeX\ format, we
    can write the Greek letters, binary relations, and other important
    symbols. Behold:
@@ -609,7 +609,6 @@ This equation is numbered, because the label macro is included within
 the equation:
 
 \begin{equation}
-\intop\beta\alpha\Psi\varXi
 \bar{x} = \frac{1}{n} \sum_{i=1}^{n}x_{i}.
 \label{eq:mean}
 \end{equation}
@@ -694,7 +693,7 @@ that
 3. create graphics, which are automatically included in the document.
 4. create graphics (or other files) that are not automatically
    included in the document. Graphics are saved in image files that
-   can be inserted at a different part in the document
+   can be inserted at a different part in the document.
 5. import previous chunks for re-analysis.
 
 
@@ -881,8 +880,8 @@ current time, it appears to be necessary to process all HTML markup
 that goes into the markdown document to remove spaces in the beginning
 of lines.
 
-In our experimentation with R markdown, we have noticed another quirk.  I
-document intended for PDF, one writes `\LaTeX` to produce \LaTeX. On
+In our experimentation with R markdown, we have noticed another quirk.  In
+a document intended for PDF, one writes `\LaTeX` to produce \LaTeX. On
 the other, in a document intended for HTML, writing `\LaTeX` produces
 one of those empty spaces previously mentioned.  Instead, in the
 document intended for HTML one must insert `$\LaTeX$`, as if this were
@@ -903,13 +902,13 @@ pandoc: Error producing PDF
 Finally, there is a fundamental weakness of HTML documents. Math is
 not "in" the HTML file. Instead, there is javascript code that is
 shown in the Web browser using a framework called MathJax. MathJax
-allows inclusion of math markup in the page which--when the conditions
-are right--can be converted by the Web browser to look like equations.
+allows inclusion of math markup in the page which---when the conditions
+are right---can be converted by the Web browser to look like equations.
 The MathJax display system works better and better over time; it
 *almost always works*. The Web browser must be able to retrieve files
 from the MathJax server in order to display the document.
-If the reader is offline, or the MathJax server fails. Users will see
-markup, rather than equations, when the network fails.
+If the reader is offline or the MathJax server fails, users will see
+markup rather than equations.
 
 ## Illegal encoding of pasted fonts
 
@@ -943,7 +942,7 @@ A citation with name and date is obtained as
 Diggle and colleagues [-@diggle_analysis_2013, 37] is obtained
 differently. To get the full parenthesized statement with names and
 dates, we insert hard brackets `[`, an `@` sign, the bibtex tag, and
-acloser `]`. If we don't want their names, we insert a `-` sign. It is
+a closer `]`. If we don't want their names, we insert a `-` sign. It is
 also possible to refer to a group of projects [@hsiao_analysis_2014;
 @fitzmaurice_applied_2011; @mccullagh_nelder_1983].
 

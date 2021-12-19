@@ -625,10 +625,10 @@ either side (see Figure \ref{fig:Markdown-Output} for an example).
 A \textbf{report} is a more formal document. Its first page includes
 a header and a footer with organizational address information (see
 Figure \ref{fig:Latex-Report}). The header and footer appear only
-on the first page. It is more is suitable for preparation of a report
+on the first page. It is more suitable for preparation of a report
 to clients or a draft of a journal article. A report typically has
-less (maybe no) code and almost never will it include \textquotedbl raw
-output\textquotedbl{} from a computer program. A report includes tables
+less (maybe no) code and almost never will it include ``raw
+output'' from a computer program. A report includes tables
 and figures that are in a (nearly) publishable format. This document
 is prepared with the report template, but we do have some ``raw''
 code examples.
@@ -716,7 +716,7 @@ logoright: theme/logo-vert.pdf
 \end{figure}
 
 One of the benefits of the markdown preamble is that one can specify
-a authors in a flexible way, providing one or more names that are
+authors in a flexible way, providing one or more names that are
 gracefully handled during the rendering process.
 
 In LaTeX, the tools to specify title and author information are not
@@ -927,11 +927,11 @@ the end. After we figure out the end, we can concentrate on the beginning.
 \subsection{Which back end?}
 
 Should I end up with HTML or PDF? The answer depends on the intended
-audience/client. If a \textquotedbl paper\textquotedbl{} must be
+audience/client. If a ``paper'' must be
 submitted, choose PDF. If the document needs numbered equations, cross
-references, and \textquotedbl floating\textquotedbl{} tables and
+references, and ``floating'' tables and
 figures, choose PDF. If the document is intended for a Webpage, then
-choose HTML (although we prefer to PDF document via the Web in many
+choose HTML (although we prefer a PDF document via the Web in many
 cases). 
 
 HTML documents have hidden benefits and hidden costs. There is no
@@ -1029,7 +1029,7 @@ in the document front end. If one writes a markdown document, using
 special features intended for the back end, then it is generally not
 possible to, at the last minute, change the output format. HTML output
 has advantages in Web style features, while PDF documents have advantages
-in \textquotedbl on paper\textquotedbl{} presentations.
+in ``on paper'' presentations.
 
 \subsection{Where does my editor fit into this?}
 
