@@ -92,7 +92,7 @@ The formats that we are preparing at this time are:
     + rnw2pdf-report-knit
     + rnw2pdf-report-sweave
 3. Slides
-    + rnw2pdf-report-sweave
+    + rnw2pdf-slides-sweave
 
 When a document is prepared in `noweb`/\LaTeX\ or `Rmarkdown`, a
 document will be converted through several formats to arrive in either
@@ -272,13 +272,6 @@ standard chunk, no chunk options are used:
 2. A chunk with commands that are echoed into the document, but not
    evaluated (`eval=F`). 
 
-    \begin{lstlisting}
-    `r ''````{r chunk30, echo=F}
-    set.seed(234234)
-    x <- rnorm(100)
-    `r ''````
-    \end{lstlisting}
-
     The user will not see any code that runs, but only a result box:
 
     \begin{lstlisting}
@@ -376,7 +369,7 @@ document.
     hist(x, main = "One Histogram")
     ```
 
-    Observe in the output we have a numbers, floating figure. Because we
+    Observe in the output we have a numbered, floating figure. Because we
     inserted a label with the caption, we can cross-reference Figure
     \ref{fig:hfloat}. Figure numbers will be adjusted automatically as new
     figures are added before and after this chunk. This feature is not
@@ -401,7 +394,7 @@ document.
     In this code chunk, we asked for output in 2 formats, one as png and one as pdf.
     
     Now that the image file exists, we can insert it manually, because the
-    pdf was saved in a file named "tmpout/p-chunk60-1.pdf". I chose the
+    pdf was saved in a file named "tmpout/p-chunk65-1.pdf". I chose the
     name "tmpout" in the template, that is configurable. But I like that
     name pretty much. Here, for example, is an HTML table in which I have
     embedded that image
@@ -516,8 +509,8 @@ list.files("tmpout", pattern="p-chunk76.*pdf")
 
 There is a separate output file for each stage in the transition,
 `p-chunk-76-1.pdf` through `p-chunk-76-11.pdf`. It is a bit tricky to 
-display a matrix of figures "automatically", but I'll use a \LaTeX\
-structure to do this work.
+display a matrix of figures "automatically", but I'll use a
+\LaTeX\ structure to do this work.
 
 \begin{figure}
 
@@ -623,9 +616,9 @@ Here are the highlights:
 placed in a folder `tmpout` and the first letter will be `t`. The user
 can, of course, change the prefix to any letter. (Because each
 document can have a different prefix, it is possible then to have
-several document that output files into the same output folder.)
+several documents that output files into the same output folder.)
 
-2. `split=TRUE` asks Sweave to keep each chunks input and output
+2. `split=TRUE` asks Sweave to keep each chunk's input and output
 results in a separate file. This is very handy, as will be explained
 below.
 
@@ -663,13 +656,13 @@ pdf.options(onefile=FALSE, family="Times", pointsize=10)
 @
 ```
 
-Save something for later
+## Save something for later
 
 Use `include=F` to save something for later. This avoids some output
 problems that result from the one-size-fits-all tendency of the
-"completely automatic" document builder.  In the usual ``weave''
+"completely automatic" document builder.  In the usual "weave"
 documentation, a user is told to type in a chunk and then the output
-plops into the document ``right there''.  Sometimes, it is nicer to
+plops into the document "right there".  Sometimes, it is nicer to
 create the chunk outputs and figures, and then insert them later. This
 gives the author much more control over the size and position of
 graphs (and it is why we turn off `ae`).  I learned this trick from
@@ -707,10 +700,11 @@ macro. Interestingly, we need to provide the full name, including
 ```
 
 There are many R functions that can create \LaTeX\ markup. This is
-especially useful for tables. If a chunk's output is text with \LaTeX\
-markup, and we want that tex to go "into the document immediately,
-right here," then we add the chunk argument `results=tex`. However,
-it is also possible to use the "save something for later" approach.
+especially useful for tables. If a chunk's output is text with
+\LaTeX\ markup, and we want that tex to go "into the document
+immediately, right here," then we add the chunk argument
+`results=tex`. However, it is also possible to use the "save something
+for later" approach.
 
 ```
 <<chunktable, include=F, results=tex>>=
@@ -727,8 +721,8 @@ I would insert into the document whenever I like with
 
 Why do this? Why separate chunk output creation from inclusion in a
 document? I can put the chunk in wherever I want, but more importantly
-I might that chunk in a different document. It is very convenient to
-come along later sort through the output in the tmpout folder. I might
+I might want that chunk in a different document. It is very convenient to
+come along later and sort through the output in the tmpout folder. I might
 need to make a separate slide show document displaying the same tables
 and/or figures and this makes it easy to do that.
 
@@ -741,7 +735,7 @@ never exactly correct. It requires some "finger painting", if only to
 regain control of the position and size of figures. By saving the
 chunks, we give ourselves a degree of control.
 
-#Regression Tables
+# Regression Tables
 
 There are many programs for creating regression tables. Every
 author will have to test to find out if the results are desirable.
@@ -772,7 +766,7 @@ equation models (SEM). Please try the function `semTable` in the
 `kutils` package (when finished, that function will probably be moved
 to a package named `semTable`).
 
-#Listings, not Verbatim
+# Listings, not Verbatim
 
 The Sweave default system uses the \LaTeX\ Verbatim class to offer input
 and output chunks in the document. A better approach, pioneered by
