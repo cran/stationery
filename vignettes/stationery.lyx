@@ -7,7 +7,7 @@
 \textclass extarticle
 \begin_preamble
 %\VignetteIndexEntry{stationery}
-%\VignetteEngine{Sweave}
+%\VignetteEngine{utils::Sweave}
 %\VignetteBuilder{stationery::rnw2pdf}
 % Don't remove next commented line, its needed to fool Sweave
 %\usepackage{Sweave}

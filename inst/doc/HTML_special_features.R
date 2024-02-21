@@ -111,7 +111,7 @@ points(.6, .6, pch = 16)
 ## ----chunk76b-------------------------------------------------------
 list.files("tmpout", pattern="p-chunk76.*png") 
 
-## ---- warning = FALSE, error = FALSE, message= FALSE, include=FALSE----
+## ----warning = FALSE, error = FALSE, message= FALSE, include=FALSE----
 library(rockchalk)
    set.seed(2134234)
    dat <- data.frame(x1 = rnorm(100), x2 = rnorm(100))
@@ -135,12 +135,12 @@ or1 <- paste(or1, collapse = "")
 ## ----results="asis"-------------------------------------------------
 cat(or1)
 
-## ---- results="asis"------------------------------------------------
+## ----results="asis"-------------------------------------------------
 library(pander)    
 sum <- summary(m1)
 pander(sum$coefficients)
 
-## ---- results="asis"------------------------------------------------
+## ----results="asis"-------------------------------------------------
 library(psych)
 pander(describe(dat))
 

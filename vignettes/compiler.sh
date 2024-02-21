@@ -45,7 +45,7 @@ cleanLatex.sh .
 
 
 # % \VignetteIndexEntry{rnw2pdf-slides-sweave}
-# % \VignetteEngine{Sweave}
+# % \VignetteEngine{utils::Sweave}
 # % \VignetteBuilder{stationery::rnw2pdf}
 
 
